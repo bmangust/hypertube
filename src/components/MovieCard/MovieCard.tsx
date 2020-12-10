@@ -5,6 +5,7 @@ import Rating from "./Rating/Rating";
 import Views from "./Views/Views";
 
 export interface MovieCardProps {
+  id?: string;
   orientation?: "vertical" | "horizontal";
   name: string;
   year: number;
@@ -15,6 +16,7 @@ export interface MovieCardProps {
   length: number;
   pgRating: string | number;
   className?: string;
+  onClick?: (el: HTMLDivElement | null) => void;
 }
 
 export const useStyles = makeStyles((theme) => ({
@@ -33,6 +35,8 @@ export const useStyles = makeStyles((theme) => ({
     width: 300,
   },
   Info: {
+    maxWidth: 200,
+    minWidth: 200,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
@@ -82,8 +86,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
   length,
   pgRating,
   className,
+  onClick,
 }: MovieCardProps) => {
   const classes = useStyles();
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
   const mediaClassname =
     orientation === "vertical"
       ? classes.Media
@@ -94,8 +100,18 @@ const MovieCard: React.FC<MovieCardProps> = ({
       : cn(classes.root, classes.rootHorizontal);
   const infoClassname =
     orientation === "vertical" ? classes.Info : classes.InfoHorizontal;
+
+  console.log(wrapperRef);
+
+  const onClickHandler = () => onClick && onClick(wrapperRef.current);
   return (
-    <Grid container direction="column" className={cn(rootClassname, className)}>
+    <Grid
+      container
+      ref={wrapperRef}
+      direction="column"
+      onClick={onClickHandler}
+      className={cn(rootClassname, className)}
+    >
       <Card>
         <div
           className={mediaClassname}
