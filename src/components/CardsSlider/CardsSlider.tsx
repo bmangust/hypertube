@@ -20,7 +20,7 @@ const useStyles = makeStyles({
       display: "none",
     },
     "& $Movie:last-child": {
-      paddingRight: "100vw",
+      // paddingRight: "100vw",
       // marginRight: "900px",
     },
   },
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
     transition: "0.3s",
   },
   Active: {
+    marginLeft: "1rem",
     transform: "scale(1)",
   },
 });
@@ -49,7 +50,10 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
       return cardBoundingRect.left + cardBoundingRect.width / 2 >= leftBorder;
     });
     const activeElement = cards[activeIndex];
-    activeElement.scrollIntoView();
+    activeElement.scrollIntoView({
+      behavior: "smooth",
+      inline: "start",
+    });
     setActive(activeIndex);
   };
 
@@ -61,7 +65,11 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
 
   // this method should scroll to the element on click
   const handleCardClick = (el: HTMLDivElement | null) => {
-    el && el.scrollIntoView();
+    el &&
+      el.scrollIntoView({
+        behavior: "smooth",
+        inline: "start",
+      });
   };
 
   return (
@@ -71,6 +79,8 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
       container
       alignItems="center"
       className={classes.root}
+      // expand width to let last card scroll to the start of a container
+      // style={{ width: (cards.length + 5) * 200 }}
     >
       {cards.map((card, index) => (
         <MovieCard
@@ -82,7 +92,6 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
           key={card.id || card.name + index}
         />
       ))}
-      {/* <div style={{ width: "100vw", height: "100%" }}>aweas</div> */}
     </Grid>
   );
 };
