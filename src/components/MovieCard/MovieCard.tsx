@@ -56,8 +56,7 @@ export const useStyles = makeStyles((theme) => ({
   SecondaryText: {
     fontSize: "0.8rem",
     fontWeight: 400,
-    color: "#777",
-    fontFamily: '"Roboto", "Helvetica", "Helvetica Neue", "Arial", sans-serif;',
+    color: theme.palette.grey[700],
   },
   Genre: {
     marginLeft: "0.3rem",
@@ -100,8 +99,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
       : cn(classes.root, classes.rootHorizontal);
   const infoClassname =
     orientation === "vertical" ? classes.Info : classes.InfoHorizontal;
-
-  console.log(wrapperRef);
 
   const onClickHandler = () => onClick && onClick(wrapperRef.current);
   return (
