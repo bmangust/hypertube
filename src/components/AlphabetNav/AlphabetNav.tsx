@@ -1,6 +1,6 @@
 import { Container, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React, { useState } from "react";
-import { debounce } from "lodash";
+import { throttle } from "lodash";
 import { NavLink, useLocation } from "react-router-dom";
 import cn from "classnames";
 import { secondaryColor, theme } from "../../theme";
@@ -71,7 +71,7 @@ const AlphabetNav = () => {
     //   send server request here
   };
 
-  const scrollHandler = debounce((e: React.SyntheticEvent<HTMLDivElement>) => {
+  const scrollHandler = throttle((e: React.SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation();
     const target = e.target as HTMLDivElement;
     if (!target) return;
