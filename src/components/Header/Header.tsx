@@ -2,6 +2,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import { PersonOutlineRounded, SearchRounded } from "@material-ui/icons";
 import React from "react";
 import Menu from "../Menu/Menu";
+import Search from "../Search/Search";
 
 export interface HeaderProps {}
 
@@ -16,12 +17,10 @@ const Header = (props: HeaderProps) => {
       <Grid item xs={2}>
         Logo
       </Grid>
-      <Grid item xs={8}>
-        <Menu />
+      <Grid container justify="flex-end" item xs={8}>
+        <Search />
       </Grid>
-      <Grid container alignItems="center" justify="center" item xs={1}>
-        <SearchRounded />
-      </Grid>
+      <Grid container alignItems="center" justify="center" item xs={1}></Grid>
       <Grid container alignItems="center" justify="center" item xs={1}>
         <PersonOutlineRounded />
       </Grid>
