@@ -1,7 +1,6 @@
 import { Grid, makeStyles } from "@material-ui/core";
-import { PersonOutlineRounded, SearchRounded } from "@material-ui/icons";
+import { PersonOutlineRounded } from "@material-ui/icons";
 import React from "react";
-import Menu from "../Menu/Menu";
 import Search from "../Search/Search";
 
 export interface HeaderProps {}
