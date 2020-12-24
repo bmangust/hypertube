@@ -1,14 +1,23 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { VisibilityRounded } from "@material-ui/icons";
 import React from "react";
-import { useStyles } from "../MovieCard";
 
 interface Props {
   views: number;
-  useStyles: typeof useStyles;
 }
 
-const Views: React.FC<Props> = ({ views, useStyles }: Props) => {
+export const useStyles = makeStyles((theme) => ({
+  SecondaryText: {
+    fontSize: "0.8rem",
+    fontWeight: 400,
+    color: theme.palette.grey[700],
+  },
+  Icon: {
+    paddingRight: "0.3rem",
+  },
+}));
+
+const Views: React.FC<Props> = ({ views }: Props) => {
   const classes = useStyles();
   return (
     <Grid container alignItems="center">

@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     transition: "0.3s",
   },
   Active: {
-    marginLeft: "1rem",
+    marginLeft: "3.2rem",
     transform: "scale(1)",
   },
 });
