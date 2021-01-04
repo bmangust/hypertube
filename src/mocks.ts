@@ -173,8 +173,8 @@ export const cards: IMovie[] = [
 ];
 
 export const links: ILink[] = [
-  { id: 0, to: '#', name: 'home' },
-  { id: 1, to: '#', name: 'films' },
-  { id: 2, to: '#', name: 'series' },
-  { id: 3, to: '#', name: 'new' },
+  { id: 0, to: '/', name: 'home' },
+  { id: 1, to: '/films', name: 'films' },
+  { id: 2, to: '/series', name: 'series' },
+  { id: 3, to: '/new', name: 'new' },
 ];

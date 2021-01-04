@@ -6,6 +6,11 @@ import {
   TextField,
 } from '@material-ui/core';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+
+interface LoginProps {
+  handleOpen?: (arg: boolean) => void;
+}
 
 const useStyles = makeStyles({
   root: {
@@ -29,12 +34,12 @@ const useStyles = makeStyles({
   },
 });
 
-const Login: React.FC = () => {
+const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
+  const classes = useStyles();
+  const history = useHistory();
   const [inputs, setInputs] = useState({ email: '', password: '' });
 
-  const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setInputs({
       ...inputs,
@@ -47,11 +52,12 @@ const Login: React.FC = () => {
     console.log('[Login] handleSubmit', inputs);
   };
 
-  const handleRegister = (e: React.MouseEvent) => {
-    console.log('[Login] handleRegister');
+  const handleRegister = () => {
+    history.push('/register');
+    handleOpen && handleOpen(false);
   };
 
-  const handleForgot = (e: React.MouseEvent) => {
+  const handleForgot = () => {
     console.log('[Login] handleForgot');
   };
 
@@ -59,7 +65,6 @@ const Login: React.FC = () => {
     console.log('[Login] handleOAuth', e.currentTarget.name);
   };
 
-  const classes = useStyles();
   return (
     <Grid
       container

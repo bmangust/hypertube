@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
-import Header, { HeaderProps } from './Header';
+import Header from './Header';
 import { BrowserRouter } from 'react-router-dom';
 
 export default {
@@ -9,7 +9,7 @@ export default {
   component: Header,
 } as Meta;
 
-const Template: Story<HeaderProps> = (args) => (
+const Template: Story = (args) => (
   <BrowserRouter>
     <Header {...args} />
   </BrowserRouter>

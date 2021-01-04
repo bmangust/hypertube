@@ -12,9 +12,10 @@ const Header: React.FC = () => {
   const buttonRef = useRef(null);
   const [open, setOpen] = useState(false);
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     setOpen((open) => !open);
   };
+
   return (
     <Grid container alignItems="center" className={classes.root}>
       <Grid item xs={2}>
@@ -34,7 +35,7 @@ const Header: React.FC = () => {
           placement="bottom-end"
         >
           <Paper>
-            <Login />
+            <Login handleOpen={setOpen} />
           </Paper>
         </Popper>
       </Grid>

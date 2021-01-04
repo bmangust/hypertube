@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import Header from './components/Header/Header';
-import CardsSlider from './components/CardsSlider/CardsSlider';
-import { cards, links } from './mocks';
-import AlphabetNav from './components/AlphabetNav/AlphabetNav';
+import { links } from './mocks';
 import Nav from './components/Nav/Nav';
 import { theme } from './theme';
-import Cards from './components/Cards/Cards';
+import { Switch, Route } from 'react-router-dom';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import MainPage from './pages/MainPage/MainPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 const useStyles = makeStyles({
   root: {
@@ -37,9 +38,11 @@ function App() {
       <Container className={classes.Wrapper}>
         <Header />
         <Nav links={links} />
-        <AlphabetNav />
-        <CardsSlider cards={cards} />
-        <Cards cards={cards} />
+        <Switch>
+          <Route path="/register" component={RegisterPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/" component={MainPage} />
+        </Switch>
       </Container>
     </Container>
   );
