@@ -28,11 +28,6 @@ const useStyles = makeStyles({
     height: 400,
     minHeight: 300,
   },
-  // `@media (min-width: ${theme.breakpoints.})`: {
-  //   button: {
-  //     width: 200
-  //   }
-  // }
 });
 
 function App() {

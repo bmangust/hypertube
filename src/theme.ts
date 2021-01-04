@@ -37,6 +37,11 @@ export const theme = createMuiTheme({
   props: {
     MuiButton: {
       variant: 'outlined',
+      color: 'primary',
+    },
+    MuiTextField: {
+      variant: 'outlined',
+      color: 'primary',
     },
   },
 });

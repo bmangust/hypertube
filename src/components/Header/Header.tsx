@@ -1,16 +1,20 @@
-import { Button, Grid, makeStyles } from '@material-ui/core';
+import { Button, Grid, makeStyles, Paper, Popper } from '@material-ui/core';
 import { PersonOutlineRounded } from '@material-ui/icons';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import Login from '../Login/Login';
 import Search from '../Search/Search';
-
-export interface HeaderProps {}
-
 const useStyles = makeStyles({
   root: {},
 });
 
-const Header = (props: HeaderProps) => {
+const Header: React.FC = () => {
   const classes = useStyles();
+  const buttonRef = useRef(null);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = (e: React.MouseEvent) => {
+    setOpen((open) => !open);
+  };
   return (
     <Grid container alignItems="center" className={classes.root}>
       <Grid item xs={2}>
@@ -21,9 +25,18 @@ const Header = (props: HeaderProps) => {
       </Grid>
       <Grid container alignItems="center" justify="center" item xs={1}></Grid>
       <Grid container alignItems="center" justify="center" item xs={1}>
-        <Button>
+        <Button ref={buttonRef} onClick={handleClick}>
           <PersonOutlineRounded />
         </Button>
+        <Popper
+          open={open}
+          anchorEl={buttonRef?.current}
+          placement="bottom-end"
+        >
+          <Paper>
+            <Login />
+          </Paper>
+        </Popper>
       </Grid>
     </Grid>
   );
