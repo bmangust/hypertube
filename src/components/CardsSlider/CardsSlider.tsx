@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
-import { Grid, makeStyles } from "@material-ui/core";
-import MovieCard, { MovieCardProps } from "../MovieCard/MovieCard";
-import _ from "lodash";
-import cn from "classnames";
+import React, { useRef, useState } from 'react';
+import { Grid, makeStyles } from '@material-ui/core';
+import MovieCard, { MovieCardProps } from '../MovieCard/MovieCard';
+import { debounce } from 'lodash';
+import cn from 'classnames';
 
 export interface CardsSliderProps {
   cards: MovieCardProps[];
@@ -10,27 +10,27 @@ export interface CardsSliderProps {
 
 const useStyles = makeStyles({
   root: {
-    flexWrap: "nowrap",
+    flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)",
-    overflowX: "scroll",
-    overflowY: "hidden",
-    transition: "0.3s",
-    "&::-webkit-scrollbar": {
-      display: "none",
+    transform: 'translateZ(0)',
+    overflowX: 'scroll',
+    overflowY: 'hidden',
+    transition: '0.3s',
+    '&::-webkit-scrollbar': {
+      display: 'none',
     },
-    "& $Movie:last-child": {
+    '& $Movie:last-child': {
       // paddingRight: "100vw",
       // marginRight: "900px",
     },
   },
   Movie: {
-    transform: "scale(0.8)",
-    transition: "0.3s",
+    transform: 'scale(0.8)',
+    transition: '0.3s',
   },
   Active: {
-    marginLeft: "3.2rem",
-    transform: "scale(1)",
+    // marginLeft: "3.2rem",
+    // transform: "scale(1)",
   },
 });
 
@@ -51,13 +51,13 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
     });
     const activeElement = cards[activeIndex];
     activeElement.scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
+      behavior: 'smooth',
+      inline: 'start',
     });
     setActive(activeIndex);
   };
 
-  const debouncedDetectCurrentElement = _.debounce(detectCurrentElement, 60);
+  const debouncedDetectCurrentElement = debounce(detectCurrentElement, 60);
 
   const onScrollHandler = () => {
     debouncedDetectCurrentElement();
@@ -67,8 +67,8 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
   const handleCardClick = (el: HTMLDivElement | null) => {
     el &&
       el.scrollIntoView({
-        behavior: "smooth",
-        inline: "start",
+        behavior: 'smooth',
+        inline: 'start',
       });
   };
 

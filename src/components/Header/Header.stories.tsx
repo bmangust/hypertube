@@ -1,11 +1,11 @@
-import React from "react";
-import { Story, Meta } from "@storybook/react/types-6-0";
+import React from 'react';
+import { Story, Meta } from '@storybook/react/types-6-0';
 
-import Header, { HeaderProps } from "./Header";
-import { BrowserRouter } from "react-router-dom";
+import Header, { HeaderProps } from './Header';
+import { BrowserRouter } from 'react-router-dom';
 
 export default {
-  title: "Header",
+  title: 'Header',
   component: Header,
 } as Meta;
 

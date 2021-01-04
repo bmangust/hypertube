@@ -1,7 +1,7 @@
-import { Grid, makeStyles } from "@material-ui/core";
-import { PersonOutlineRounded } from "@material-ui/icons";
-import React from "react";
-import Search from "../Search/Search";
+import { Button, Grid, makeStyles } from '@material-ui/core';
+import { PersonOutlineRounded } from '@material-ui/icons';
+import React from 'react';
+import Search from '../Search/Search';
 
 export interface HeaderProps {}
 
@@ -21,7 +21,9 @@ const Header = (props: HeaderProps) => {
       </Grid>
       <Grid container alignItems="center" justify="center" item xs={1}></Grid>
       <Grid container alignItems="center" justify="center" item xs={1}>
-        <PersonOutlineRounded />
+        <Button>
+          <PersonOutlineRounded />
+        </Button>
       </Grid>
     </Grid>
   );

@@ -1,14 +1,14 @@
-import { Grid, makeStyles, TextField } from "@material-ui/core";
-import React from "react";
+import { Grid, makeStyles, TextField } from '@material-ui/core';
+import React from 'react';
 
 export interface LoginProps {}
 
 const useStyles = makeStyles({
   root: {
-    padding: "2rem 1rem",
-    backgroundColor: "#00000033",
-    backdropFilter: "blur(40)",
-    boxShadow: "2px 2px 10px #00000033",
+    padding: '2rem 1rem',
+    backgroundColor: '#00000033',
+    backdropFilter: 'blur(40)',
+    boxShadow: '2px 2px 10px #00000033',
     borderRadius: 10,
     zIndex: 2,
   },

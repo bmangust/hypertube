@@ -7,64 +7,64 @@ import {
   makeStyles,
   Paper,
   Popper,
-} from "@material-ui/core";
-import { SearchRounded } from "@material-ui/icons";
-import React, { useState } from "react";
-import { theme } from "../../theme";
+} from '@material-ui/core';
+import { SearchRounded } from '@material-ui/icons';
+import React, { useState } from 'react';
+import { theme } from '../../theme';
 
 interface Props {}
 
 const useStyles = makeStyles({
   root: {
-    margin: "10px",
+    margin: '10px',
     border: `1px solid ${theme.palette.grey[500]}`,
     borderRadius: 5,
     maxWidth: 300,
-    [theme.breakpoints.down("xs")]: {
-      display: "none",
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
     },
   },
   Input: {
-    padding: "10px 1rem",
+    padding: '10px 1rem',
     flex: 1,
   },
   BaseInput: {
     padding: 0,
   },
   Icon: {
-    fontSize: "2rem",
+    fontSize: '2rem',
     color: theme.palette.grey[700],
     paddingRight: 5,
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "1.6rem",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.6rem',
       paddingRight: 0,
     },
   },
   Button: {
-    margin: "10px",
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    margin: '10px',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   Popper: {
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
 });
 
 const Search = (props: Props) => {
   const classes = useStyles();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       console.log(`Searching for: ${search}`);
-      setSearch("");
+      setSearch('');
     }
   };
   const handleOpenSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -72,7 +72,7 @@ const Search = (props: Props) => {
     setAnchorEl(anchorEl ? null : e.currentTarget);
   };
   const open = Boolean(anchorEl);
-  const id = open ? "search-popover" : undefined;
+  const id = open ? 'search-popover' : undefined;
 
   return (
     <FormControl>
@@ -84,7 +84,7 @@ const Search = (props: Props) => {
       >
         <InputBase
           className={classes.Input}
-          inputProps={{ "aria-label": "search for a movie" }}
+          inputProps={{ 'aria-label': 'search for a movie' }}
           value={search}
           classes={{ input: classes.BaseInput }}
           onChange={handleInput}
@@ -105,7 +105,7 @@ const Search = (props: Props) => {
       <Popper
         open={open}
         anchorEl={anchorEl}
-        placement={"bottom-end"}
+        placement={'bottom-end'}
         transition
         className={classes.Popper}
       >
@@ -114,7 +114,7 @@ const Search = (props: Props) => {
             <Paper>
               <InputBase
                 className={classes.Input}
-                inputProps={{ "aria-label": "search for a movie" }}
+                inputProps={{ 'aria-label': 'search for a movie' }}
                 value={search}
                 classes={{ input: classes.BaseInput }}
                 onChange={handleInput}

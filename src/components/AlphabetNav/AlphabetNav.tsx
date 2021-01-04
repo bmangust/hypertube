@@ -1,55 +1,55 @@
-import { Container, createStyles, makeStyles, Theme } from "@material-ui/core";
-import React, { useState } from "react";
-import { throttle } from "lodash";
-import { NavLink, useLocation } from "react-router-dom";
-import cn from "classnames";
-import { secondaryColor, theme } from "../../theme";
+import { Container, createStyles, makeStyles, Theme } from '@material-ui/core';
+import React, { useState } from 'react';
+import { throttle } from 'lodash';
+import { NavLink, useLocation } from 'react-router-dom';
+import cn from 'classnames';
+import { secondaryColor, theme } from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: 0,
-      position: "relative",
+      position: 'relative',
       borderRadius: 5,
-      overflow: "hidden",
+      overflow: 'hidden',
     },
     Scroller: {
-      display: "inline-flex",
-      flexWrap: "nowrap",
-      overflowX: "scroll",
-      "&::-webkit-scrollbar": {
-        display: "none",
+      display: 'inline-flex',
+      flexWrap: 'nowrap',
+      overflowX: 'scroll',
+      '&::-webkit-scrollbar': {
+        display: 'none',
       },
     },
     ShadowLeft: {
-      position: "absolute",
-      height: "100%",
+      position: 'absolute',
+      height: '100%',
       left: 0,
-      width: "50px",
-      background: "linear-gradient(90deg, #00000033, transparent)",
+      width: '50px',
+      background: 'linear-gradient(90deg, #00000033, transparent)',
     },
     ShadowRight: {
-      position: "absolute",
-      height: "100%",
+      position: 'absolute',
+      height: '100%',
       right: 0,
-      width: "50px",
-      background: "linear-gradient(-90deg, #00000033, transparent)",
+      width: '50px',
+      background: 'linear-gradient(-90deg, #00000033, transparent)',
     },
     Link: {
       color: theme.palette.grey[700],
-      fontSize: "1.5rem",
-      textDecoration: "none",
-      flex: "1 0 50px",
+      fontSize: '1.5rem',
+      textDecoration: 'none',
+      flex: '1 0 50px',
       margin: 10,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      border: "3px solid transparent",
-      borderRadius: "50%",
-      "&:before": {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      border: '3px solid transparent',
+      borderRadius: '50%',
+      '&:before': {
         content: "''",
-        paddingTop: "100%",
-        float: "left",
+        paddingTop: '100%',
+        float: 'left',
       },
     },
     Active: {
@@ -65,7 +65,7 @@ const AlphabetNav = () => {
     shadowLeft: false,
     shadowRight: true,
   });
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
   const handleLinkClick = () => {
     //   send server request here
@@ -98,7 +98,7 @@ const AlphabetNav = () => {
       {shadow.shadowLeft && <div className={classes.ShadowLeft} />}
       {shadow.shadowRight && <div className={classes.ShadowRight} />}
       <Container onScroll={scrollHandler} className={classes.Scroller}>
-        {letters.split("").map((letter) => (
+        {letters.split('').map((letter) => (
           <NavLink
             to={`/byname/${letter}`}
             key={letter}

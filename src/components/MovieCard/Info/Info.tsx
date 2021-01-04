@@ -1,21 +1,12 @@
-import React from "react";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
-import Views from "../Views/Views";
-import Rating from "@material-ui/lab/Rating";
-import { StarOutlineRounded } from "@material-ui/icons";
-
-export interface IInfo {
-  year: number;
-  genres: string[];
-  rating: number;
-  views: number;
-  length: number;
-  pgRating: string | number;
-  description?: string;
-}
+import React from 'react';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import Views from '../Views/Views';
+import Rating from '@material-ui/lab/Rating';
+import { StarOutlineRounded } from '@material-ui/icons';
+import { IMovieInfo } from '../../../models/MovieInfo';
 
 export interface InfoProps {
-  info: IInfo;
+  info: IMovieInfo;
   className?: string;
 }
 
@@ -23,32 +14,32 @@ export const useStyles = makeStyles((theme) => ({
   Info: {
     maxWidth: 200,
     minWidth: 200,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   InfoHorizontal: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   SecondaryInfo: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   SecondaryText: {
-    fontSize: "0.8rem",
+    fontSize: '0.8rem',
     fontWeight: 400,
     color: theme.palette.grey[700],
   },
   Genre: {
-    marginLeft: "0.3rem",
-    display: "flex",
-    "& $SecondaryText": {
-      textTransform: "capitalize",
+    marginLeft: '0.3rem',
+    display: 'flex',
+    '& $SecondaryText': {
+      textTransform: 'capitalize',
     },
-    "& $SecondaryText:nth-child(n+2)::before": {
+    '& $SecondaryText:nth-child(n+2)::before': {
       content: '"·"',
-      margin: "0 0.1rem",
+      margin: '0 0.1rem',
     },
   },
 }));
@@ -82,7 +73,7 @@ const Info = ({
           <Views views={views} />
         </>
       </Grid>
-      {orientation === "horizontal" && (
+      {orientation === 'horizontal' && (
         <Grid item className={classes.InfoHorizontal}>
           <Typography className={classes.SecondaryText}>{length}min</Typography>
           <Typography className={classes.SecondaryText}>{pgRating}</Typography>

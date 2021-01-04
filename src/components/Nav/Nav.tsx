@@ -1,7 +1,7 @@
-import { Button, Grid, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { theme } from "../../theme";
+import { Button, Grid, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { theme } from '../../theme';
 
 export interface ILink {
   id: number;
@@ -16,17 +16,16 @@ export interface NavProps {
 
 const useStyles = makeStyles({
   root: {
-    [theme.breakpoints.down("xs")]: {
-      display: "none",
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
     },
   },
   Button: {
-    margin: "0 10px",
     borderRadius: 0,
   },
   Link: {
-    textDecoration: "none",
-    color: "inherit",
+    textDecoration: 'none',
+    color: 'inherit',
   },
 });
 
@@ -40,8 +39,8 @@ const Nav = ({ links }: NavProps) => {
         <Button
           className={classes.Button}
           key={link.id}
-          variant={active === link.id ? "contained" : "outlined"}
-          color={link.highlight ? "secondary" : "primary"}
+          variant={active === link.id ? 'contained' : 'outlined'}
+          color={link.highlight ? 'secondary' : 'primary'}
           onClick={() => setActive(link.id)}
         >
           <NavLink to={link.to} className={classes.Link}>

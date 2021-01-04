@@ -1,6 +1,6 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
-import { VisibilityRounded } from "@material-ui/icons";
-import React from "react";
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { VisibilityRounded } from '@material-ui/icons';
+import React from 'react';
 
 interface Props {
   views: number;
@@ -8,12 +8,12 @@ interface Props {
 
 export const useStyles = makeStyles((theme) => ({
   SecondaryText: {
-    fontSize: "0.8rem",
+    fontSize: '0.8rem',
     fontWeight: 400,
     color: theme.palette.grey[700],
   },
   Icon: {
-    paddingRight: "0.3rem",
+    paddingRight: '0.3rem',
   },
 }));
 

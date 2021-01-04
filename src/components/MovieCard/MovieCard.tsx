@@ -1,14 +1,11 @@
-import React from "react";
-import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
-import cn from "classnames";
-import Info, { IInfo } from "./Info/Info";
+import React from 'react';
+import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
+import cn from 'classnames';
+import Info from './Info/Info';
+import { IMovie } from '../../models/MovieInfo';
 
-export interface MovieCardProps {
-  id?: string;
-  display?: "full" | "name" | "image";
-  name: string;
-  img?: string;
-  info: IInfo;
+export interface MovieCardProps extends IMovie {
+  display?: 'full' | 'name' | 'image';
   className?: string;
   onClick?: (el: HTMLDivElement | null) => void;
 }
@@ -16,7 +13,7 @@ export interface MovieCardProps {
 export const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
   rootHorizontal: {
     maxWidth: 300,
@@ -30,18 +27,18 @@ export const useStyles = makeStyles((theme) => ({
     width: 300,
   },
   Name: {
-    fontSize: "1rem",
+    fontSize: '1rem',
     fontWeight: 800,
   },
 }));
 
 const MovieCard: React.FC<MovieCardProps> = ({
-  display = "image",
+  display = 'image',
+  className,
+  onClick,
   name,
   img,
   info,
-  className,
-  onClick,
 }: MovieCardProps) => {
   const classes = useStyles();
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -60,16 +57,16 @@ const MovieCard: React.FC<MovieCardProps> = ({
           className={classes.Media}
           style={{
             background: `url(${img})`,
-            backgroundSize: "cover",
+            backgroundSize: 'cover',
           }}
         ></div>
       </Card>
-      {display !== "image" && (
+      {display !== 'image' && (
         <Grid container direction="column" alignItems="center">
-          {display === "name" && (
+          {display === 'name' && (
             <Typography className={classes.Name}>{name}</Typography>
           )}
-          {display === "full" && <Info info={info} />}
+          {display === 'full' && <Info info={info} />}
         </Grid>
       )}
     </Grid>

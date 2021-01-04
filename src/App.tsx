@@ -1,24 +1,25 @@
-import React from "react";
-import { Container, makeStyles } from "@material-ui/core";
-import Header from "./components/Header/Header";
-import CardsSlider from "./components/CardsSlider/CardsSlider";
-import { cards, links } from "./mocks";
-import AlphabetNav from "./components/AlphabetNav/AlphabetNav";
-import Nav from "./components/Nav/Nav";
-import { theme } from "./theme";
+import React from 'react';
+import { Container, makeStyles } from '@material-ui/core';
+import Header from './components/Header/Header';
+import CardsSlider from './components/CardsSlider/CardsSlider';
+import { cards, links } from './mocks';
+import AlphabetNav from './components/AlphabetNav/AlphabetNav';
+import Nav from './components/Nav/Nav';
+import { theme } from './theme';
+import Cards from './components/Cards/Cards';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: "100%",
+    maxWidth: '100%',
     minWidth: 500,
     margin: 0,
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       padding: 0,
     },
   },
   Wrapper: {
     maxWidth: 840,
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       padding: 0,
       margin: 0,
     },
@@ -43,6 +44,7 @@ function App() {
         <Nav links={links} />
         <AlphabetNav />
         <CardsSlider cards={cards} />
+        <Cards cards={cards} />
       </Container>
     </Container>
   );
