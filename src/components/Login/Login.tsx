@@ -6,7 +6,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 interface LoginProps {
   handleOpen?: (arg: boolean) => void;
@@ -20,23 +20,25 @@ const useStyles = makeStyles({
   Form: {
     width: '100%',
   },
-  Input: {
+  margin: {
     marginBottom: 10,
   },
   padding: {
     padding: '5px 10px',
   },
-  Button: {
+  OAuthButton: {
     width: '6rem',
   },
   invert: {
     filter: 'invert(1)',
   },
+  Link: {
+    textDecoration: 'none',
+  },
 });
 
 const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
   const classes = useStyles();
-  const history = useHistory();
   const [inputs, setInputs] = useState({ email: '', password: '' });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,8 +54,7 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
     console.log('[Login] handleSubmit', inputs);
   };
 
-  const handleRegister = () => {
-    history.push('/register');
+  const handleCloseForm = () => {
     handleOpen && handleOpen(false);
   };
 
@@ -80,7 +81,7 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
           placeholder="Enter email"
           value={inputs.email}
           onChange={handleInput}
-          className={classes.Input}
+          className={classes.margin}
           size="small"
         />
         <TextField
@@ -90,20 +91,40 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
           placeholder="Enter password"
           value={inputs.password}
           onChange={handleInput}
-          className={classes.Input}
+          className={classes.margin}
           size="small"
         />
-        <Button type="submit" variant="contained" onClick={handleSubmit}>
+        <Button
+          className={classes.margin}
+          type="submit"
+          variant="contained"
+          onClick={handleSubmit}
+        >
           Login
         </Button>
-        <Button variant="text" onClick={handleForgot}>
+        <Button
+          className={classes.margin}
+          variant="outlined"
+          onClick={handleForgot}
+        >
           Forgot password?
         </Button>
-        <Button variant="text" onClick={handleRegister}>
-          Register
-        </Button>
+        <NavLink to="/register" className={classes.Link}>
+          <Button
+            className={classes.margin}
+            fullWidth
+            variant="outlined"
+            onClick={handleCloseForm}
+          >
+            Register
+          </Button>
+        </NavLink>
         <Grid container alignItems="center" justify="space-evenly">
-          <Button name="42" onClick={handleOAuth} className={classes.Button}>
+          <Button
+            name="42"
+            onClick={handleOAuth}
+            className={classes.OAuthButton}
+          >
             <img
               height="30"
               width="30"
@@ -115,7 +136,7 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
           <Button
             name="google"
             onClick={handleOAuth}
-            className={classes.Button}
+            className={classes.OAuthButton}
           >
             <svg
               height="30"

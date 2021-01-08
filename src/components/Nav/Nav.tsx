@@ -1,6 +1,6 @@
 import { Button, Grid, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { theme } from '../../theme';
 
 export interface ILink {
@@ -31,28 +31,20 @@ const useStyles = makeStyles({
 
 const Nav = ({ links }: NavProps) => {
   const classes = useStyles();
-  const history = useHistory();
   const location = useLocation();
-  const [active, setActive] = useState('/');
-
-  useEffect(() => {
-    history.push(active);
-  }, [active]);
 
   return (
     <Grid className={classes.root} container justify="center">
       {links.map((link) => (
-        <Button
-          className={classes.Button}
-          key={link.id}
-          variant={location.pathname === link.to ? 'contained' : 'outlined'}
-          color={link.highlight ? 'secondary' : 'primary'}
-          onClick={() => setActive(link.to)}
-        >
-          <NavLink to={link.to} className={classes.Link}>
+        <NavLink key={link.id} to={link.to} className={classes.Link}>
+          <Button
+            className={classes.Button}
+            variant={location.pathname === link.to ? 'contained' : 'outlined'}
+            color={link.highlight ? 'secondary' : 'primary'}
+          >
             {link.name}
-          </NavLink>
-        </Button>
+          </Button>
+        </NavLink>
       ))}
     </Grid>
   );

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   Form: {
     width: '100%',
   },
-  Input: {
+  margin: {
     marginBottom: 10,
   },
   padding: {
@@ -72,7 +72,7 @@ const Register = () => {
           placeholder="Enter email"
           value={inputs.email}
           onChange={handleInput}
-          className={classes.Input}
+          className={classes.margin}
           size="small"
         />
         <TextField
@@ -82,7 +82,7 @@ const Register = () => {
           placeholder="Enter password"
           value={inputs.password}
           onChange={handleInput}
-          className={classes.Input}
+          className={classes.margin}
           size="small"
         />
         <TextField
@@ -92,13 +92,22 @@ const Register = () => {
           placeholder="Confirm password"
           value={inputs.confirm}
           onChange={handleInput}
-          className={classes.Input}
+          className={classes.margin}
           size="small"
         />
-        <Button type="submit" variant="contained" onClick={handleSubmit}>
+        <Button
+          className={classes.margin}
+          type="submit"
+          variant="contained"
+          onClick={handleSubmit}
+        >
           Register
         </Button>
-        <Button variant="text" onClick={handleLogin}>
+        <Button
+          className={classes.margin}
+          variant="outlined"
+          onClick={handleLogin}
+        >
           Login
         </Button>
       </FormGroup>
