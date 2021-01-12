@@ -15,8 +15,8 @@ interface MovieCardMediumProps {
   card: MovieCardProps;
 }
 
-const svg =
-  '<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#ffffff"></path></svg>';
+// const svg =
+//   '<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#ffffff"></path></svg>';
 
 const useStyles = makeStyles({
   Paper: {

@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import MovieFullInfo from './components/MovieFullInfo/MovieFullInfo';
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
+
   return (
     <Container className={classes.root}>
       <Container className={classes.Wrapper}>
@@ -41,6 +43,7 @@ function App() {
         <Switch>
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/movies/:id" component={MovieFullInfo} />
           <Route path="/" component={MainPage} />
         </Switch>
       </Container>
