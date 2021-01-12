@@ -5,6 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { theme } from './theme';
+import './i18n';
 
 // import reportWebVitals from "./reportWebVitals";
 
