@@ -2,6 +2,7 @@ export interface IMovie {
   id: string;
   name: string;
   img: string;
+  src: string;
   info: IMovieInfo;
 }
 
