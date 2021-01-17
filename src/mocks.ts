@@ -1,5 +1,12 @@
 import { ILink } from './components/Nav/Nav';
 import { IMovie } from './models/MovieInfo';
+import image1 from './images/image_1.jpeg';
+import image2 from './images/image_2.jpeg';
+import image3 from './images/image_3.jpeg';
+import image4 from './images/image_4.jpeg';
+import video1 from './images/video01.webm';
+import video2 from './images/video02.webm';
+import video3 from './images/video03.webm';
 
 export const cards: IMovie[] = [
   {
@@ -7,6 +14,7 @@ export const cards: IMovie[] = [
     name: 'Capitan Marvel',
     img:
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
+    src: video1,
     info: {
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
@@ -16,6 +24,8 @@ export const cards: IMovie[] = [
       pgRating: 'PG-13',
       description:
         "Carol Danvers becomes one of the universe's most powerful heroes when Earth is caught in the middle of a galactic war between two alien races.",
+      photos: [image1, image2, image3, image4],
+      videos: [video1, video2, video3],
     },
   },
   {
@@ -23,6 +33,7 @@ export const cards: IMovie[] = [
     name: 'Hobbit',
     img:
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
+    src: video1,
     info: {
       year: 2004,
       genres: ['fantasy', 'epic'],
@@ -38,6 +49,7 @@ export const cards: IMovie[] = [
     id: '2',
     name: 'Star Trek',
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
+    src: video1,
     info: {
       year: 1994,
       genres: ['action', 'sci-fi'],
@@ -52,6 +64,7 @@ export const cards: IMovie[] = [
     name: 'Capitan Marvel',
     img:
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
+    src: video1,
     info: {
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
@@ -66,6 +79,7 @@ export const cards: IMovie[] = [
     name: 'Hobbit',
     img:
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
+    src: video1,
     info: {
       year: 2004,
       genres: ['fantasy', 'epic'],
@@ -79,6 +93,7 @@ export const cards: IMovie[] = [
     id: '5',
     name: 'Star Trek',
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
+    src: video1,
     info: {
       year: 1994,
       genres: ['action', 'sci-fi'],
@@ -93,6 +108,7 @@ export const cards: IMovie[] = [
     name: 'Capitan Marvel',
     img:
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
+    src: video1,
     info: {
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
@@ -107,6 +123,7 @@ export const cards: IMovie[] = [
     name: 'Hobbit',
     img:
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
+    src: video1,
     info: {
       year: 2004,
       genres: ['fantasy', 'epic'],
@@ -120,6 +137,7 @@ export const cards: IMovie[] = [
     id: '8',
     name: 'Star Trek',
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
+    src: video1,
     info: {
       year: 1994,
       genres: ['action', 'sci-fi'],
@@ -134,6 +152,7 @@ export const cards: IMovie[] = [
     name: 'Capitan Marvel',
     img:
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
+    src: video1,
     info: {
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
@@ -148,6 +167,7 @@ export const cards: IMovie[] = [
     name: 'Hobbit',
     img:
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
+    src: video1,
     info: {
       year: 2004,
       genres: ['fantasy', 'epic'],
@@ -161,6 +181,7 @@ export const cards: IMovie[] = [
     id: '11',
     name: 'Star Trek',
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
+    src: video1,
     info: {
       year: 1994,
       genres: ['action', 'sci-fi'],
