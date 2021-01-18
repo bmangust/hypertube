@@ -1,30 +1,22 @@
 import React from 'react';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import cn from 'classnames';
-import Info from './Info/Info';
 import { IMovie } from '../../models/MovieInfo';
 
 export interface MovieCardProps extends IMovie {
-  display?: 'full' | 'name' | 'image';
+  display?: 'name' | 'image';
   className?: string;
-  onClick?: (el: HTMLDivElement | null) => void;
+  onClick?: () => void;
 }
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 200,
+    maxWidth: 300,
     cursor: 'pointer',
   },
-  rootHorizontal: {
-    maxWidth: 300,
-  },
   Media: {
-    height: 300,
-    width: 200,
-  },
-  MediaHoriozontal: {
-    height: 200,
-    width: 300,
+    height: 220,
+    width: 150,
   },
   Name: {
     fontSize: '1rem',
@@ -41,15 +33,12 @@ const MovieCard: React.FC<MovieCardProps> = ({
   info,
 }: MovieCardProps) => {
   const classes = useStyles();
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
 
-  const onClickHandler = () => onClick && onClick(wrapperRef.current);
   return (
     <Grid
       container
-      ref={wrapperRef}
       direction="column"
-      onClick={onClickHandler}
+      onClick={onClick}
       className={cn(classes.root, className)}
     >
       <Card>
@@ -66,7 +55,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
           {display === 'name' && (
             <Typography className={classes.Name}>{name}</Typography>
           )}
-          {display === 'full' && <Info info={info} />}
         </Grid>
       )}
     </Grid>

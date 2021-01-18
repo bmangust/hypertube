@@ -114,9 +114,9 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
           </Grid>
         </Grid>
       </Grid>
-      {movie.info.videos && (
+      {movie.src && (
         <Grid container className={classes.Video}>
-          <VideoPlayer src={movie.info.videos[0]} />
+          <VideoPlayer src={movie.src} />
         </Grid>
       )}
       <Grid container direction="column" className={classes.AdditionalInfo}>
