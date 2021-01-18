@@ -33,7 +33,7 @@ export const cards: IMovie[] = [
     name: 'Hobbit',
     img:
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
-    src: video1,
+    src: video2,
     info: {
       year: 2004,
       genres: ['fantasy', 'epic'],

@@ -13,11 +13,18 @@ export const secondaryColor = {
   contrastText: '#fff',
   contrastTextLighter: '#333',
 };
+export const backgroundColor = {
+  light: '#FFFFFF',
+  default: '#FAFAFA',
+  dark: '#DDDDDD',
+  contrastText: '#121212',
+};
 
 export const theme = createMuiTheme({
   palette: {
     primary: primaryColor,
     secondary: secondaryColor,
+    background: backgroundColor,
   },
   typography: {
     fontFamily: [
