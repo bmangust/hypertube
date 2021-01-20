@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { auth } from '../../axios';
 
 interface LoginProps {
   handleOpen?: (arg: boolean) => void;
@@ -49,9 +50,19 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('[Login] handleSubmit', inputs);
+
+    const authHeader =
+      'Basic ' +
+      btoa(encodeURI(inputs.email) + ':' + encodeURI(inputs.password));
+    const res = await auth('basic', {
+      headers: {
+        Authorization: authHeader,
+      },
+    });
+    console.log(res);
   };
 
   const handleCloseForm = () => {

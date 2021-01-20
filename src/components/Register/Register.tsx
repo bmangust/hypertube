@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { register } from '../../axios';
 
 const useStyles = makeStyles({
   root: {
@@ -47,9 +48,19 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[Login] handleSubmit', inputs);
+    console.log('[Register] handleSubmit', inputs);
+
+    const body = {
+      email: inputs.email,
+      passwd: inputs.password,
+      first_name: 'fname',
+      last_name: 'lname',
+      displayname: 'displayname',
+    };
+    const res = await register.put('basic', body);
+    console.log(res);
   };
 
   const handleLogin = () => {
