@@ -57,12 +57,17 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
     const authHeader =
       'Basic ' +
       btoa(encodeURI(inputs.email) + ':' + encodeURI(inputs.password));
-    const res = await auth('basic', {
-      headers: {
-        Authorization: authHeader,
-      },
-    });
-    console.log(res);
+    try {
+      auth('basic', {
+        headers: {
+          Authorization: authHeader,
+        },
+      })
+        .then((res) => console.log(res))
+        .catch((e) => console.log(e));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleCloseForm = () => {
@@ -73,8 +78,41 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
     console.log('[Login] handleForgot');
   };
 
-  const handleOAuth = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOAuth = async (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('[Login] handleOAuth', e.currentTarget.name);
+    if (e.currentTarget.name === '42') {
+      // const formData = new FormData();
+      // formData.append(
+      //   'client_id',
+      //   '96975efecfd0e5efee67c9ac4cc350ac9372ae559b2fb8a08feba6841a33fb53'
+      // );
+      // formData.append(
+      //   'redirect_uri',
+      //   'http://localhost:4000/user/auth/oauth42'
+      // );
+      // formData.append('scope', 'public');
+      // formData.append(
+      //   'state',
+      //   'bdcbe28874ab05962b50430b1466a8ebcbda45ba8c3c1beee600699478ad2a4d'
+      // );
+      // formData.append('response_type', 'code');
+      // axios({
+      //   method: 'get',
+      //   url: 'https://api.intra.42.fr/oauth/authorize',
+      //   params: formData,
+      //   headers: {
+      //     'Content-Type':
+      //       'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+      //   },
+      // })
+      //   .then((res) => console.log(res))
+      //   .catch((e) => console.log(e));
+      // const url =
+      //   'https://api.intra.42.fr/oauth/authorize?client_id=96975efecfd0e5efee67c9ac4cc350ac9372ae559b2fb8a08feba6841a33fb53&redirect_uri=http%3A%2F%2Flocalhost%3A4000%2Fuser%2Fauth%2Foauth42&scope=public&state=bdcbe28874ab05962b50430b1466a8ebcbda45ba8c3c1beee600699478ad2a4d&response_type=code';
+      // axios(url)
+      //   .then((res) => console.log(res.data))
+      //   .catch((e) => {});
+    }
   };
 
   return (
@@ -131,19 +169,39 @@ const Login: React.FC<LoginProps> = ({ handleOpen }: LoginProps) => {
           </Button>
         </NavLink>
         <Grid container alignItems="center" justify="space-evenly">
-          <Button
-            name="42"
-            onClick={handleOAuth}
-            className={classes.OAuthButton}
-          >
-            <img
-              height="30"
-              width="30"
-              src="https://signin.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg"
-              alt="42 auth"
-              className={classes.invert}
+          <form method="get" action="https://api.intra.42.fr/oauth/authorize">
+            <input
+              type="hidden"
+              name="client_id"
+              value="96975efecfd0e5efee67c9ac4cc350ac9372ae559b2fb8a08feba6841a33fb53"
             />
-          </Button>
+            <input
+              type="hidden"
+              name="redirect_uri"
+              value="http://localhost:4000/user/auth/oauth42"
+            />
+            <input type="hidden" name="scope" value="public" />
+            <input
+              type="hidden"
+              name="state"
+              value="bdcbe28874ab05962b50430b1466a8ebcbda45ba8c3c1beee600699478ad2a4d"
+            />
+            <input type="hidden" name="response_type" value="code" />
+            <Button
+              // name="42"
+              type="submit"
+              onClick={handleOAuth}
+              className={classes.OAuthButton}
+            >
+              <img
+                height="30"
+                width="30"
+                src="https://signin.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg"
+                alt="42 auth"
+                className={classes.invert}
+              />
+            </Button>
+          </form>
           <Button
             name="google"
             onClick={handleOAuth}
