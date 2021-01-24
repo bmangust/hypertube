@@ -12,21 +12,9 @@ export default {
 
 const Template: Story<MovieCardProps> = (args) => <MovieCard {...args} />;
 
-export const Vertical = Template.bind({});
-Vertical.args = cards[0];
-
-// export const Horizontal = Template.bind({});
-// Horizontal.args = {
-//   orientation: "vertical",
-//   name: "Hobbit",
-//   img:
-//     "https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg",
-//   info: {
-//     year: 2004,
-//     genres: ["fantasy", "epic"],
-//     rating: 4.9,
-//     views: 9123000,
-//     length: 123,
-//     pgRating: "PG-6",
-//   },
-// };
+export const Image = Template.bind({});
+Image.args = { card: cards[0], display: 'image' };
+export const WithName = Template.bind({});
+WithName.args = { card: cards[0], display: 'grid' };
+export const WithInfo = Template.bind({});
+WithInfo.args = { card: cards[0], display: 'lines' };

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import { DashboardRounded, ViewAgendaRounded } from '@material-ui/icons';
-
-interface Props {}
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
+import { useAppDispatch } from '../../store/store';
+import { changeView } from '../../store/features/UISlice';
 
 const useStyles = makeStyles({
   right: {
@@ -11,18 +13,23 @@ const useStyles = makeStyles({
   },
 });
 
-const GridToLinesButton = (props: Props) => {
+const GridToLinesButton = () => {
   const classes = useStyles();
-  const [isGrid, setIsGrid] = useState(false);
+  const dispatch = useAppDispatch();
+  const { view } = useSelector((state: RootState) => state.UI);
+
+  const handleClick = () => {
+    dispatch(changeView());
+  };
 
   return (
     <Button
       className={classes.right}
       variant="text"
       size="large"
-      onClick={() => setIsGrid((isGrid) => !isGrid)}
+      onClick={handleClick}
     >
-      {isGrid ? <DashboardRounded /> : <ViewAgendaRounded />}
+      {view === 'grid' ? <DashboardRounded /> : <ViewAgendaRounded />}
     </Button>
   );
 };

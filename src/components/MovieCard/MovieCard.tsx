@@ -2,17 +2,23 @@ import React from 'react';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import cn from 'classnames';
 import { IMovie } from '../../models/MovieInfo';
+import MovieCardMedium from '../MovieCardMedium/MovieCardMedium';
+import { useHistory } from 'react-router';
 
-export interface MovieCardProps extends IMovie {
-  display?: 'name' | 'image';
+export interface MovieCardProps {
+  display?: 'image' | 'lines' | 'grid';
   className?: string;
-  onClick?: () => void;
+  card: IMovie;
 }
 
 export const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
     cursor: 'pointer',
+  },
+  Grid: {
+    maxWidth: 150,
+    marginRight: '1rem',
+    marginBottom: '1rem',
   },
   Media: {
     height: 220,
@@ -27,36 +33,53 @@ export const useStyles = makeStyles({
 const MovieCard: React.FC<MovieCardProps> = ({
   display = 'image',
   className,
-  onClick,
-  name,
-  img,
-  info,
+  card,
 }: MovieCardProps) => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleCardClick = (): void => {
+    history.push(`/movies/${card.id}`);
+  };
+
+  const getCard = () => {
+    if (display === 'lines') return <MovieCardMedium card={card} />;
+    return (
+      <>
+        <Card onClick={handleCardClick}>
+          <div
+            className={classes.Media}
+            style={{
+              background: `url(${card.img})`,
+              backgroundSize: 'cover',
+            }}
+          ></div>
+        </Card>
+        {display !== 'image' && (
+          <Grid container direction="column" alignItems="center">
+            {display === 'grid' && (
+              <Typography className={classes.Name}>{card.name}</Typography>
+            )}
+          </Grid>
+        )}
+      </>
+    );
+  };
+
+  const getClassName = () =>
+    display === 'lines'
+      ? cn(classes.root, className)
+      : cn(classes.root, className, classes.Grid);
 
   return (
     <Grid
+      item
       container
-      direction="column"
-      onClick={onClick}
-      className={cn(classes.root, className)}
+      wrap="wrap"
+      direction={display === 'lines' ? 'column' : 'row'}
+      className={getClassName()}
     >
-      <Card>
-        <div
-          className={classes.Media}
-          style={{
-            background: `url(${img})`,
-            backgroundSize: 'cover',
-          }}
-        ></div>
-      </Card>
-      {display !== 'image' && (
-        <Grid container direction="column" alignItems="center">
-          {display === 'name' && (
-            <Typography className={classes.Name}>{name}</Typography>
-          )}
-        </Grid>
-      )}
+      {getCard()}
     </Grid>
   );
 };

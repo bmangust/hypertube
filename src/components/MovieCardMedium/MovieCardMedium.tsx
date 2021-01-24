@@ -8,11 +8,11 @@ import {
 } from '@material-ui/core';
 import { PlayArrow, StarBorder } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
-import { MovieCardProps } from '../MovieCard/MovieCard';
 import { NavLink } from 'react-router-dom';
+import { IMovie } from '../../models/MovieInfo';
 
 interface MovieCardMediumProps {
-  card: MovieCardProps;
+  card: IMovie;
 }
 
 // const svg =
@@ -97,9 +97,11 @@ const useStyles = makeStyles({
   },
 });
 
-const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
+const MovieCardMedium = ({
+  card: { id, name, img, info },
+}: MovieCardMediumProps) => {
   const classes = useStyles();
-  const [rating, setRating] = useState(card.info.rating);
+  const [rating, setRating] = useState(info.rating);
 
   const handleRatingChange = (
     e: React.ChangeEvent<{}>,
@@ -111,8 +113,8 @@ const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
 
   return (
     <Paper className={classes.Paper}>
-      <NavLink to={`/movies/${card.id}`} className={classes.Img}>
-        <img src={card.img} alt={`${card.name} poster`} />
+      <NavLink to={`/movies/${id}`} className={classes.Img}>
+        <img src={img} alt={`${name} poster`} />
         <div className={classes.PlayIconWrapper}>
           <PlayArrow className={classes.PlayIcon} fontSize="large" />
         </div>
@@ -120,28 +122,28 @@ const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
       <Grid container direction="column" className={classes.Info}>
         <Grid container alignItems="center" justify="space-between">
           <Typography variant="caption" className={classes.Caption}>
-            {card.name}
+            {name}
           </Typography>
           <Rating
             value={rating}
-            name={`${card.id}-${card.name.replace(' ', '-')}-rating`}
+            name={`${id}-${name.replace(' ', '-')}-rating`}
             emptyIcon={<StarBorder fontSize="inherit" />}
             onChange={handleRatingChange}
           />
         </Grid>
         <Divider />
         <Typography variant="caption" className={classes.Text}>
-          Year: {card.info.year}
+          Year: {info.year}
         </Typography>
         <Typography variant="caption" className={classes.Text}>
-          Genres: {card.info.genres.join(', ')}
+          Genres: {info.genres.join(', ')}
         </Typography>
         <Typography variant="caption" className={classes.Text}>
-          Length: {card.info.length} min
+          Length: {info.length} min
         </Typography>
         <Divider />
         <Typography variant="caption" className={classes.Description}>
-          {card.info.description}
+          {info.description}
           <div className={classes.Shadow} />
         </Typography>
       </Grid>

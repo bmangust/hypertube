@@ -14,12 +14,14 @@ export interface MovieItems {
 
 export interface UIState {
   sortBy: string | null;
+  view: 'grid' | 'lines';
   movies: IMovie[];
   popular: IMovie[];
 }
 
 const initialState = {
   sortBy: null,
+  view: 'lines',
   movies: [],
   popular: [],
 } as UIState;
@@ -38,6 +40,9 @@ const UISlice = createSlice({
         (movie) => !state.movies.find((el) => el.id === movie.id)
       );
       state.movies = state.movies.concat(newMovies);
+    },
+    changeView(state) {
+      state.view = state.view === 'grid' ? 'lines' : 'grid';
     },
   },
 });
@@ -70,6 +75,6 @@ export const loadMovies = (
   if (callback) callback(movies ? movies.length === 0 : true);
 };
 
-export const { setSortingBy, addMovies } = UISlice.actions;
+export const { setSortingBy, addMovies, changeView } = UISlice.actions;
 
 export default UISlice.reducer;

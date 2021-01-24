@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import { IMovie } from '../../models/MovieInfo';
 import { loadMovies } from '../../store/features/UISlice';
-import MovieCardMedium from '../MovieCardMedium/MovieCardMedium';
+import MovieCard from '../MovieCard/MovieCard';
 
 const sortByName = (movies: IMovie[]) => {
   return [...movies].sort((cardA, cardB) =>
@@ -30,7 +30,7 @@ const sortByAvalibility = (movies: IMovie[]) => {
 };
 
 const Cards = () => {
-  const { sortBy, movies } = useSelector((state: RootState) => state.UI);
+  const { sortBy, view, movies } = useSelector((state: RootState) => state.UI);
   const [sortedCards, setSortedCards] = useState(movies);
   const dispatch = useAppDispatch();
   const isEndOfMoviesRef = useRef(false);
@@ -42,7 +42,10 @@ const Cards = () => {
    */
   const debouncedTrackScrolling = debounce(() => {
     const isEndOfMovies = isEndOfMoviesRef?.current || false;
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 10
+    ) {
       if (!isEndOfMovies) {
         dispatch(
           loadMovies(
@@ -79,9 +82,9 @@ const Cards = () => {
   }, [sortBy, movies]);
 
   return (
-    <Grid>
+    <Grid container justify="space-evenly">
       {sortedCards.map((card) => (
-        <MovieCardMedium key={card.id} card={card} />
+        <MovieCard key={card.id} card={card} display={view} />
       ))}
     </Grid>
   );

@@ -14,6 +14,7 @@ export interface IMovieInfo {
   views: number;
   length: number;
   pgRating: string;
+  comments?: IComment[];
   description?: string;
   photos?: string[];
   videos?: string[];
@@ -52,4 +53,10 @@ export interface IFilmography {
   id?: string;
   job: string; //'actor', 'director'...
   movies: IMovie[];
+}
+
+export interface IComment {
+  id: number;
+  authorId: number;
+  text: string;
 }
