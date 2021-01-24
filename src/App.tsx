@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import Header from './components/Header/Header';
-import { links } from './mocks';
+import { links } from './mock/mocks';
 import Nav from './components/Nav/Nav';
 import { theme } from './theme';
 import { Switch, Route } from 'react-router-dom';

@@ -1,12 +1,12 @@
-import { ILink } from './components/Nav/Nav';
-import { IMovie } from './models/MovieInfo';
-import image1 from './images/image_1.jpeg';
-import image2 from './images/image_2.jpeg';
-import image3 from './images/image_3.jpeg';
-import image4 from './images/image_4.jpeg';
-import video1 from './images/video01.webm';
-import video2 from './images/video02.webm';
-import video3 from './images/video03.webm';
+import { ILink } from '../components/Nav/Nav';
+import { IMovie } from '../models/MovieInfo';
+import image1 from '../images/image_1.jpeg';
+import image2 from '../images/image_2.jpeg';
+import image3 from '../images/image_3.jpeg';
+import image4 from '../images/image_4.jpeg';
+import video1 from '../images/video01.webm';
+import video2 from '../images/video02.webm';
+import video3 from '../images/video03.webm';
 
 export const cards: IMovie[] = [
   {
@@ -16,6 +16,7 @@ export const cards: IMovie[] = [
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
     src: video1,
     info: {
+      avalibility: 0.3,
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
       rating: 3.4,
@@ -35,6 +36,7 @@ export const cards: IMovie[] = [
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
     src: video2,
     info: {
+      avalibility: 0.1,
       year: 2004,
       genres: ['fantasy', 'epic'],
       rating: 4.9,
@@ -51,6 +53,7 @@ export const cards: IMovie[] = [
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
     src: video1,
     info: {
+      avalibility: 0.5,
       year: 1994,
       genres: ['action', 'sci-fi'],
       rating: 1.4,
@@ -66,6 +69,7 @@ export const cards: IMovie[] = [
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
     src: video1,
     info: {
+      avalibility: 0.8,
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
       rating: 3.4,
@@ -81,6 +85,7 @@ export const cards: IMovie[] = [
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
     src: video1,
     info: {
+      avalibility: 0.23,
       year: 2004,
       genres: ['fantasy', 'epic'],
       rating: 4.9,
@@ -95,6 +100,7 @@ export const cards: IMovie[] = [
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
     src: video1,
     info: {
+      avalibility: 0.56,
       year: 1994,
       genres: ['action', 'sci-fi'],
       rating: 1.4,
@@ -110,6 +116,7 @@ export const cards: IMovie[] = [
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
     src: video1,
     info: {
+      avalibility: 0.51,
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
       rating: 3.4,
@@ -125,6 +132,7 @@ export const cards: IMovie[] = [
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
     src: video1,
     info: {
+      avalibility: 0.11,
       year: 2004,
       genres: ['fantasy', 'epic'],
       rating: 4.9,
@@ -139,6 +147,7 @@ export const cards: IMovie[] = [
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
     src: video1,
     info: {
+      avalibility: 0.71,
       year: 1994,
       genres: ['action', 'sci-fi'],
       rating: 1.4,
@@ -154,6 +163,7 @@ export const cards: IMovie[] = [
       'https://upload.wikimedia.org/wikipedia/ru/0/07/Captain_Marvel_film_logo.jpg',
     src: video1,
     info: {
+      avalibility: 0.1,
       year: 2000,
       genres: ['comedy', 'action', 'epic'],
       rating: 3.4,
@@ -169,6 +179,7 @@ export const cards: IMovie[] = [
       'https://images-na.ssl-images-amazon.com/images/I/7145Wo9GjlL._AC_SL1006_.jpg',
     src: video1,
     info: {
+      avalibility: 0.01,
       year: 2004,
       genres: ['fantasy', 'epic'],
       rating: 4.9,
@@ -183,6 +194,7 @@ export const cards: IMovie[] = [
     img: 'https://m.media-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg',
     src: video1,
     info: {
+      avalibility: 0.21,
       year: 1994,
       genres: ['action', 'sci-fi'],
       rating: 1.4,

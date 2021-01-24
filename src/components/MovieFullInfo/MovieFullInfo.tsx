@@ -2,7 +2,7 @@ import { Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { cards } from '../../mocks';
+import { cards } from '../../mock/mocks';
 import { IUser } from '../../models/MovieInfo';
 import HorizontalGrid from '../HorizontalGrid/HorizontalGrid';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';

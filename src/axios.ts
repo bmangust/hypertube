@@ -12,3 +12,9 @@ export const register = axios.create({
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });
+
+export const main = axios.create({
+  baseURL: `/`,
+  withCredentials: true,
+  validateStatus: (status) => status >= 200 && status < 500,
+});

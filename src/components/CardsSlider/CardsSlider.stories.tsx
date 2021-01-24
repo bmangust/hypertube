@@ -3,7 +3,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 import CardsSlider, { CardsSliderProps } from './CardsSlider';
-import { cards } from '../../mocks';
+import { cards } from '../../mock/mocks';
 
 export default {
   title: 'CardsSlider',
