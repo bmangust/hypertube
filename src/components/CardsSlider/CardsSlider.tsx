@@ -1,10 +1,11 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import MovieCard, { MovieCardProps } from '../MovieCard/MovieCard';
+import MovieCard from '../MovieCard/MovieCard';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 export interface CardsSliderProps {
-  cards: MovieCardProps[];
   display?: 'name' | 'image';
 }
 
@@ -30,11 +31,11 @@ const useStyles = makeStyles({
 });
 
 const CardsSlider: React.FC<CardsSliderProps> = ({
-  cards,
   display = 'image',
 }: CardsSliderProps) => {
   const classes = useStyles();
   const history = useHistory();
+  const { movies } = useSelector((state: RootState) => state.UI);
 
   const handleCardClick = (id: string): void => {
     history.push(`/movies/${id}`);
@@ -42,7 +43,7 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
 
   return (
     <Grid container alignItems="center" className={classes.root}>
-      {cards.map((card, index) => (
+      {movies.map((card, index) => (
         <MovieCard
           display={display}
           onClick={() => handleCardClick(card.id)}

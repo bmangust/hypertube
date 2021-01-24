@@ -9,7 +9,7 @@ export interface MovieCardProps extends IMovie {
   onClick?: () => void;
 }
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles({
   root: {
     maxWidth: 300,
     cursor: 'pointer',
@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '1rem',
     fontWeight: 800,
   },
-}));
+});
 
 const MovieCard: React.FC<MovieCardProps> = ({
   display = 'image',

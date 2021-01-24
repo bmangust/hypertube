@@ -1,12 +1,12 @@
 import { Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useParams } from 'react-router';
-import { cards } from '../../mock/mocks';
 import { IUser } from '../../models/MovieInfo';
 import HorizontalGrid from '../HorizontalGrid/HorizontalGrid';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 interface TParams {
   id: string;
@@ -56,9 +56,8 @@ const useStyles = makeStyles({
 
 const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
-  const params = useParams();
-  const movie = cards.find((movie) => movie.id === match.params.id);
-  console.log(params, cards, movie);
+  const { movies } = useSelector((state: RootState) => state.UI);
+  const movie = movies.find((movie) => movie.id === match.params.id);
   if (!movie) return null;
 
   const mapItemsToLinks = (

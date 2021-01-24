@@ -3,7 +3,6 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 import CardsSlider, { CardsSliderProps } from './CardsSlider';
-import { cards } from '../../mock/mocks';
 
 export default {
   title: 'CardsSlider',
@@ -13,6 +12,3 @@ export default {
 const Template: Story<CardsSliderProps> = (args) => <CardsSlider {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-  cards: cards,
-};
