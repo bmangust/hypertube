@@ -9,6 +9,8 @@ import './i18n';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
+if (process.env.NODE_ENV === 'production') console.log = () => {};
+
 const render = () => {
   const App = require('./App').default;
 
@@ -22,7 +24,7 @@ const render = () => {
         </BrowserRouter>
       </ThemeProvider>
     </Provider>,
-    // </React.StrictMode>
+    // </React.StrictMode>,
     document.getElementById('root')
   );
 };

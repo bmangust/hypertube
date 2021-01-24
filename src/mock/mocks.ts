@@ -27,6 +27,18 @@ export const cards: IMovie[] = [
         "Carol Danvers becomes one of the universe's most powerful heroes when Earth is caught in the middle of a galactic war between two alien races.",
       photos: [image1, image2, image3, image4],
       videos: [video1, video2, video3],
+      comments: [
+        {
+          id: 1,
+          text: 'hello',
+          authorId: 1,
+        },
+        {
+          id: 2,
+          text: 'nice movie',
+          authorId: 2,
+        },
+      ],
     },
   },
   {
