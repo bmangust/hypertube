@@ -7,6 +7,7 @@ export interface IMovie {
 }
 
 export interface IMovieInfo {
+  avalibility: number;
   year: number;
   genres: string[];
   rating: number;
