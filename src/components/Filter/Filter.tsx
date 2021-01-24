@@ -36,15 +36,20 @@ const useStyles = makeStyles({
 });
 
 interface IGenres {
+  Arthouse: boolean;
   Action: boolean;
   Comedy: boolean;
   Comics: boolean;
+  Detective: boolean;
   Drama: boolean;
   Fantasy: boolean;
   Family: boolean;
   Horror: boolean;
+  Melodrama: boolean;
+  Musical: boolean;
   Romance: boolean;
   'Sci-Fi': boolean;
+  Sport: boolean;
   Thriller: boolean;
   Western: boolean;
 }
@@ -79,15 +84,20 @@ const buttons: ['genres', 'years', 'countries'] = [
 ];
 const items = {
   genres: [
+    'Arthouse',
     'Action',
     'Comedy',
     'Comics',
+    'Detective',
     'Drama',
     'Fantasy',
     'Family',
     'Horror',
+    'Melodrama',
+    'Musical',
     'Romance',
     'Sci-Fi',
+    'Sport',
     'Thriller',
     'Western',
   ] as GenresKeys[],
@@ -116,15 +126,20 @@ const items = {
 
 const initialFilterState = {
   genres: {
+    Arthouse: false,
     Action: false,
     Comedy: false,
     Comics: false,
+    Detective: false,
     Drama: false,
     Fantasy: false,
     Family: false,
     Horror: false,
+    Melodrama: false,
+    Musical: false,
     Romance: false,
     'Sci-Fi': false,
+    Sport: false,
     Thriller: false,
     Western: false,
   },
@@ -180,7 +195,7 @@ const Filter = () => {
   const getCheckboxes = (category: string): JSX.Element[] | null => {
     switch (category) {
       case 'genres':
-        return items.genres.map((item) => (
+        return items.genres.map((item: GenresKeys) => (
           <Grid key={item} item xs={6} sm={4}>
             <FormControlLabel
               control={
