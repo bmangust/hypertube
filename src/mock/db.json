@@ -23,13 +23,17 @@
         "comments": [
           {
             "id": 1,
-            "text": "hello",
-            "authorId": 1
+            "text": "Carol Danvers becomes one of the universe's most powerful heroes when Earth is caught in the middle of a galactic war between two alien races.",
+            "authorId": 1,
+            "username": "Anakin",
+            "avatar": "https://randomuser.me/api/portraits/men/2.jpg"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea",
+            "avatar": "https://randomuser.me/api/portraits/women/2.jpg"
           }
         ]
       }
@@ -52,12 +56,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -79,12 +85,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -106,12 +114,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -133,12 +143,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 3,
+            "username": "DarthVader"
           }
         ]
       }
@@ -160,12 +172,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -183,18 +197,7 @@
         "views": 123000,
         "length": 123,
         "pgRating": "PG-13",
-        "comments": [
-          {
-            "id": 1,
-            "text": "hello",
-            "authorId": 1
-          },
-          {
-            "id": 2,
-            "text": "nice movie",
-            "authorId": 2
-          }
-        ]
+        "comments": []
       }
     },
     {
@@ -209,19 +212,7 @@
         "rating": 4.9,
         "views": 9123000,
         "length": 123,
-        "pgRating": "PG-6",
-        "comments": [
-          {
-            "id": 1,
-            "text": "hello",
-            "authorId": 1
-          },
-          {
-            "id": 2,
-            "text": "nice movie",
-            "authorId": 2
-          }
-        ]
+        "pgRating": "PG-6"
       }
     },
     {
@@ -236,19 +227,7 @@
         "rating": 1.4,
         "views": 987654,
         "length": 123,
-        "pgRating": "PG-13",
-        "comments": [
-          {
-            "id": 1,
-            "text": "hello",
-            "authorId": 1
-          },
-          {
-            "id": 2,
-            "text": "nice movie",
-            "authorId": 2
-          }
-        ]
+        "pgRating": "PG-13"
       }
     },
     {
@@ -268,12 +247,62 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
+          },
+          {
+            "id": 1,
+            "text": "hello",
+            "authorId": 1,
+            "username": "Anakin"
+          },
+          {
+            "id": 2,
+            "text": "nice movie",
+            "authorId": 2,
+            "username": "Lea"
+          },
+          {
+            "id": 1,
+            "text": "hello",
+            "authorId": 1,
+            "username": "Anakin"
+          },
+          {
+            "id": 2,
+            "text": "nice movie",
+            "authorId": 2,
+            "username": "Lea"
+          },
+          {
+            "id": 1,
+            "text": "hello",
+            "authorId": 1,
+            "username": "Anakin"
+          },
+          {
+            "id": 2,
+            "text": "nice movie",
+            "authorId": 2,
+            "username": "Lea"
+          },
+          {
+            "id": 1,
+            "text": "hello",
+            "authorId": 1,
+            "username": "Anakin"
+          },
+          {
+            "id": 2,
+            "text": "nice movie",
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -295,12 +324,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -322,12 +353,14 @@
           {
             "id": 1,
             "text": "hello",
-            "authorId": 1
+            "authorId": 1,
+            "username": "Anakin"
           },
           {
             "id": 2,
             "text": "nice movie",
-            "authorId": 2
+            "authorId": 2,
+            "username": "Lea"
           }
         ]
       }
@@ -336,21 +369,21 @@
   "users": [
     {
       "id": 2,
-      "username": "Max",
-      "avatar": "https://randomuser.me/api/portraits/men/2.jpg",
-      "email": "max@gmail.com"
+      "username": "Lea",
+      "avatar": "https://randomuser.me/api/portraits/women/2.jpg",
+      "email": "lea@gmail.com"
     },
     {
       "id": 3,
-      "username": "Alex",
+      "username": "DarthVader",
       "avatar": "https://randomuser.me/api/portraits/men/3.jpg",
-      "email": "alex@gmail.com"
+      "email": "vader@gmail.com"
     }
   ],
   "profile": {
     "id": 1,
-    "username": "Kate",
-    "avatar": "https://randomuser.me/api/portraits/women/1.jpg",
-    "email": "alex@gmail.com"
+    "username": "Anakin",
+    "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
+    "email": "anakin@gmail.com"
   }
 }

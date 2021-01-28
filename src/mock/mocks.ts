@@ -1,4 +1,3 @@
-import { ILink } from '../components/Nav/Nav';
 import { IMovie } from '../models/MovieInfo';
 import image1 from '../images/image_1.jpeg';
 import image2 from '../images/image_2.jpeg';
@@ -18,7 +17,8 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.3,
       year: 2000,
-      genres: ['comedy', 'action', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
+      country: ['USA'],
       rating: 3.4,
       views: 123000,
       length: 123,
@@ -32,11 +32,15 @@ export const cards: IMovie[] = [
           id: 1,
           text: 'hello',
           authorId: 1,
+          username: 'Alex',
+          avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
         },
         {
           id: 2,
           text: 'nice movie',
           authorId: 2,
+          username: 'Lee',
+          avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
         },
       ],
     },
@@ -50,7 +54,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.1,
       year: 2004,
-      genres: ['fantasy', 'epic'],
+      genres: ['Fantasy', 'Adventure'],
       rating: 4.9,
       views: 9123000,
       length: 123,
@@ -67,7 +71,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.5,
       year: 1994,
-      genres: ['action', 'sci-fi'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 1.4,
       views: 987654,
       length: 123,
@@ -83,7 +87,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.8,
       year: 2000,
-      genres: ['comedy', 'action', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 3.4,
       views: 123000,
       length: 123,
@@ -99,7 +103,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.23,
       year: 2004,
-      genres: ['fantasy', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 4.9,
       views: 9123000,
       length: 123,
@@ -114,7 +118,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.56,
       year: 1994,
-      genres: ['action', 'sci-fi'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 1.4,
       views: 987654,
       length: 123,
@@ -130,7 +134,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.51,
       year: 2000,
-      genres: ['comedy', 'action', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 3.4,
       views: 123000,
       length: 123,
@@ -146,7 +150,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.11,
       year: 2004,
-      genres: ['fantasy', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 4.9,
       views: 9123000,
       length: 123,
@@ -161,7 +165,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.71,
       year: 1994,
-      genres: ['action', 'sci-fi'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 1.4,
       views: 987654,
       length: 123,
@@ -177,7 +181,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.1,
       year: 2000,
-      genres: ['comedy', 'action', 'epic'],
+      genres: ['Action', 'Sci-Fi'],
       rating: 3.4,
       views: 123000,
       length: 123,
@@ -193,7 +197,7 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.01,
       year: 2004,
-      genres: ['fantasy', 'epic'],
+      genres: ['Western', 'Drama'],
       rating: 4.9,
       views: 9123000,
       length: 123,
@@ -208,18 +212,11 @@ export const cards: IMovie[] = [
     info: {
       avalibility: 0.21,
       year: 1994,
-      genres: ['action', 'sci-fi'],
+      genres: ['Detective'],
       rating: 1.4,
       views: 987654,
       length: 123,
       pgRating: 'PG-13',
     },
   },
-];
-
-export const links: ILink[] = [
-  { id: 0, to: '/', name: 'home' },
-  { id: 1, to: '/films', name: 'films' },
-  { id: 2, to: '/series', name: 'series' },
-  { id: 3, to: '/new', name: 'new' },
 ];

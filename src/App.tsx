@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import Header from './components/Header/Header';
-import { links } from './mock/mocks';
 import Nav from './components/Nav/Nav';
 import { theme } from './theme';
 import { Switch, Route } from 'react-router-dom';
@@ -39,7 +38,7 @@ function App() {
     <Container className={classes.root}>
       <Container className={classes.Wrapper}>
         <Header />
-        <Nav links={links} />
+        <Nav />
         <Switch>
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />

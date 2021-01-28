@@ -11,8 +11,15 @@ export interface ILink {
 }
 
 export interface NavProps {
-  links: ILink[];
+  links?: ILink[];
 }
+
+const defaultLinks: ILink[] = [
+  { id: 0, to: '/', name: 'home' },
+  { id: 1, to: '/films', name: 'films' },
+  { id: 2, to: '/series', name: 'series' },
+  { id: 3, to: '/new', name: 'new' },
+];
 
 const useStyles = makeStyles({
   root: {
@@ -29,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Nav = ({ links }: NavProps) => {
+const Nav: React.FC<NavProps> = ({ links = defaultLinks }) => {
   const classes = useStyles();
   const location = useLocation();
 

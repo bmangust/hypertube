@@ -1,3 +1,5 @@
+import { CountriesKeys, GenresKeys } from '../store/features/FilterSlice';
+
 export interface IMovie {
   id: string;
   name: string;
@@ -9,10 +11,11 @@ export interface IMovie {
 export interface IMovieInfo {
   avalibility: number;
   year: number;
-  genres: string[];
+  genres: GenresKeys[];
   rating: number;
   views: number;
   length: number;
+  country?: CountriesKeys[];
   pgRating: string;
   comments?: IComment[];
   description?: string;
@@ -27,6 +30,13 @@ export interface IMovieInfo {
   music?: IUser[];
   cinematography?: IUser[];
   filmEditing?: IUser[];
+}
+export interface IComment {
+  id: number;
+  authorId: number;
+  username: string;
+  avatar: string;
+  text: string;
 }
 
 export interface IUser {
@@ -53,10 +63,4 @@ export interface IFilmography {
   id?: string;
   job: string; //'actor', 'director'...
   movies: IMovie[];
-}
-
-export interface IComment {
-  id: number;
-  authorId: number;
-  text: string;
 }

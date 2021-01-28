@@ -56,8 +56,8 @@ const HorizontalGrid = ({ sources, name, type }: Props) => {
       <CategoryHeader text={`${type}s`} />
       <Grid container wrap="nowrap" className={classes.HorizontalScroll}>
         {sources?.length
-          ? sources.map((item: string) => (
-              <GridItem key={item} src={item} name={name} type={type} />
+          ? sources.map((item: string, index: number) => (
+              <GridItem key={item + index} src={item} name={name} type={type} />
             ))
           : `No ${type}s`}
       </Grid>
