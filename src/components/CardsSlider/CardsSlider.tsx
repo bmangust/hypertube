@@ -33,7 +33,7 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
   display = 'image',
 }: CardsSliderProps) => {
   const classes = useStyles();
-  const { movies } = useSelector((state: RootState) => state.UI);
+  const { movies } = useSelector((state: RootState) => state.movies);
 
   return (
     <Grid container alignItems="center" className={classes.root}>

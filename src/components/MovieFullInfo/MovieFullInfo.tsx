@@ -1,5 +1,5 @@
 import { Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { IUser } from '../../models/MovieInfo';
 import HorizontalGrid from '../HorizontalGrid/HorizontalGrid';
@@ -7,6 +7,9 @@ import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
+import Comments from '../Comments/Comments';
+import { useAppDispatch } from '../../store/store';
+import { loadMovie } from '../../store/features/MoviesSlice';
 
 interface TParams {
   id: string;
@@ -56,9 +59,15 @@ const useStyles = makeStyles({
 
 const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
-  const { movies } = useSelector((state: RootState) => state.UI);
+  const dispatch = useAppDispatch();
+  const { movies } = useSelector((state: RootState) => state.movies);
   const movie = movies.find((movie) => movie.id === match.params.id);
-  if (!movie) return null;
+
+  // if no movies in redux - load one
+  useEffect(() => {
+    if (!movie) dispatch(loadMovie(+match.params.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const mapItemsToLinks = (
     items: (string | IUser)[] | undefined
@@ -74,6 +83,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
     });
   };
 
+  if (!movie) return null;
   return (
     <Grid container direction="column" className={classes.root}>
       <Typography variant="h2" className={classes.Header}>
@@ -123,6 +133,8 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
         <Typography variant="body1" className={classes.Description}>
           {movie.info.description || 'No info'}
         </Typography>
+        <Divider className={classes.Divider} />
+        <Comments comments={movie.info.comments} />
         <Divider className={classes.Divider} />
         <HorizontalGrid
           sources={movie.info.photos}

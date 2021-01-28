@@ -7,8 +7,10 @@ import { debounce } from 'lodash';
 import { useAppDispatch } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import { IMovie } from '../../models/MovieInfo';
-import { loadMovies } from '../../store/features/UISlice';
+import { loadMovies } from '../../store/features/MoviesSlice';
 import MovieCard from '../MovieCard/MovieCard';
+
+const LIMIT = +(process.env.REACT_APP_LOAD_LIMIT || 5);
 
 const sortByName = (movies: IMovie[]) => {
   return [...movies].sort((cardA, cardB) =>
@@ -30,7 +32,8 @@ const sortByAvalibility = (movies: IMovie[]) => {
 };
 
 const Cards = () => {
-  const { sortBy, view, movies } = useSelector((state: RootState) => state.UI);
+  const { sortBy, view } = useSelector((state: RootState) => state.UI);
+  const { movies } = useSelector((state: RootState) => state.movies);
   const [sortedCards, setSortedCards] = useState(movies);
   const dispatch = useAppDispatch();
   const isEndOfMoviesRef = useRef(false);
@@ -48,11 +51,13 @@ const Cards = () => {
     ) {
       if (!isEndOfMovies) {
         dispatch(
-          loadMovies(
-            5,
-            movies.length,
-            (result: boolean) => (isEndOfMoviesRef.current = result)
-          )
+          loadMovies({
+            filter: {
+              _limit: LIMIT,
+              _start: movies.length,
+            },
+            callback: (result: boolean) => (isEndOfMoviesRef.current = result),
+          })
         );
       }
     }
@@ -60,7 +65,7 @@ const Cards = () => {
 
   // load movies on component mount
   useEffect(() => {
-    dispatch(loadMovies(5));
+    dispatch(loadMovies({ filter: { _limit: LIMIT } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
