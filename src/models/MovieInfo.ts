@@ -18,6 +18,7 @@ export interface IMovieInfo {
   country?: CountriesKeys[];
   pgRating: string;
   comments?: IComment[];
+  commentIds?: string[];
   description?: string;
   photos?: string[];
   videos?: string[];
@@ -32,10 +33,9 @@ export interface IMovieInfo {
   filmEditing?: IUser[];
 }
 export interface IComment {
-  id: number;
-  authorId: number;
+  id: string;
   username: string;
-  avatar: string;
+  avatar?: string;
   text: string;
 }
 

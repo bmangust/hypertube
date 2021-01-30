@@ -29,16 +29,14 @@ export const cards: IMovie[] = [
       videos: [video1, video2, video3],
       comments: [
         {
-          id: 1,
+          id: '1',
           text: 'hello',
-          authorId: 1,
           username: 'Alex',
           avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
         },
         {
-          id: 2,
+          id: '2',
           text: 'nice movie',
-          authorId: 2,
           username: 'Lee',
           avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
         },

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Avatar, Grid, makeStyles, Typography } from '@material-ui/core';
 import { IComment } from '../../../models/MovieInfo';
 import { primaryColor } from '../../../theme';
@@ -10,14 +9,10 @@ const useStyles = makeStyles({
     padding: 10,
     marginBottom: 5,
   },
-  Link: {
-    textDecoration: 'none',
-    color: 'inherit',
-    marginBottom: 10,
-  },
   h4: {
     fontWeight: 700,
     fontSize: '1rem',
+    marginBottom: 10,
   },
   Image: {
     marginRight: 10,
@@ -29,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Comment: React.FC<IComment> = ({ authorId, username, text, avatar }) => {
+const Comment: React.FC<IComment> = ({ username, text, avatar }) => {
   const classes = useStyles();
 
   return (
@@ -42,11 +37,9 @@ const Comment: React.FC<IComment> = ({ authorId, username, text, avatar }) => {
         {username.substr(0, 2)}
       </Avatar>
       <Grid>
-        <Link to={`/users/${authorId}`} className={classes.Link}>
-          <Typography variant="h4" className={classes.h4}>
-            {username}
-          </Typography>
-        </Link>
+        <Typography variant="h4" className={classes.h4}>
+          {username}
+        </Typography>
         <Typography variant="body2" className={classes.Text}>
           {text}
         </Typography>

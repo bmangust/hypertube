@@ -134,7 +134,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
           {movie.info.description || 'No info'}
         </Typography>
         <Divider className={classes.Divider} />
-        <Comments comments={movie.info.comments} />
+        <Comments commentIds={movie.info.commentIds} movieId={movie.id} />
         <Divider className={classes.Divider} />
         <HorizontalGrid
           sources={movie.info.photos}
