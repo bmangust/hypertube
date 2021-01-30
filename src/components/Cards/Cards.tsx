@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
-import { debounce } from 'lodash';
-
 import { useAppDispatch } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import { IMovie } from '../../models/MovieInfo';
 import { loadMovies } from '../../store/features/MoviesSlice';
 import MovieCard from '../MovieCard/MovieCard';
+import { throttledDetectBottomLine } from '../../utils';
 
 const LIMIT = +(process.env.REACT_APP_LOAD_LIMIT || 5);
 
@@ -37,19 +36,18 @@ const Cards = () => {
   const [sortedCards, setSortedCards] = useState(movies);
   const dispatch = useAppDispatch();
   const isEndOfMoviesRef = useRef(false);
+  const gridRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * find scroll position at the end of scroll action
-   * load new movies if any
-   * isEndOfMoviesRef.current is updated in a callback after fetched result
-   */
-  const debouncedTrackScrolling = debounce(() => {
-    const isEndOfMovies = isEndOfMoviesRef?.current || false;
-    if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 10
-    ) {
-      if (!isEndOfMovies) {
+  // load movies on component mount
+  useEffect(() => {
+    dispatch(loadMovies({ filter: { _limit: LIMIT } }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // track scroll position and load movies if at the bottom
+  useEffect(() => {
+    const endOfMoviesCallback = () => {
+      if (!isEndOfMoviesRef.current) {
         dispatch(
           loadMovies({
             filter: {
@@ -60,20 +58,13 @@ const Cards = () => {
           })
         );
       }
-    }
-  }, 500);
-
-  // load movies on component mount
-  useEffect(() => {
-    dispatch(loadMovies({ filter: { _limit: LIMIT } }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // track scroll position and load movies if at the bottom
-  useEffect(() => {
-    window.addEventListener('scroll', debouncedTrackScrolling);
-    return () => window.removeEventListener('scroll', debouncedTrackScrolling);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    };
+    const trackScrolling = throttledDetectBottomLine(
+      gridRef.current,
+      endOfMoviesCallback
+    );
+    window.addEventListener('scroll', trackScrolling);
+    return () => window.removeEventListener('scroll', trackScrolling);
   }, [movies.length, dispatch]);
 
   // sort movies on <sortBy> change
@@ -87,7 +78,7 @@ const Cards = () => {
   }, [sortBy, movies]);
 
   return (
-    <Grid container justify="space-evenly">
+    <Grid ref={gridRef} container justify="space-evenly">
       {sortedCards.map((card) => (
         <MovieCard key={card.id} card={card} display={view} />
       ))}
