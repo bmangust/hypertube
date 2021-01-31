@@ -69,7 +69,7 @@ const Register = () => {
         rules: {
           helperText: 'invalid email',
           rule: {
-            minLength: 3,
+            minLength: 6,
             maxLength: 40,
             regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
           },
@@ -92,9 +92,9 @@ const Register = () => {
           helperText:
             'Use at least one lower- and uppercase letter, number and symbol. Min length 4',
           rule: {
-            minLength: 4,
-            maxLength: 20,
-            regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{4,}$/,
+            minLength: 6,
+            maxLength: 25,
+            regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
           },
         },
       },
