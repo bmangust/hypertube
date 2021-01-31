@@ -7,8 +7,8 @@ export const auth = axios.create({
   validateStatus: (status) => status >= 200 && status < 500,
 });
 
-export const user = axios.create({
-  baseURL: `/api/user/`,
+export const profile = axios.create({
+  baseURL: `/api/profile/`,
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });
