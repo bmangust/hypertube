@@ -2,7 +2,7 @@ import axios from 'axios';
 export const CancelToken = axios.CancelToken;
 
 export const auth = axios.create({
-  baseURL: `/api/user/auth/`,
+  baseURL: `/api/auth/`,
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });
