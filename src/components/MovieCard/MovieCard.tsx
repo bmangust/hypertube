@@ -13,7 +13,7 @@ export interface MovieCardProps {
 
 export const useStyles = makeStyles({
   root: {
-    cursor: 'pointer',
+    // cursor: 'pointer',
   },
   Grid: {
     maxWidth: 150,

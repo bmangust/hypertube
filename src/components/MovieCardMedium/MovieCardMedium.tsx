@@ -8,8 +8,10 @@ import {
 } from '@material-ui/core';
 import { PlayArrow, StarBorder } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
-import { NavLink } from 'react-router-dom';
-import { IMovie } from '../../models/MovieInfo';
+import { Link, NavLink } from 'react-router-dom';
+import { IMovie, IUser } from '../../models/MovieInfo';
+import { useTranslation } from 'react-i18next';
+import { primaryColor } from '../../theme';
 
 interface MovieCardMediumProps {
   card: IMovie;
@@ -26,6 +28,7 @@ const useStyles = makeStyles({
   },
   Img: {
     position: 'relative',
+    cursor: 'pointer',
     '& img': {
       height: '15rem',
       width: '10rem',
@@ -76,9 +79,13 @@ const useStyles = makeStyles({
   },
   Caption: {
     fontSize: '1.5rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    marginBottom: 10,
   },
   Text: {
     fontSize: '1rem',
+    fontWeight: 200,
   },
   Description: {
     maxHeight: '8rem',
@@ -95,12 +102,23 @@ const useStyles = makeStyles({
     bottom: 0,
     background: 'linear-gradient(0deg, #ffffff, #ffffff33)',
   },
+  Link: {
+    marginLeft: 5,
+    fontSize: 'inherit',
+    fontWeight: 'inherit',
+    color: 'inherit',
+    textTransform: 'capitalize',
+    '&:hover': {
+      color: primaryColor.light,
+    },
+  },
 });
 
 const MovieCardMedium = ({
   card: { id, name, img, info },
 }: MovieCardMediumProps) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [rating, setRating] = useState(info.rating);
 
   const handleRatingChange = (
@@ -109,6 +127,20 @@ const MovieCardMedium = ({
   ) => {
     e.stopPropagation();
     newRating !== null && setRating(newRating);
+  };
+
+  const mapItemsToLinks = (
+    items: (string | IUser)[] | undefined
+  ): JSX.Element[] | string => {
+    if (!items || !items.length) return t('No info');
+    return items.map((item: string | IUser) => {
+      const text = typeof item === 'string' ? item : item.name;
+      return (
+        <Link to={`/genres/${text}`} key={text} className={classes.Link}>
+          {t(text)}
+        </Link>
+      );
+    });
   };
 
   return (
@@ -120,10 +152,12 @@ const MovieCardMedium = ({
         </div>
       </NavLink>
       <Grid container direction="column" className={classes.Info}>
-        <Grid container alignItems="center" justify="space-between">
-          <Typography variant="caption" className={classes.Caption}>
-            {name}
-          </Typography>
+        <Grid container alignItems="baseline" justify="space-between">
+          <NavLink to={`/movies/${id}`} className={classes.Caption}>
+            <Typography variant="caption" className={classes.Caption}>
+              {name}
+            </Typography>
+          </NavLink>
           <Rating
             value={rating}
             name={`${id}-${name.replace(' ', '-')}-rating`}
@@ -131,21 +165,21 @@ const MovieCardMedium = ({
             onChange={handleRatingChange}
           />
         </Grid>
+        {/* <Divider /> */}
+        <Grid container className={classes.Text}>
+          {t('Year')}: {info.year}
+        </Grid>
+        <Grid container className={classes.Text}>
+          {t('Genres')}: {mapItemsToLinks(info.genres)}
+        </Grid>
+        <Grid container className={classes.Text}>
+          {t('Length')}: {info.length} {t('min')}
+        </Grid>
         <Divider />
-        <Typography variant="caption" className={classes.Text}>
-          Year: {info.year}
-        </Typography>
-        <Typography variant="caption" className={classes.Text}>
-          Genres: {info.genres.join(', ')}
-        </Typography>
-        <Typography variant="caption" className={classes.Text}>
-          Length: {info.length} min
-        </Typography>
-        <Divider />
-        <Typography variant="caption" className={classes.Description}>
+        <Grid container className={classes.Description}>
           {info.description}
           <div className={classes.Shadow} />
-        </Typography>
+        </Grid>
       </Grid>
     </Paper>
   );

@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import MovieFullInfo from './components/MovieFullInfo/MovieFullInfo';
+import Footer from './components/Footer/Footer';
 
 const useStyles = makeStyles({
   root: {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/movies/:id" component={MovieFullInfo} />
           <Route path="/" component={MainPage} />
         </Switch>
+        <Footer />
       </Container>
     </Container>
   );

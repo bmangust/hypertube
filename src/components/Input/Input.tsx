@@ -114,9 +114,10 @@ const Input = ({
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('');
 
-  const { helperText, rule } = rules
-    ? { ...rules }
-    : { ...{ helperText: '', rule: null } };
+  const { helperText, rule } = React.useMemo(
+    () => (rules ? { ...rules } : { ...{ helperText: '', rule: null } }),
+    [rules]
+  );
 
   useEffect(() => {
     console.log(touched, error, value);
@@ -129,7 +130,7 @@ const Input = ({
     onValidate &&
       onValidate((ignoreUntouched || touched || !!value.length) && !err);
     if (error !== err) setError(err);
-  }, [value, touched, helperText, onValidate, ignoreUntouched, error]);
+  }, [value, touched, rule, helperText, onValidate, ignoreUntouched, error]);
 
   switch (type) {
     // case 'number':

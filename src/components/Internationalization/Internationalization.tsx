@@ -1,20 +1,23 @@
-import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-interface Props {}
+const languages = ['en', 'ru'];
 
-const Internationalization = (props: Props) => {
+const Internationalization = () => {
+  const [lang, setLang] = useState(0);
+  const nextLang = (lang + 1) % languages.length;
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+  const handleClick = () => {
+    i18n.changeLanguage(languages[nextLang]);
+    setLang(nextLang);
   };
   return (
     <div>
-      <Typography>{t('Welcome')}</Typography>
-      <Button onClick={() => changeLanguage('en')}>en</Button>
-      <Button onClick={() => changeLanguage('fr')}>fr</Button>
+      <Button onClick={handleClick}>{`${t('translate')} ${t(
+        languages[nextLang]
+      )}`}</Button>
     </div>
   );
 };

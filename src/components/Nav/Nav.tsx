@@ -1,7 +1,8 @@
-import { Button, Grid, makeStyles } from '@material-ui/core';
+import { Button, ButtonGroup, Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { theme } from '../../theme';
+import { useTranslation } from 'react-i18next';
 
 export interface ILink {
   id: number;
@@ -15,10 +16,10 @@ export interface NavProps {
 }
 
 const defaultLinks: ILink[] = [
-  { id: 0, to: '/', name: 'home' },
-  { id: 1, to: '/films', name: 'films' },
-  { id: 2, to: '/series', name: 'series' },
-  { id: 3, to: '/new', name: 'new' },
+  { id: 0, to: '/', name: 'navHome' },
+  { id: 1, to: '/films', name: 'navFilms' },
+  { id: 2, to: '/series', name: 'navSeries' },
+  { id: 3, to: '/new', name: 'navNew' },
 ];
 
 const useStyles = makeStyles({
@@ -26,9 +27,6 @@ const useStyles = makeStyles({
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
-  },
-  Button: {
-    borderRadius: 0,
   },
   Link: {
     textDecoration: 'none',
@@ -39,20 +37,23 @@ const useStyles = makeStyles({
 const Nav: React.FC<NavProps> = ({ links = defaultLinks }) => {
   const classes = useStyles();
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <Grid className={classes.root} container justify="center">
-      {links.map((link) => (
-        <NavLink key={link.id} to={link.to} className={classes.Link}>
+      <ButtonGroup style={{ marginBottom: 20 }}>
+        {links.map(({ id, to, highlight, name }) => (
           <Button
-            className={classes.Button}
-            variant={location.pathname === link.to ? 'contained' : 'outlined'}
-            color={link.highlight ? 'secondary' : 'primary'}
+            key={id}
+            component={NavLink}
+            to={to}
+            variant={location.pathname === to ? 'contained' : 'outlined'}
+            color={highlight ? 'secondary' : 'primary'}
           >
-            {link.name}
+            {t(name)}
           </Button>
-        </NavLink>
-      ))}
+        ))}
+      </ButtonGroup>
     </Grid>
   );
 };

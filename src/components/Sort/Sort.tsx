@@ -4,36 +4,38 @@ import { SortRounded } from '@material-ui/icons';
 import { useAppDispatch } from '../../store/store';
 import { setSortingBy } from '../../store/features/UISlice';
 import Dropdown, { IItem } from '../Dropdown/Dropdown';
+import { useTranslation } from 'react-i18next';
 
 const Sort = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) =>
     dispatch(setSortingBy({ sortBy: e.currentTarget.name }));
 
   const items = [
     {
-      text: 'By rating',
+      text: t('By rating'),
       name: 'rating',
       onClick,
     },
     {
-      text: 'By name',
+      text: t('By name'),
       name: 'name',
       onClick,
     },
     {
-      text: 'By year',
+      text: t('By year'),
       name: 'year',
       onClick,
     },
     {
-      text: 'By avalibility',
+      text: t('By avalibility'),
       name: 'avalibility',
       onClick,
     },
   ] as IItem[];
 
-  return <Dropdown heroText="Sort" icon={<SortRounded />} items={items} />;
+  return <Dropdown heroText={t('Sort')} icon={<SortRounded />} items={items} />;
 };
 
 export default Sort;

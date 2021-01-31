@@ -43,6 +43,7 @@ export interface ICountries {
   Spain: boolean;
   USA: boolean;
   USSR: boolean;
+  other: boolean;
 }
 export type CountriesKeys = keyof ICountries;
 
@@ -85,6 +86,7 @@ export const items = {
     'Spain',
     'USA',
     'USSR',
+    'other',
   ] as CountriesKeys[],
   // additional: ['subtitles', 'HD', 'Multi-audio'],
 };
@@ -157,6 +159,7 @@ const initialState = {
     Spain: false,
     USA: false,
     USSR: false,
+    other: false,
   },
   // additional: { subtitles: false, HD: false, 'Multi-audio': false },
 };

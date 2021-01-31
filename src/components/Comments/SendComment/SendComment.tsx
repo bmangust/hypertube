@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
-    padding: '2rem 1rem',
+    margin: '1rem 0',
     minWidth: '30rem',
   },
   Form: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
 const SendComment = () => {
   const classes = useStyles();
   const [comment, setComment] = React.useState('');
+  const { t } = useTranslation();
 
   const sendForm = () => {
     if (!comment.length) return;
@@ -41,7 +43,7 @@ const SendComment = () => {
           multiline
           name="comment"
           type="textarea"
-          placeholder="Leave a comment!"
+          placeholder={t`Leave a comment!`}
           className={classes.margin}
           size="small"
           onChange={(e) => setComment(e.currentTarget.value)}
@@ -49,7 +51,7 @@ const SendComment = () => {
           value={comment}
         />
         <Button type="submit" className={classes.margin} variant="contained">
-          Send
+          {t`Send`}
         </Button>
       </form>
     </Grid>

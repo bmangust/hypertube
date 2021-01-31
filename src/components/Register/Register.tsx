@@ -1,5 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { register } from '../../axios';
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
 const Register = () => {
   const [inputs, setInputs] = useState({
     email: '',
+    username: '',
     password: '',
     confirm: '',
   });
@@ -24,6 +26,7 @@ const Register = () => {
   });
   const formValid = valid.email && valid.password;
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -39,10 +42,8 @@ const Register = () => {
 
     const body = {
       email: inputs.email,
+      username: inputs.username,
       passwd: inputs.password,
-      first_name: 'fname',
-      last_name: 'lname',
-      displayname: 'displayname',
     };
     const res = await register.put('basic', body);
     console.log(res);
@@ -53,8 +54,8 @@ const Register = () => {
       {
         name: 'email',
         type: 'email',
-        label: 'Email',
-        placeholder: 'Enter email',
+        label: t('Email'),
+        placeholder: t('Enter email'),
         value: inputs.email,
         onChange: handleInput,
         size: 'small',
@@ -67,19 +68,50 @@ const Register = () => {
           [setValid]
         ),
         rules: {
-          helperText: 'invalid email',
-          rule: {
-            minLength: 6,
-            maxLength: 40,
-            regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
+          helperText: t('emailError'),
+          rule: useMemo(
+            () => ({
+              minLength: 6,
+              maxLength: 40,
+              regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
+            }),
+            []
+          ),
+        },
+      },
+      {
+        name: 'username',
+        type: 'text',
+        label: t('Username'),
+        placeholder: t('Enter username'),
+        value: inputs.username,
+        onChange: handleInput,
+        size: 'small',
+        fullWidth: true,
+        required: true,
+        onValidate: useCallback(
+          (isValid) => {
+            setValid((prev) => ({ ...prev, username: isValid }));
           },
+          [setValid]
+        ),
+        rules: {
+          helperText: t('usernameError'),
+          rule: useMemo(
+            () => ({
+              minLength: 3,
+              maxLength: 20,
+              regex: /^[\w%-+.]+$/,
+            }),
+            []
+          ),
         },
       },
       {
         name: 'password',
         type: 'password',
-        label: 'Password',
-        placeholder: 'Enter password',
+        label: t('Password'),
+        placeholder: t('Enter password'),
         value: inputs.password,
         onChange: handleInput,
         size: 'small',
@@ -89,20 +121,22 @@ const Register = () => {
           setValid((prev) => ({ ...prev, password: isValid }));
         }, []),
         rules: {
-          helperText:
-            'Use at least one lower- and uppercase letter, number and symbol. Min length 4',
-          rule: {
-            minLength: 6,
-            maxLength: 25,
-            regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
-          },
+          helperText: t('passwordError'),
+          rule: useMemo(
+            () => ({
+              minLength: 6,
+              maxLength: 25,
+              regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
+            }),
+            []
+          ),
         },
       },
       {
         name: 'confirm',
         type: 'password',
-        label: 'Confirm',
-        placeholder: 'Confirm password',
+        label: t('Confirm'),
+        placeholder: t('Confirm password'),
         value: inputs.confirm,
         onChange: handleInput,
         size: 'small',
@@ -112,12 +146,15 @@ const Register = () => {
           setValid((prev) => ({ ...prev, confirm: isValid }));
         }, []),
         rules: {
-          helperText: 'Confirm and password does not match',
-          rule: {
-            minLength: 3,
-            maxLength: 20,
-            regex: new RegExp(`^${inputs.password}$`),
-          },
+          helperText: t('confirmError'),
+          rule: useMemo(
+            () => ({
+              minLength: 3,
+              maxLength: 20,
+              regex: new RegExp(`^${inputs.password}$`),
+            }),
+            [inputs.password]
+          ),
         },
       },
     ] as IInputProps[],
@@ -126,13 +163,13 @@ const Register = () => {
         type: 'submit',
         variant: 'contained',
         onClick: handleSubmit,
-        text: 'Register',
+        text: t('Register'),
         disabled: !formValid,
       },
       {
         to: '/login',
         variant: 'outlined',
-        text: 'Login',
+        text: t('Login'),
       },
     ] as IButtonProps[],
   };

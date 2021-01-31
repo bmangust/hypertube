@@ -10,6 +10,8 @@ import { RootState } from '../../store/rootReducer';
 import Comments from '../Comments/Comments';
 import { useAppDispatch } from '../../store/store';
 import { loadMovie } from '../../store/features/MoviesSlice';
+import { useTranslation } from 'react-i18next';
+import { primaryColor } from '../../theme';
 
 interface TParams {
   id: string;
@@ -38,12 +40,17 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'flex-end',
     fontSize: 'inherit',
+    fontWeight: 200,
   },
   Link: {
     marginLeft: 5,
     fontSize: 'inherit',
+    color: 'inherit',
+    fontWeight: 'inherit',
     textTransform: 'capitalize',
-    textDecoration: 'none',
+    '&:hover': {
+      color: primaryColor.light,
+    },
   },
   Description: {
     marginTop: 10,
@@ -62,6 +69,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const dispatch = useAppDispatch();
   const { movies } = useSelector((state: RootState) => state.movies);
   const movie = movies.find((movie) => movie.id === match.params.id);
+  const { t } = useTranslation();
 
   // if no movies in redux - load one
   useEffect(() => {
@@ -72,12 +80,12 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const mapItemsToLinks = (
     items: (string | IUser)[] | undefined
   ): JSX.Element[] | string => {
-    if (!items || !items.length) return 'No info';
+    if (!items || !items.length) return t('No info');
     return items.map((item: string | IUser) => {
       const text = typeof item === 'string' ? item : item.name;
       return (
         <Link to={`/genres/${text}`} key={text} className={classes.Link}>
-          {text}
+          {t(text)}
         </Link>
       );
     });
@@ -97,29 +105,26 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
           alt={`${movie.name} poster`}
         />
         <Grid item container direction="column">
-          <Typography className={classes.MainInfoText}>
-            {`Production year: ${movie.info.year}`}
-          </Typography>
-          <Grid container wrap="nowrap" className={classes.MainInfoText}>
-            {'Genres: '}
-            {mapItemsToLinks(movie.info.genres)}
+          <Grid container className={classes.MainInfoText}>
+            {t`Year`}: {movie.info.year}
           </Grid>
-          <Typography className={classes.MainInfoText}>
-            {`Length: ${movie.info.length}min`}
-          </Typography>
-          <Typography className={classes.MainInfoText}>
-            {`Views: ${movie.info.views}`}
-          </Typography>
-          <Typography className={classes.MainInfoText}>
-            {`PG rating: ${movie.info.pgRating}`}
-          </Typography>
-          <Grid container wrap="nowrap" className={classes.MainInfoText}>
-            {'Directed: '}
-            {mapItemsToLinks(movie.info.directed)}
+          <Grid container className={classes.MainInfoText}>
+            {t`Genres`}: {mapItemsToLinks(movie.info.genres)}
           </Grid>
-          <Grid container wrap="nowrap" className={classes.MainInfoText}>
-            {'Actors: '}
-            {mapItemsToLinks(movie.info.cast)}
+          <Grid container className={classes.MainInfoText}>
+            {t`Length`}: {movie.info.length} {t`min`}
+          </Grid>
+          <Grid container className={classes.MainInfoText}>
+            {t`Views`}: {movie.info.views}
+          </Grid>
+          <Grid container className={classes.MainInfoText}>
+            {t`PG rating`}: {movie.info.pgRating}
+          </Grid>
+          <Grid container className={classes.MainInfoText}>
+            {t`Directed`}: {mapItemsToLinks(movie.info.directed)}
+          </Grid>
+          <Grid container className={classes.MainInfoText}>
+            {t`Actors`}: {mapItemsToLinks(movie.info.cast)}
           </Grid>
         </Grid>
       </Grid>
@@ -129,23 +134,27 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
         </Grid>
       )}
       <Grid container direction="column" className={classes.AdditionalInfo}>
-        <CategoryHeader text="About movie" />
+        <CategoryHeader text={t`About movie`} />
         <Typography variant="body1" className={classes.Description}>
-          {movie.info.description || 'No info'}
+          {movie.info.description || t`No info`}
         </Typography>
         <Divider className={classes.Divider} />
+        {movie.info.photos && (
+          <HorizontalGrid
+            sources={movie.info.photos}
+            name={movie.name}
+            type={'photo'}
+          />
+        )}
+        {movie.info.videos && (
+          <HorizontalGrid
+            sources={movie.info.videos}
+            name={movie.name}
+            type={'video'}
+          />
+        )}
+        {/* <Divider className={classes.Divider} /> */}
         <Comments commentIds={movie.info.commentIds} movieId={movie.id} />
-        <Divider className={classes.Divider} />
-        <HorizontalGrid
-          sources={movie.info.photos}
-          name={movie.name}
-          type={'photo'}
-        />
-        <HorizontalGrid
-          sources={movie.info.videos}
-          name={movie.name}
-          type={'video'}
-        />
       </Grid>
     </Grid>
   );

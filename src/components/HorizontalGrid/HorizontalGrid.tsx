@@ -1,5 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
 
 interface Props {
@@ -50,16 +51,17 @@ const GridItem: React.FC<GridItemProps> = ({
 
 const HorizontalGrid = ({ sources, name, type }: Props) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <Grid container direction="column" className={classes.root}>
-      <CategoryHeader text={`${type}s`} />
+      <CategoryHeader text={t(`${type}s`)} />
       <Grid container wrap="nowrap" className={classes.HorizontalScroll}>
         {sources?.length
           ? sources.map((item: string, index: number) => (
               <GridItem key={item + index} src={item} name={name} type={type} />
             ))
-          : `No ${type}s`}
+          : t`No info`}
       </Grid>
     </Grid>
   );

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadComments } from '../../store/features/MoviesSlice';
 import { debouncedDetectBottomLine } from '../../utils';
 import { RootState } from '../../store/rootReducer';
+import { useTranslation } from 'react-i18next';
 
 const LIMIT = 5;
 
@@ -18,6 +19,7 @@ export interface CommentsProps {
 const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const movie = useSelector((state: RootState) =>
     state.movies.movies.find((movie) => movie.id === movieId)
   );
@@ -80,13 +82,13 @@ const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
     ))
   ) : (
     <Typography variant="body1" style={{ fontSize: '1.3rem' }}>
-      No comments
+      {t`No comments`}
     </Typography>
   );
 
   return (
-    <Grid ref={gridRef} container direction="column">
-      <CategoryHeader text="Comments" />
+    <Grid ref={gridRef} style={{ marginTop: 10 }} container direction="column">
+      <CategoryHeader text={t`Comments`} />
       <SendComment />
       {content}
     </Grid>

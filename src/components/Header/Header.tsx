@@ -1,9 +1,10 @@
 import { ButtonProps, Grid, makeStyles } from '@material-ui/core';
 import { PersonOutlineRounded } from '@material-ui/icons';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import Login from '../Login/Login';
 import Search from '../Search/Search';
+import Internationalization from '../../components/Internationalization/Internationalization';
 const useStyles = makeStyles({
   root: {},
 });
@@ -20,7 +21,15 @@ const Header: React.FC = () => {
       <Grid item xs={2}>
         Logo
       </Grid>
-      <Grid container justify="flex-end" item xs={8}>
+      <Grid
+        container
+        justify="flex-end"
+        alignItems="center"
+        wrap="nowrap"
+        item
+        xs={8}
+      >
+        <Internationalization />
         <Search />
       </Grid>
       <Grid container alignItems="center" justify="center" item xs={1}></Grid>

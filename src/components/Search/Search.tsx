@@ -10,9 +10,8 @@ import {
 } from '@material-ui/core';
 import { SearchRounded } from '@material-ui/icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../../theme';
-
-interface Props {}
 
 const useStyles = makeStyles({
   root: {
@@ -53,10 +52,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Search = (props: Props) => {
+const Search = () => {
   const classes = useStyles();
   const [search, setSearch] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const { t } = useTranslation();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -89,7 +89,7 @@ const Search = (props: Props) => {
           classes={{ input: classes.BaseInput }}
           onChange={handleInput}
           onKeyPress={handleSearch}
-          placeholder="Search..."
+          placeholder={t('search')}
         />
         <SearchRounded className={classes.Icon} />
       </Grid>
@@ -119,7 +119,7 @@ const Search = (props: Props) => {
                 classes={{ input: classes.BaseInput }}
                 onChange={handleInput}
                 onKeyPress={handleSearch}
-                placeholder="Search..."
+                placeholder={t('search')}
               />
             </Paper>
           </Fade>

@@ -8,7 +8,7 @@
       "info": {
         "avalibility": 0.3,
         "year": 2000,
-        "genres": ["comedy", "action", "epic"],
+        "genres": ["Comedy", "Action", "Family"],
         "rating": 3.4,
         "views": 123000,
         "length": 123,
@@ -52,7 +52,7 @@
       "info": {
         "avalibility": 0.1,
         "year": 2004,
-        "genres": ["fantasy", "epic"],
+        "genres": ["Fantasy", "Family"],
         "rating": 4.9,
         "views": 9123000,
         "length": 123,
@@ -82,7 +82,7 @@
       "info": {
         "avalibility": 0.5,
         "year": 1994,
-        "genres": ["action", "sci-fi"],
+        "genres": ["Action", "Sci-Fi"],
         "rating": 1.4,
         "views": 987654,
         "length": 123,
@@ -98,7 +98,7 @@
       "info": {
         "avalibility": 0.8,
         "year": 2000,
-        "genres": ["comedy", "action", "epic"],
+        "genres": ["Comedy", "Action", "Family"],
         "rating": 3.4,
         "views": 123000,
         "length": 123,
@@ -113,7 +113,7 @@
       "info": {
         "avalibility": 0.23,
         "year": 2004,
-        "genres": ["fantasy", "epic"],
+        "genres": ["Fantasy", "Family"],
         "rating": 4.9,
         "views": 9123000,
         "length": 123,
@@ -128,7 +128,7 @@
       "info": {
         "avalibility": 0.56,
         "year": 1994,
-        "genres": ["action", "sci-fi"],
+        "genres": ["Action", "Sci-Fi"],
         "rating": 1.4,
         "views": 987654,
         "length": 123,
@@ -157,7 +157,7 @@
       "info": {
         "avalibility": 0.51,
         "year": 2000,
-        "genres": ["comedy", "action", "epic"],
+        "genres": ["Comedy", "Action", "Family"],
         "rating": 3.4,
         "views": 123000,
         "length": 123,
@@ -172,7 +172,7 @@
       "info": {
         "avalibility": 0.11,
         "year": 2004,
-        "genres": ["fantasy", "epic"],
+        "genres": ["Fantasy", "Family"],
         "rating": 4.9,
         "views": 9123000,
         "length": 123,
@@ -187,7 +187,7 @@
       "info": {
         "avalibility": 0.71,
         "year": 1994,
-        "genres": ["action", "sci-fi"],
+        "genres": ["Action", "Sci-Fi"],
         "rating": 1.4,
         "views": 987654,
         "length": 123,
@@ -202,7 +202,7 @@
       "info": {
         "avalibility": 0.1,
         "year": 2000,
-        "genres": ["comedy", "action", "epic"],
+        "genres": ["Comedy", "Action", "Family"],
         "rating": 3.4,
         "views": 123000,
         "length": 123,
@@ -217,7 +217,7 @@
       "info": {
         "avalibility": 0.01,
         "year": 2004,
-        "genres": ["fantasy", "epic"],
+        "genres": ["Fantasy", "Family"],
         "rating": 4.9,
         "views": 9123000,
         "length": 123,
@@ -246,7 +246,7 @@
       "info": {
         "avalibility": 0.21,
         "year": 1994,
-        "genres": ["action", "sci-fi"],
+        "genres": ["Action", "Sci-Fi"],
         "rating": 1.4,
         "views": 987654,
         "length": 123,
@@ -418,5 +418,17 @@
       "username": "Lea",
       "avatar": "https://randomuser.me/api/portraits/women/2.jpg"
     }
-  ]
+  ],
+  "locales": {
+    "en": {
+      "translation": {
+        "Welcome": "Welcome to React and react-i18next"
+      }
+    },
+    "ru": {
+      "translation": {
+        "Welcome": "Добро пожаловать в React и react-i18next"
+      }
+    }
+  }
 }

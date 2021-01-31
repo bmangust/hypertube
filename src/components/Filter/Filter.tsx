@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -11,8 +12,9 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { TuneRounded } from '@material-ui/icons';
-import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+
 import {
   setFilterState,
   resetFilterState,
@@ -60,6 +62,7 @@ const Filter = () => {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<FilterStateKeys>('genres');
   const filterState = useSelector((state: RootState) => state.filter);
+  const { t } = useTranslation();
 
   const handleReset = () => {
     dispatch(resetFilterState());
@@ -121,7 +124,7 @@ const Filter = () => {
                   color="primary"
                 />
               }
-              label={item}
+              label={t(item)}
             />
           </Grid>
         ));
@@ -138,7 +141,7 @@ const Filter = () => {
                   color="primary"
                 />
               }
-              label={item}
+              label={t(item)}
             />
           </Grid>
         ));
@@ -155,7 +158,7 @@ const Filter = () => {
                   color="primary"
                 />
               }
-              label={item}
+              label={t(item)}
             />
           </Grid>
         ));
@@ -171,7 +174,7 @@ const Filter = () => {
         onClick={() => setOpen(true)}
         startIcon={<TuneRounded />}
       >
-        Filter
+        {t('filterRoot')}
       </Button>
       <Dialog
         open={open}
@@ -179,7 +182,7 @@ const Filter = () => {
         aria-labelledby="filter-dialog"
         classes={{ paper: classes.root }}
       >
-        <DialogTitle id="filter-dialog-title">Filter</DialogTitle>
+        <DialogTitle id="filter-dialog-title">{t('filterRoot')}</DialogTitle>
         <DialogContent>
           <Grid container direction="column" alignItems="center">
             <ButtonGroup style={{ marginBottom: 20 }}>
@@ -190,7 +193,7 @@ const Filter = () => {
                   key={text}
                   onClick={() => setCategory(text)}
                 >
-                  {text}
+                  {t(text)}
                 </Button>
               ))}
             </ButtonGroup>

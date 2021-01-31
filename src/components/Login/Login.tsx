@@ -1,5 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { auth } from '../../axios';
 import { handlersContext } from '../Dropdown/Dropdown';
 import Form, { IButtonProps } from '../Form/Form';
@@ -31,6 +32,7 @@ const Login: React.FC = () => {
   const [valid, setValid] = useState({ email: false, password: false });
   const formValid = valid.email && valid.password;
   const { onClose } = React.useContext(handlersContext);
+  const { t } = useTranslation();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
@@ -71,8 +73,8 @@ const Login: React.FC = () => {
       {
         name: 'email',
         type: 'email',
-        label: 'Email',
-        placeholder: 'Enter email',
+        label: t('Email'),
+        placeholder: t('Enter email'),
         value: inputs.email,
         onChange: handleInput,
         size: 'small',
@@ -82,19 +84,22 @@ const Login: React.FC = () => {
           setValid((prev) => ({ ...prev, email: isValid }));
         }, []),
         rules: {
-          helperText: 'invalid email',
-          rule: {
-            minLength: 6,
-            maxLength: 40,
-            regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
-          },
+          helperText: t('emailError'),
+          rule: React.useMemo(
+            () => ({
+              minLength: 6,
+              maxLength: 40,
+              regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
+            }),
+            []
+          ),
         },
       },
       {
         name: 'password',
         type: 'password',
-        label: 'Password',
-        placeholder: 'Enter password',
+        label: t('Password'),
+        placeholder: t('Enter password'),
         value: inputs.password,
         onChange: handleInput,
         size: 'small',
@@ -104,13 +109,15 @@ const Login: React.FC = () => {
           setValid((prev) => ({ ...prev, password: isValid }));
         }, []),
         rules: {
-          helperText:
-            'Use at least one lower- and uppercase letter, number and symbol. Min length 4',
-          rule: {
-            minLength: 6,
-            maxLength: 25,
-            regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
-          },
+          helperText: t('passwordError'),
+          rule: React.useMemo(
+            () => ({
+              minLength: 6,
+              maxLength: 25,
+              regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
+            }),
+            []
+          ),
         },
       },
     ] as IInputProps[],
@@ -119,18 +126,18 @@ const Login: React.FC = () => {
         type: 'submit',
         variant: 'contained',
         onClick: handleSubmit,
-        text: 'Login',
+        text: t('Login'),
         disabled: !formValid,
       },
       {
         variant: 'outlined',
         onClick: handleForgot,
-        text: 'Forgot password?',
+        text: t('Forgot password?'),
       },
       {
         to: '/register',
         variant: 'outlined',
-        text: 'Register',
+        text: t('Register'),
         onClick: onClose,
       },
     ] as IButtonProps[],

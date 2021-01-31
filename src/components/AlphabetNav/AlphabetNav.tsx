@@ -80,7 +80,7 @@ const AlphabetNav = () => {
     } else if (target.scrollLeft > 0) {
       !shadow.shadowLeft && setShadow({ ...shadow, shadowLeft: true });
     }
-    if (target.scrollWidth - target.scrollLeft < target.offsetWidth) {
+    if (target.scrollWidth - target.scrollLeft < target.offsetWidth + 1) {
       setShadow({ ...shadow, shadowRight: false });
     } else {
       !shadow.shadowRight && setShadow({ ...shadow, shadowRight: true });
