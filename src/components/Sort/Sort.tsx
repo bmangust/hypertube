@@ -5,9 +5,7 @@ import { useAppDispatch } from '../../store/store';
 import { setSortingBy } from '../../store/features/UISlice';
 import Dropdown, { IItem } from '../Dropdown/Dropdown';
 
-interface Props {}
-
-const Sort = (props: Props) => {
+const Sort = () => {
   const dispatch = useAppDispatch();
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) =>
     dispatch(setSortingBy({ sortBy: e.currentTarget.name }));

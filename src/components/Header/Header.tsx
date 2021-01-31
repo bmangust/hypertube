@@ -1,6 +1,7 @@
-import { Button, Grid, makeStyles, Paper, Popper } from '@material-ui/core';
+import { ButtonProps, Grid, makeStyles } from '@material-ui/core';
 import { PersonOutlineRounded } from '@material-ui/icons';
 import React, { useRef, useState } from 'react';
+import Dropdown from '../Dropdown/Dropdown';
 import Login from '../Login/Login';
 import Search from '../Search/Search';
 const useStyles = makeStyles({
@@ -9,11 +10,9 @@ const useStyles = makeStyles({
 
 const Header: React.FC = () => {
   const classes = useStyles();
-  const buttonRef = useRef(null);
-  const [open, setOpen] = useState(false);
 
-  const handleClick = () => {
-    setOpen((open) => !open);
+  const buttonProps: ButtonProps = {
+    variant: 'outlined',
   };
 
   return (
@@ -26,18 +25,9 @@ const Header: React.FC = () => {
       </Grid>
       <Grid container alignItems="center" justify="center" item xs={1}></Grid>
       <Grid container alignItems="center" justify="center" item xs={1}>
-        <Button ref={buttonRef} onClick={handleClick}>
-          <PersonOutlineRounded />
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={buttonRef?.current}
-          placement="bottom-end"
-        >
-          <Paper>
-            <Login handleOpen={setOpen} />
-          </Paper>
-        </Popper>
+        <Dropdown icon={<PersonOutlineRounded />} buttonProps={buttonProps}>
+          <Login />
+        </Dropdown>
       </Grid>
     </Grid>
   );

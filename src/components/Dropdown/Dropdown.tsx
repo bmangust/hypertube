@@ -1,5 +1,12 @@
-import { Button, Grid, makeStyles, Paper, Popper } from '@material-ui/core';
-import React, { useRef, useState } from 'react';
+import {
+  Button,
+  ButtonProps,
+  Grid,
+  makeStyles,
+  Paper,
+  Popover,
+} from '@material-ui/core';
+import React, { createContext, useRef, useState } from 'react';
 
 export interface IItem {
   text: string;
@@ -7,9 +14,10 @@ export interface IItem {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 interface Props {
-  heroText: string;
+  heroText?: string;
   icon?: JSX.Element;
-  items: IItem[];
+  items?: IItem[];
+  buttonProps?: ButtonProps;
 }
 
 const useStyles = makeStyles({
@@ -28,7 +36,19 @@ const useStyles = makeStyles({
   },
 });
 
-const Dropdown: React.FC<Props> = ({ heroText, icon, items }) => {
+const contextValue = {
+  onClose: () => {},
+};
+
+export const handlersContext = createContext(contextValue);
+
+const Dropdown: React.FC<Props> = ({
+  heroText = null,
+  icon,
+  items,
+  buttonProps,
+  children,
+}) => {
   const [open, setOpen] = useState(false);
   const anchorEl = useRef<HTMLButtonElement>(null);
   const classes = useStyles();
@@ -41,6 +61,11 @@ const Dropdown: React.FC<Props> = ({ heroText, icon, items }) => {
     setOpen(false);
   };
 
+  const handleClose = () => setOpen(false);
+  const contextValue = {
+    onClose: handleClose,
+  };
+
   return (
     <div className={classes.root}>
       <Button
@@ -48,27 +73,38 @@ const Dropdown: React.FC<Props> = ({ heroText, icon, items }) => {
         ref={anchorEl}
         variant="text"
         onClick={() => setOpen((open) => !open)}
-        endIcon={icon}
+        endIcon={heroText && icon}
+        {...buttonProps}
       >
-        {heroText}
+        {heroText || icon}
       </Button>
-      <Popper open={open} anchorEl={anchorEl.current} placement="bottom">
+      <Popover
+        open={open}
+        anchorEl={anchorEl.current}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleClose}
+      >
         <Paper className={classes.Paper}>
           <Grid container direction="column" alignItems="center">
-            {items.map(({ text, name, onClick }: IItem) => (
-              <Button
-                key={text}
-                variant="text"
-                name={name}
-                className={classes.Item}
-                onClick={(e) => handleButtonClick(e, onClick)}
-              >
-                {text}
-              </Button>
-            ))}
+            {items &&
+              items.map(({ text, name, onClick }: IItem) => (
+                <Button
+                  key={text}
+                  variant="text"
+                  name={name}
+                  className={classes.Item}
+                  onClick={(e) => handleButtonClick(e, onClick)}
+                >
+                  {text}
+                </Button>
+              ))}
+            <handlersContext.Provider value={contextValue}>
+              {children}
+            </handlersContext.Provider>
           </Grid>
         </Paper>
-      </Popper>
+      </Popover>
     </div>
   );
 };
