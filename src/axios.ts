@@ -2,13 +2,13 @@ import axios from 'axios';
 export const CancelToken = axios.CancelToken;
 
 export const auth = axios.create({
-  baseURL: `/user/auth/`,
+  baseURL: `/api/user/auth/`,
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });
 
-export const register = axios.create({
-  baseURL: `/user/create/`,
+export const user = axios.create({
+  baseURL: `/api/user/`,
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });

@@ -1,7 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { register } from '../../axios';
+import { user } from '../../axios';
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
 
@@ -45,7 +45,7 @@ const Register = () => {
       username: inputs.username,
       passwd: inputs.password,
     };
-    const res = await register.put('basic', body);
+    const res = await user.put('create', body);
     console.log(res);
   };
 
