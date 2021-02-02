@@ -1,4 +1,4 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const createProxyMiddleware = require('http-proxy-middleware');
 const ip = 'localhost';
 const dev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 const host = dev ? ip : process.env.REACT_APP_PROJECT_HOST;
@@ -8,16 +8,24 @@ const url = dev ? `http://${host}:${port}` : `https://${host}`;
 
 module.exports = function (app) {
   app.use(
-    '/user/auth/',
+    '/api/auth/',
     createProxyMiddleware({
       target: url,
       changeOrigin: true,
     })
   );
   app.use(
-    '/user/create/',
+    '/api/profile/',
     createProxyMiddleware({
       target: url,
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/api/',
+    createProxyMiddleware({
+      target: 'http://localhost:4001',
+      pathRewrite: { '^/api': '' },
       changeOrigin: true,
     })
   );

@@ -1,7 +1,10 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { profile } from '../../axios';
+
+import { passwd } from '../../axios';
+import { useToast } from '../../hooks/useToast';
+
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
 
@@ -12,24 +15,20 @@ const useStyles = makeStyles({
   },
 });
 
-const Register = () => {
-  const [inputs, setInputs] = useState({
-    email: '',
-    username: '',
-    password: '',
-    confirm: '',
-  });
-  const [valid, setValid] = useState({
-    email: false,
-    password: false,
-    confirm: false,
-  });
-  const formValid = valid.email && valid.password;
+const ResetPassword = () => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const [inputs, setInputs] = useState({ password: '', confirm: '' });
+  const [valid, setValid] = useState({ password: false, confirm: false });
+  const { t, i18n } = useTranslation();
+  const formValid = valid.password && valid.confirm;
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // request to get repairToken
+  }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    e.stopPropagation();
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value,
@@ -38,75 +37,31 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[Register] handleSubmit', inputs);
+    console.log('[ForgotPassword] handleSubmit', inputs);
 
-    const body = {
-      email: inputs.email,
-      username: inputs.username,
-      passwd: inputs.password,
-    };
-    const res = await profile.put('create', body);
-    console.log(res);
+    // use cookie or repairToken to get new password
+    try {
+      const res = await passwd.patch('repair', {
+        body: { password: inputs.password },
+      });
+      console.log(res);
+      if (res.status < 400) {
+        toast(t`Check your email`);
+      } else {
+        console.log(res.data[`description_${i18n.language}`]);
+        const message = {
+          text: res.data[`description_${i18n.language}`] ?? t`Server error`,
+        };
+
+        toast(message, 'error');
+      }
+    } catch (e) {
+      toast(t`Server error`, 'error');
+    }
   };
 
   const formData = {
     inputs: [
-      {
-        name: 'email',
-        type: 'email',
-        label: t('Email'),
-        placeholder: t('Enter email'),
-        value: inputs.email,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback(
-          (isValid) => {
-            setValid((prev) => ({ ...prev, email: isValid }));
-          },
-          [setValid]
-        ),
-        rules: {
-          helperText: t('emailError'),
-          rule: useMemo(
-            () => ({
-              minLength: 6,
-              maxLength: 40,
-              regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
-            }),
-            []
-          ),
-        },
-      },
-      {
-        name: 'username',
-        type: 'text',
-        label: t('Username'),
-        placeholder: t('Enter username'),
-        value: inputs.username,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback(
-          (isValid) => {
-            setValid((prev) => ({ ...prev, username: isValid }));
-          },
-          [setValid]
-        ),
-        rules: {
-          helperText: t('usernameError'),
-          rule: useMemo(
-            () => ({
-              minLength: 3,
-              maxLength: 20,
-              regex: /^[\w-+.]+$/,
-            }),
-            []
-          ),
-        },
-      },
       {
         name: 'password',
         type: 'password',
@@ -163,13 +118,8 @@ const Register = () => {
         type: 'submit',
         variant: 'contained',
         onClick: handleSubmit,
-        text: t('Register'),
+        text: t`Save new password`,
         disabled: !formValid,
-      },
-      {
-        to: '/login',
-        variant: 'outlined',
-        text: t('Login'),
       },
     ] as IButtonProps[],
   };
@@ -186,4 +136,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ResetPassword;

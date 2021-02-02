@@ -1,5 +1,3 @@
-import { SnackbarContentProps, SnackbarProps } from '@material-ui/core';
-import { OptionsObject } from 'notistack';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type IVariant = 'default' | 'info' | 'warning' | 'success' | 'error';

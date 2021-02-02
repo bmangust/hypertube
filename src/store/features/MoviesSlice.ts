@@ -38,6 +38,7 @@ const MoviesSlice = createSlice({
     addMovies(state, { payload }: PayloadAction<MoviesItems>) {
       if (!payload.movies)
         throw new Error('[movies:addMovies] no movies in payload');
+      if (!payload.movies.filter) return;
       const newMovies = payload.movies.filter(
         (movie) => !state.movies.find((el) => el.id === movie.id)
       );

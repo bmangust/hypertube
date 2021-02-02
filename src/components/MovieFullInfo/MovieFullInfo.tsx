@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { IUser } from '../../models/MovieInfo';
 import HorizontalGrid from '../HorizontalGrid/HorizontalGrid';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
@@ -12,6 +11,7 @@ import { useAppDispatch } from '../../store/store';
 import { loadMovie } from '../../store/features/MoviesSlice';
 import { useTranslation } from 'react-i18next';
 import { primaryColor } from '../../theme';
+import Player from '../Player/Player';
 
 interface TParams {
   id: string;
@@ -130,7 +130,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
       </Grid>
       {movie.src && (
         <Grid container className={classes.Video}>
-          <VideoPlayer src={movie.src} />
+          <Player id={0} />
         </Grid>
       )}
       <Grid container direction="column" className={classes.AdditionalInfo}>
@@ -153,7 +153,6 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
             type={'video'}
           />
         )}
-        {/* <Divider className={classes.Divider} /> */}
         <Comments commentIds={movie.info.commentIds} movieId={movie.id} />
       </Grid>
     </Grid>

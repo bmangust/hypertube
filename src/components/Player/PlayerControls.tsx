@@ -10,7 +10,6 @@ import {
   withStyles,
 } from '@material-ui/core';
 import React, { forwardRef } from 'react';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
 import {
   FastForward,
   FastRewind,

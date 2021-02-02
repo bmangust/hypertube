@@ -120,7 +120,6 @@ const Input = ({
   );
 
   useEffect(() => {
-    console.log(touched, error, value);
     let err;
     // check *touched* only if *ignoreUntouched* is false
     err = rule ? !validate(value, rule, ignoreUntouched || touched) : false;

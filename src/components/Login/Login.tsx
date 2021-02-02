@@ -1,7 +1,13 @@
-import { Grid, makeStyles } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
+import { Grid, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+
 import { auth } from '../../axios';
+import { useToast } from '../../hooks/useToast';
+import { useAppDispatch } from '../../store/store';
+
+import { getSelfInfo, saveToken } from '../../store/features/UserSlice';
 import { handlersContext } from '../Dropdown/Dropdown';
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
@@ -32,7 +38,10 @@ const Login: React.FC = () => {
   const [valid, setValid] = useState({ email: false, password: false });
   const formValid = valid.email && valid.password;
   const { onClose } = React.useContext(handlersContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { toast } = useToast();
+  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
@@ -50,13 +59,18 @@ const Login: React.FC = () => {
       'Basic ' +
       btoa(encodeURI(inputs.email) + ':' + encodeURI(inputs.password));
     try {
-      auth('basic', {
+      const res = await auth('basic', {
         headers: {
           Authorization: authHeader,
         },
-      })
-        .then((res) => console.log(res))
-        .catch((e) => console.log(e));
+      });
+      if (res.data.access_token) {
+        saveToken(res.data.access_token);
+        dispatch(getSelfInfo());
+        history.push('/');
+      } else {
+        toast({ text: res.data[`description_${i18n.language}`] }, 'error');
+      }
     } catch (e) {
       console.log(e);
     }
@@ -65,6 +79,7 @@ const Login: React.FC = () => {
 
   const handleForgot = () => {
     console.log('[Login] handleForgot');
+    history.push('forgot_password');
     onClose();
   };
 
