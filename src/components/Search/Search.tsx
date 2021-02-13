@@ -12,6 +12,9 @@ import { SearchRounded } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { theme } from '../../theme';
+import { search as axiosSearch } from '../../axios';
+import { useAppDispatch } from '../../store/store';
+import { setMovies } from '../../store/features/MoviesSlice';
 
 const useStyles = makeStyles({
   root: {
@@ -54,6 +57,7 @@ const useStyles = makeStyles({
 
 const Search = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { t } = useTranslation();
@@ -61,9 +65,19 @@ const Search = () => {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       console.log(`Searching for: ${search}`);
+      const res = await axiosSearch('find', {
+        params: {
+          category: 'Movies',
+          search,
+        },
+      });
+      console.log(res);
+      if (res.data.status) {
+        dispatch(setMovies({ movies: res.data.data }));
+      }
       setSearch('');
     }
   };

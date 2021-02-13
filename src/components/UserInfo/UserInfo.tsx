@@ -9,8 +9,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { removeToken } from '../../store/features/UserSlice';
+import { authFail, removeToken } from '../../store/features/UserSlice';
 import { RootState } from '../../store/rootReducer';
+import { useAppDispatch } from '../../store/store';
 
 const useStyles = makeStyles({
   Type: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 const UserInfo = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { username, email, last_name, first_name, image_body } = useSelector(
     (state: RootState) => state.user
@@ -34,6 +36,7 @@ const UserInfo = () => {
 
   const handleLogout = () => {
     removeToken();
+    dispatch(authFail());
   };
 
   return (

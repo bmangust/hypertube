@@ -6,7 +6,7 @@ import { initReactI18next } from 'react-i18next';
 i18n
   .use(Backend)
   .use(languageDetector)
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     lng: 'en',
     fallbackLng: 'en',
@@ -15,9 +15,9 @@ i18n
     },
     detection: ['queryString', 'cookie'],
     cache: ['cookie'],
-    debug: true,
+    debug: false,
     interpolation: {
-      escapeValue: false, // react already safes from xss
+      escapeValue: false,
     },
   });
 

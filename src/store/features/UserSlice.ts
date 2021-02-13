@@ -8,10 +8,6 @@ interface IUserPayload {
   user: IUser;
 }
 
-interface IAuthPayload {
-  isAuth: boolean;
-}
-
 export interface IUser {
   user_id: number;
   email: string;
@@ -25,7 +21,6 @@ export type IUserState = IUser & {
   isAuth: boolean;
   isLoading: boolean;
 };
-type IUserKeys = keyof IUser;
 
 const initialState: IUserState = {
   isAuth: false,

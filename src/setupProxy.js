@@ -22,6 +22,21 @@ module.exports = function (app) {
     })
   );
   app.use(
+    '/api/search/',
+    createProxyMiddleware({
+      target: 'http://localhost:2222',
+      pathRewrite: { '^/api/search': '' },
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/api/test/',
+    createProxyMiddleware({
+      target: 'http://localhost:3001',
+      changeOrigin: true,
+    })
+  );
+  app.use(
     '/api/',
     createProxyMiddleware({
       target: 'http://localhost:4001',
@@ -29,11 +44,4 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
-  // app.use(
-  //   '/api/chat/',
-  //   createProxyMiddleware({
-  //     target: url,
-  //     changeOrigin: true,
-  //   })
-  // );
 };

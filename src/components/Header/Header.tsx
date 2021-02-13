@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 import UserInfo from '../UserInfo/UserInfo';
 import Logo from '../Logo/Logo';
+import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles({
   root: {},
 });
@@ -24,7 +25,9 @@ const Header: React.FC = () => {
   return (
     <Grid container alignItems="center" className={classes.root}>
       <Grid item xs={2}>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
       </Grid>
       <Grid
         container

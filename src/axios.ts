@@ -19,6 +19,23 @@ export const passwd = axios.create({
   validateStatus: (status) => status >= 200 && status < 500,
 });
 
+export const email = axios.create({
+  baseURL: `/api/email/`,
+  withCredentials: true,
+  validateStatus: (status) => status >= 200 && status < 500,
+});
+
+export const search = axios.create({
+  baseURL: `/api/search/`,
+  withCredentials: true,
+  validateStatus: (status) => status >= 200 && status < 500,
+});
+export const test = axios.create({
+  baseURL: `/api/test/`,
+  withCredentials: true,
+  validateStatus: (status) => status >= 200 && status < 500,
+});
+
 export const main = axios.create({
   baseURL: `/api/`,
   withCredentials: true,

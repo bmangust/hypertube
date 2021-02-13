@@ -16,6 +16,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import { useAppDispatch } from './store/store';
 import { getSelfInfo, getToken } from './store/features/UserSlice';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import ChangeEmail from './components/ChangeEmail/ChangeEmail';
 
 const useStyles = makeStyles({
   root: {
@@ -64,6 +65,7 @@ function App() {
             <Route path="/register" component={RegisterPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/forgot_password" component={ForgotPassword} />
+            <Route path="/change_email" component={ChangeEmail} />
             <Route path="/reset_password" component={ResetPassword} />
             <Route path="/movies/:id" component={MovieFullInfo} />
             <Route path="/" component={MainPage} />
