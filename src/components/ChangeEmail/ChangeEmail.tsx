@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-import { passwd } from '../../axios';
+import { email } from '../../axios';
 import { useToast } from '../../hooks/useToast';
 
 import Form, { IButtonProps } from '../Form/Form';
@@ -15,12 +15,12 @@ const useStyles = makeStyles({
   },
 });
 
-const ResetPassword = () => {
+const ChangeEmail = () => {
   const classes = useStyles();
-  const [inputs, setInputs] = useState({ password: '', confirm: '' });
-  const [valid, setValid] = useState({ password: false, confirm: false });
+  const [inputs, setInputs] = useState({ email: '' });
+  const [valid, setValid] = useState({ email: false });
   const { t, i18n } = useTranslation();
-  const formValid = valid.password && valid.confirm;
+  const formValid = valid.email;
   const { toast } = useToast();
 
   const handleInput = useCallback(
@@ -37,16 +37,16 @@ const ResetPassword = () => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      console.log('[ForgotPassword] handleSubmit', inputs);
+      console.log('[ChangeEmail] handleSubmit', inputs);
 
-      // use cookie or repairToken to get new password
+      // use cookie or repairToken to get new email
       try {
-        const res = await passwd.patch('repair/patch', {
-          body: { password: inputs.password },
+        const res = await email.post('patch', {
+          body: { email: inputs.email },
         });
         console.log(res);
         if (res.status < 400) {
-          toast(t`Password changed`);
+          toast(t`Check your email`);
         } else {
           console.log(res.data[`description_${i18n.language}`]);
           const message = {
@@ -66,44 +66,24 @@ const ResetPassword = () => {
     () => ({
       inputs: [
         {
-          name: 'password',
-          type: 'password',
-          label: t('Password'),
-          placeholder: t('Enter password'),
-          value: inputs.password,
+          name: 'email',
+          type: 'email',
+          label: t('Email'),
+          placeholder: t('Enter email'),
+          value: inputs.email,
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
           required: true,
-          onValidate: (isValid) =>
-            setValid((prev) => ({ ...prev, password: isValid })),
+          onValidate: (isValid) => {
+            setValid((prev) => ({ ...prev, email: isValid }));
+          },
           rules: {
-            helperText: t('passwordError'),
+            helperText: t('emailError'),
             rule: {
               minLength: 6,
-              maxLength: 25,
-              regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
-            },
-          },
-        },
-        {
-          name: 'confirm',
-          type: 'password',
-          label: t('Confirm'),
-          placeholder: t('Confirm password'),
-          value: inputs.confirm,
-          onChange: handleInput,
-          size: 'small',
-          fullWidth: true,
-          required: true,
-          onValidate: (isValid) =>
-            setValid((prev) => ({ ...prev, confirm: isValid })),
-          rules: {
-            helperText: t('confirmError'),
-            rule: {
-              minLength: 3,
-              maxLength: 20,
-              regex: new RegExp(`^${inputs.password}$`),
+              maxLength: 40,
+              regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
             },
           },
         },
@@ -113,12 +93,12 @@ const ResetPassword = () => {
           type: 'submit',
           variant: 'contained',
           onClick: handleSubmit,
-          text: t`Save new password`,
+          text: t`Save new email`,
           disabled: !formValid,
         },
       ] as IButtonProps[],
     }),
-    [inputs, formValid, handleInput, handleSubmit, t]
+    [inputs.email, formValid, handleInput, handleSubmit, t]
   );
 
   return (
@@ -133,4 +113,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ChangeEmail;
