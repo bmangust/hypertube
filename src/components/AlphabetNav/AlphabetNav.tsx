@@ -87,6 +87,14 @@ const AlphabetNav = () => {
     }
   }, 100);
 
+  const horizontalScrollHandler = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.currentTarget.scrollTo({
+      top: 0,
+      left: e.currentTarget.scrollLeft + e.deltaY * 4,
+      behavior: 'smooth',
+    });
+  };
+
   const getItemClassName = (path: string): string => {
     return location.pathname.search(path) !== -1
       ? cn(classes.Link, classes.Active)
@@ -97,7 +105,7 @@ const AlphabetNav = () => {
     <Container className={classes.root}>
       {shadow.shadowLeft && <div className={classes.ShadowLeft} />}
       {shadow.shadowRight && <div className={classes.ShadowRight} />}
-      <Container onScroll={scrollHandler} className={classes.Scroller}>
+      <Container onScroll={scrollHandler} onWheel={horizontalScrollHandler} className={classes.Scroller}>
         {letters.split('').map((letter) => (
           <NavLink
             to={`/byname/${letter}`}
