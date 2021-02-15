@@ -58,7 +58,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
         {display !== 'image' && (
           <Grid container direction="column" alignItems="center">
             {display === 'grid' && (
-              <Typography className={classes.Name}>{card.name}</Typography>
+              <Typography className={classes.Name}>{card.title}</Typography>
             )}
           </Grid>
         )}

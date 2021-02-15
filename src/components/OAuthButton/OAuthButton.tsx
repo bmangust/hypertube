@@ -22,7 +22,7 @@ const oauth = {
       },
       {
         name: 'redirect_uri',
-        value: 'http://localhost:4000/user/auth/oauth42',
+        value: 'http://localhost:4000/api/auth/oauth42',
       },
       {
         name: 'scope',

@@ -68,12 +68,12 @@ const Login = () => {
             Authorization: authHeader,
           },
         });
-        if (res.data.access_token) {
-          saveToken(res.data.access_token);
+        if (res.data.accessToken) {
+          saveToken(res.data.accessToken);
           dispatch(getSelfInfo());
           history.push('/');
         } else {
-          toast({ text: res.data[`description_${i18n.language}`] }, 'error');
+          toast({ text: res.data[i18n.language] }, 'error');
         }
       } catch (e) {
         console.log(e);

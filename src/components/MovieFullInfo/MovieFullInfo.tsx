@@ -95,14 +95,14 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   return (
     <Grid container direction="column" className={classes.root}>
       <Typography variant="h2" className={classes.Header}>
-        {movie.name}
+        {movie.title}
       </Typography>
       <Divider className={classes.Divider} />
       <Grid container wrap="nowrap">
         <img
           className={classes.Poster}
           src={movie.img}
-          alt={`${movie.name} poster`}
+          alt={`${movie.title} poster`}
         />
         <Grid item container direction="column">
           <Grid container className={classes.MainInfoText}>
@@ -142,14 +142,14 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
         {movie.info.photos && (
           <HorizontalGrid
             sources={movie.info.photos}
-            name={movie.name}
+            name={movie.title}
             type={'photo'}
           />
         )}
         {movie.info.videos && (
           <HorizontalGrid
             sources={movie.info.videos}
-            name={movie.name}
+            name={movie.title}
             type={'video'}
           />
         )}

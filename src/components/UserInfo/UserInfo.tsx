@@ -29,10 +29,10 @@ const UserInfo = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { username, email, last_name, first_name, image_body } = useSelector(
+  const { username, email, lastName, firstName, imageBody } = useSelector(
     (state: RootState) => state.user
   );
-  const avatar = image_body || undefined;
+  const avatar = imageBody || undefined;
 
   const handleLogout = () => {
     removeToken();
@@ -61,7 +61,7 @@ const UserInfo = () => {
         <Typography className={classes.Type}>{t`FullName`}</Typography>
         <Typography
           className={classes.Text}
-        >{`${first_name} ${last_name}`}</Typography>
+        >{`${firstName} ${lastName}`}</Typography>
       </Grid>
     </Grid>
   );

@@ -48,9 +48,9 @@ const ChangeEmail = () => {
         if (res.status < 400) {
           toast(t`Check your email`);
         } else {
-          console.log(res.data[`description_${i18n.language}`]);
+          console.log(res.data[i18n.language]);
           const message = {
-            text: res.data[`description_${i18n.language}`] ?? t`Server error`,
+            text: res.data[i18n.language] ?? t`Server error`,
           };
 
           toast(message, 'error');

@@ -44,6 +44,12 @@ const MoviesSlice = createSlice({
       );
       state.movies = state.movies.concat(newMovies);
     },
+    setMovies(state, { payload }: PayloadAction<MoviesItems>) {
+      if (!payload.movies)
+        throw new Error('[movies:setMovies] no movies in payload');
+      if (!payload.movies.length) return;
+      state.movies = payload.movies;
+    },
     updateComments(state, { payload }: PayloadAction<CommentsItems>) {
       if (!payload.id)
         throw new Error('[movies:updateComments] no id in payload');
@@ -117,6 +123,6 @@ export const loadComments = (
   }
 };
 
-export const { addMovies, updateComments } = MoviesSlice.actions;
+export const { addMovies, setMovies, updateComments } = MoviesSlice.actions;
 
 export default MoviesSlice.reducer;

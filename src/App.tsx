@@ -17,6 +17,7 @@ import { useAppDispatch } from './store/store';
 import { getSelfInfo, getToken } from './store/features/UserSlice';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import ChangeEmail from './components/ChangeEmail/ChangeEmail';
+import Auth from './components/Auth/Auth';
 
 const useStyles = makeStyles({
   root: {
@@ -62,6 +63,7 @@ function App() {
           <Header />
           <Nav />
           <Switch>
+            <Route path="/auth" component={Auth} />
             <Route path="/register" component={RegisterPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/forgot_password" component={ForgotPassword} />

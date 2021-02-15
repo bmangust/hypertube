@@ -63,7 +63,7 @@ const Register = () => {
         history.push('/');
         toast({ text: t`Check your email` });
       } else {
-        toast({ text: res.data[`description_${i18n.language}`] }, 'error');
+        toast({ text: res.data[i18n.language] }, 'error');
       }
     },
     [inputs, toast, t, i18n.language, dispatch, history]

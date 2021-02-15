@@ -9,12 +9,12 @@ interface IUserPayload {
 }
 
 export interface IUser {
-  user_id: number;
+  userId: number;
   email: string;
   username: string;
-  first_name: string;
-  last_name: string;
-  image_body: string | null;
+  firstName: string;
+  lastName: string;
+  imageBody: string | null;
 }
 
 export type IUserState = IUser & {
@@ -25,12 +25,12 @@ export type IUserState = IUser & {
 const initialState: IUserState = {
   isAuth: false,
   isLoading: false,
-  user_id: 0,
+  userId: 0,
   email: '',
   username: '',
-  first_name: '',
-  last_name: '',
-  image_body: null,
+  firstName: '',
+  lastName: '',
+  imageBody: null,
 };
 
 const userSlice = createSlice({
@@ -47,12 +47,12 @@ const userSlice = createSlice({
       return {
         isAuth: state.isAuth,
         isLoading: state.isLoading,
-        user_id: payload.user.user_id || state.user_id,
+        userId: payload.user.userId || state.userId,
         email: payload.user.email || state.email,
         username: payload.user.username || state.username,
-        first_name: payload.user.first_name || state.first_name,
-        last_name: payload.user.last_name || state.last_name,
-        image_body: payload.user.image_body || state.image_body,
+        firstName: payload.user.firstName || state.firstName,
+        lastName: payload.user.lastName || state.lastName,
+        imageBody: payload.user.imageBody || state.imageBody,
       };
     },
     authSuccess(state) {
@@ -75,7 +75,7 @@ export const getSelfInfo = () => async (dispatch: AppDispatch) => {
   try {
     const res = await profile('get', {
       headers: {
-        access_token: getToken(),
+        accessToken: getToken(),
       },
     });
     console.log(res.data);

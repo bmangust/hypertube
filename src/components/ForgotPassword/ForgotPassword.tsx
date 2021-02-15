@@ -47,11 +47,8 @@ const ForgotPassword = () => {
         if (res.status < 400) {
           toast(t`Check your email`);
         } else {
-          console.log(res.data[`description_${i18n.language}`]);
-          toast(
-            res.data[`description_${i18n.language}`] || t`Server error`,
-            'error'
-          );
+          console.log(res.data[i18n.language]);
+          toast(res.data[i18n.language] || t`Server error`, 'error');
         }
       } catch (e) {
         toast(t`Server error`, 'error');

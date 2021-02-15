@@ -49,3 +49,39 @@ export const debouncedDetectBottomLine = (
       callback2 && callback2();
     }
   }, delay);
+
+interface KnownOptions {
+  path?: string;
+  expires?: Date | string;
+}
+interface IOptions extends KnownOptions {
+  [key: string]: string | Date | boolean | undefined;
+}
+
+export const setCookie = (
+  name: string,
+  value: string,
+  options: IOptions = {}
+) => {
+  options = {
+    path: '/',
+    // при необходимости добавьте другие значения по умолчанию
+    ...options,
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie =
+    encodeURIComponent(name) + '=' + encodeURIComponent(value);
+
+  Object.keys(options).forEach((key) => {
+    updatedCookie += '; ' + key;
+    let optionValue = options[key];
+    if (optionValue !== true) {
+      updatedCookie += '=' + optionValue;
+    }
+  });
+  document.cookie = updatedCookie;
+};

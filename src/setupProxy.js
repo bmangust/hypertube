@@ -22,10 +22,17 @@ module.exports = function (app) {
     })
   );
   app.use(
+    '/api/passwd/',
+    createProxyMiddleware({
+      target: url,
+      changeOrigin: true,
+    })
+  );
+  app.use(
     '/api/search/',
     createProxyMiddleware({
-      target: 'http://localhost:2222',
-      pathRewrite: { '^/api/search': '' },
+      target: 'http://192.168.99.100:8080',
+      // pathRewrite: { '^/api/search': '' },
       changeOrigin: true,
     })
   );

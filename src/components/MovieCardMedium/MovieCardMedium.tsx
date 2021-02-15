@@ -115,7 +115,7 @@ const useStyles = makeStyles({
 });
 
 const MovieCardMedium = ({
-  card: { id, name, img, info },
+  card: { id, title, img, info },
 }: MovieCardMediumProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -146,7 +146,7 @@ const MovieCardMedium = ({
   return (
     <Paper className={classes.Paper}>
       <NavLink to={`/movies/${id}`} className={classes.Img}>
-        <img src={img} alt={`${name} poster`} />
+        <img src={img} alt={`${title} poster`} />
         <div className={classes.PlayIconWrapper}>
           <PlayArrow className={classes.PlayIcon} fontSize="large" />
         </div>
@@ -155,12 +155,12 @@ const MovieCardMedium = ({
         <Grid container alignItems="baseline" justify="space-between">
           <NavLink to={`/movies/${id}`} className={classes.Caption}>
             <Typography variant="caption" className={classes.Caption}>
-              {name}
+              {title}
             </Typography>
           </NavLink>
           <Rating
             value={rating}
-            name={`${id}-${name.replace(' ', '-')}-rating`}
+            name={`${id}-${title.replace(' ', '-')}-rating`}
             emptyIcon={<StarBorder fontSize="inherit" />}
             onChange={handleRatingChange}
           />

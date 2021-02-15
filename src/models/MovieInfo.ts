@@ -2,7 +2,7 @@ import { CountriesKeys, GenresKeys } from '../store/features/FilterSlice';
 
 export interface IMovie {
   id: string;
-  name: string;
+  title: string;
   img: string;
   src: string;
   info: IMovieInfo;
@@ -11,12 +11,12 @@ export interface IMovie {
 export interface IMovieInfo {
   avalibility: number;
   year: number;
-  genres: GenresKeys[];
+  genres: string[];
   rating: number;
   views: number;
   length: number;
-  country?: CountriesKeys[];
   pgRating: string;
+  countries?: string[];
   comments?: IComment[];
   commentIds?: string[];
   description?: string;
@@ -26,11 +26,7 @@ export interface IMovieInfo {
   storyline?: string;
   directed?: IUser[];
   cast?: IUser[];
-  writingCredits?: IUser[];
-  produced?: IUser[];
-  music?: IUser[];
-  cinematography?: IUser[];
-  filmEditing?: IUser[];
+  keywords?: string[];
 }
 export interface IComment {
   id: string;
@@ -40,8 +36,10 @@ export interface IComment {
 }
 
 export interface IUser {
+  id: string;
   name: string;
-  photo?: string[];
+  image?: string;
+  asCharacter?: string;
   knownFor?: IMovie[];
   filmography?: IFilmography[];
   otherWorks?: string[];
