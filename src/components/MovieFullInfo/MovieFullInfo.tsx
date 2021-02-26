@@ -70,17 +70,24 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const { movies } = useSelector((state: RootState) => state.movies);
   const movie = movies.find((movie) => movie.id === match.params.id);
   const { t } = useTranslation();
+  const headerRef = React.useRef<HTMLHeadingElement | null>(null);
 
-  // if no movies in redux - load one
+  // if no movies in redux - load some
   useEffect(() => {
     if (!movie) dispatch(loadMovie(+match.params.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!headerRef || !headerRef.current) return;
+    headerRef.current.scrollIntoView(true);
+  }, []);
+
   const mapItemsToLinks = (
-    items: (string | IUser)[] | undefined
+    items: (string | IUser)[] | undefined,
+    backup?: string
   ): JSX.Element[] | string => {
-    if (!items || !items.length) return t('No info');
+    if (!items || !items.length) return backup || t('No info');
     return items.map((item: string | IUser) => {
       const text = typeof item === 'string' ? item : item.name;
       return (
@@ -94,7 +101,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   if (!movie) return null;
   return (
     <Grid container direction="column" className={classes.root}>
-      <Typography variant="h2" className={classes.Header}>
+      <Typography variant="h2" className={classes.Header} ref={headerRef}>
         {movie.title}
       </Typography>
       <Divider className={classes.Divider} />
@@ -121,10 +128,11 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
             {t`PG rating`}: {movie.info.pgRating}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Directed`}: {mapItemsToLinks(movie.info.directed)}
+            {t`Directed`}:{' '}
+            {mapItemsToLinks(movie.info.directorList, movie.info.directors)}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Actors`}: {mapItemsToLinks(movie.info.cast)}
+            {t`Actors`}: {mapItemsToLinks(movie.info.cast, movie.info.stars)}
           </Grid>
         </Grid>
       </Grid>
@@ -153,7 +161,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
             type={'video'}
           />
         )}
-        <Comments commentIds={movie.info.commentIds} movieId={movie.id} />
+        <Comments maxComments={movie.info.maxComments} movieId={movie.id} />
       </Grid>
     </Grid>
   );
