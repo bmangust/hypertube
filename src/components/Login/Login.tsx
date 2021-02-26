@@ -77,10 +77,11 @@ const Login = () => {
         }
       } catch (e) {
         console.log(e);
+        toast({ text: t`Server error` }, 'error');
       }
       onClose();
     },
-    [inputs, toast, i18n.language, dispatch, history, onClose]
+    [inputs, toast, i18n.language, dispatch, history, onClose, t]
   );
 
   const handleForgot = useCallback(() => {

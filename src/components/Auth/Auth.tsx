@@ -18,7 +18,7 @@ const Auth = () => {
       .split('&')
       .find((el) => el.startsWith('accessToken'));
     if (accessToken) {
-      const tokenStart = accessToken.search(/\=(.+)/);
+      const tokenStart = accessToken.search(/=(.+)/);
       const token = accessToken.slice(tokenStart + 1);
       console.log('tokenStart', token);
       saveToken(token);
@@ -26,7 +26,7 @@ const Auth = () => {
       setCookie('accessToken', token, { path: '/' });
       history.push('/');
     }
-  }, []);
+  }, [dispatch, history]);
   return null;
 };
 
