@@ -12,6 +12,7 @@ import { useHistory } from 'react-router';
 import { authFail, removeToken } from '../../store/features/UserSlice';
 import { RootState } from '../../store/rootReducer';
 import { useAppDispatch } from '../../store/store';
+import { handlersContext } from '../Dropdown/Dropdown';
 
 const useStyles = makeStyles({
   Type: {
@@ -29,7 +30,8 @@ const UserInfo = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { username, email, lastName, firstName, imageBody } = useSelector(
+  const { onClose } = React.useContext(handlersContext);
+  const { username, email, imageBody } = useSelector(
     (state: RootState) => state.user
   );
   const avatar = imageBody || undefined;
@@ -37,6 +39,12 @@ const UserInfo = () => {
   const handleLogout = () => {
     removeToken();
     dispatch(authFail());
+    onClose();
+  };
+
+  const handleUpdateInfo = () => {
+    onClose();
+    history.push('/settings');
   };
 
   return (
@@ -44,7 +52,7 @@ const UserInfo = () => {
       <Grid item container wrap="nowrap" alignItems="center">
         <Avatar src={avatar} alt={username} />
         <Button
-          onClick={() => history.push('/profile')}
+          onClick={handleUpdateInfo}
           className={classes.marginAuto}
         >{t`Update info`}</Button>
         <Button onClick={handleLogout}>{t`Logout`}</Button>
@@ -56,12 +64,6 @@ const UserInfo = () => {
       <Grid item container alignItems="center">
         <Typography className={classes.Type}>{t`Email`}</Typography>
         <Typography className={classes.Text}>{email}</Typography>
-      </Grid>
-      <Grid item container alignItems="center">
-        <Typography className={classes.Type}>{t`FullName`}</Typography>
-        <Typography
-          className={classes.Text}
-        >{`${firstName} ${lastName}`}</Typography>
       </Grid>
     </Grid>
   );
