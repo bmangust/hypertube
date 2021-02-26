@@ -18,6 +18,9 @@ import { getSelfInfo, getToken } from './store/features/UserSlice';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import ChangeEmail from './components/ChangeEmail/ChangeEmail';
 import Auth from './components/Auth/Auth';
+import Settings from './components/Settings/Settings';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/rootReducer';
 
 const useStyles = makeStyles({
   root: {
@@ -44,6 +47,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const { isAuth } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const token = getToken();
@@ -51,6 +55,26 @@ function App() {
       dispatch(getSelfInfo());
     }
   }, [dispatch]);
+
+  const routes = isAuth ? (
+    <Switch>
+      <Route path="/settings" component={Settings} />
+      <Route path="/forgot_password" component={ForgotPassword} />
+      <Route path="/change_email" component={ChangeEmail} />
+      <Route path="/reset_password" component={ResetPassword} />
+      <Route path="/movies/:id" component={MovieFullInfo} />
+      <Route path="/" component={MainPage} />
+    </Switch>
+  ) : (
+    <Switch>
+      <Route path="/auth" component={Auth} />
+      <Route path="/register" component={RegisterPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/forgot_password" component={ForgotPassword} />
+      <Route path="/movies/:id" component={MovieFullInfo} />
+      <Route path="/" component={MainPage} />
+    </Switch>
+  );
 
   return (
     <Container className={classes.root}>
@@ -62,16 +86,7 @@ function App() {
         >
           <Header />
           <Nav />
-          <Switch>
-            <Route path="/auth" component={Auth} />
-            <Route path="/register" component={RegisterPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/forgot_password" component={ForgotPassword} />
-            <Route path="/change_email" component={ChangeEmail} />
-            <Route path="/reset_password" component={ResetPassword} />
-            <Route path="/movies/:id" component={MovieFullInfo} />
-            <Route path="/" component={MainPage} />
-          </Switch>
+          {routes}
           <Footer />
           <Notifier />
         </SnackbarProvider>
