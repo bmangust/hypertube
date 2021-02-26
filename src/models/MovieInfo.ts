@@ -11,20 +11,22 @@ export interface IMovie {
 export interface IMovieInfo {
   avalibility: number;
   year: number;
-  genres: string[];
+  genres: GenresKeys[];
   rating: number;
   views: number;
   length: number;
   pgRating: string;
   countries?: string[];
   comments?: IComment[];
-  commentIds?: string[];
+  maxComments?: number;
   description?: string;
   photos?: string[];
   videos?: string[];
   moreLikeThis?: IMovie[];
   storyline?: string;
-  directed?: IUser[];
+  directors?: string;
+  directorList?: IUser[];
+  stars?: string;
   cast?: IUser[];
   keywords?: string[];
 }
@@ -32,7 +34,9 @@ export interface IComment {
   id: string;
   username: string;
   avatar?: string;
+  movieid: string;
   text: string;
+  time: number;
 }
 
 export interface IUser {

@@ -13,7 +13,7 @@ const LIMIT = +(process.env.REACT_APP_LOAD_LIMIT || 5);
 
 const sortByName = (movies: IMovie[]) => {
   return [...movies].sort((cardA, cardB) =>
-    cardA.name.localeCompare(cardB.name)
+    cardA.title.localeCompare(cardB.title)
   );
 };
 const sortByYear = (movies: IMovie[]) => {
@@ -40,7 +40,7 @@ const Cards = () => {
 
   // load movies on component mount
   useEffect(() => {
-    dispatch(loadMovies({ filter: { _limit: LIMIT } }));
+    dispatch(loadMovies({ filter: { limit: LIMIT } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,8 +51,8 @@ const Cards = () => {
         dispatch(
           loadMovies({
             filter: {
-              _limit: LIMIT,
-              _start: movies.length,
+              limit: LIMIT,
+              offset: movies.length,
             },
             callback: (result: boolean) => (isEndOfMoviesRef.current = result),
           })

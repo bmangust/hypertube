@@ -30,6 +30,11 @@ export const search = axios.create({
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 500,
 });
+export const movies = axios.create({
+  baseURL: `/api/movies/`,
+  withCredentials: true,
+  validateStatus: (status) => status >= 200 && status < 500,
+});
 export const test = axios.create({
   baseURL: `/api/test/`,
   withCredentials: true,

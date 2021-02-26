@@ -37,6 +37,14 @@ module.exports = function (app) {
     })
   );
   app.use(
+    '/api/movies/',
+    createProxyMiddleware({
+      target: 'http://192.168.99.100:2223',
+      pathRewrite: { '^/api/movies': '' },
+      changeOrigin: true,
+    })
+  );
+  app.use(
     '/api/test/',
     createProxyMiddleware({
       target: 'http://localhost:3001',

@@ -4,22 +4,28 @@ import { AppDispatch } from '../store';
 import { IFilter, loadMovies } from './MoviesSlice';
 
 export interface IGenres {
-  Adventure: boolean;
-  Arthouse: boolean;
   Action: boolean;
+  Adventure: boolean;
+  Animation: boolean;
+  Biography: boolean;
   Comedy: boolean;
-  Comics: boolean;
-  Detective: boolean;
+  Crime: boolean;
+  Documentary: boolean;
   Drama: boolean;
-  Fantasy: boolean;
   Family: boolean;
+  Fantasy: boolean;
+  'Film Noir': boolean;
+  History: boolean;
   Horror: boolean;
-  Melodrama: boolean;
-  Musical: boolean;
+  Music: boolean;
+  Mystery: boolean;
   Romance: boolean;
   'Sci-Fi': boolean;
+  Short: boolean;
   Sport: boolean;
+  Superhero: boolean;
   Thriller: boolean;
+  War: boolean;
   Western: boolean;
 }
 export type GenresKeys = keyof IGenres;
@@ -49,22 +55,28 @@ export type CountriesKeys = keyof ICountries;
 
 export const items = {
   genres: [
-    'Adventure',
-    'Arthouse',
     'Action',
+    'Adventure',
+    'Animation',
+    'Biography',
     'Comedy',
-    'Comics',
-    'Detective',
+    'Crime',
+    'Documentary',
     'Drama',
-    'Fantasy',
     'Family',
+    'Fantasy',
+    'Film Noir',
+    'History',
     'Horror',
-    'Melodrama',
-    'Musical',
+    'Music',
+    'Mystery',
     'Romance',
     'Sci-Fi',
+    'Short',
     'Sport',
+    'Superhero',
     'Thriller',
+    'War',
     'Western',
   ] as GenresKeys[],
   years: [
@@ -122,22 +134,28 @@ export type FilterStateKeys = keyof FilterState;
 
 const initialState = {
   genres: {
-    Adventure: false,
-    Arthouse: false,
     Action: false,
+    Adventure: false,
+    Animation: false,
+    Biography: false,
     Comedy: false,
-    Comics: false,
-    Detective: false,
+    Crime: false,
+    Documentary: false,
     Drama: false,
-    Fantasy: false,
     Family: false,
+    Fantasy: false,
+    'Film Noir': false,
+    History: false,
     Horror: false,
-    Melodrama: false,
-    Musical: false,
+    Music: false,
+    Mystery: false,
     Romance: false,
     'Sci-Fi': false,
+    Short: false,
     Sport: false,
+    Superhero: false,
     Thriller: false,
+    War: false,
     Western: false,
   },
   years: {
@@ -218,8 +236,8 @@ const getYearsFilter = (years: IYears): number[][] | [] => {
  */
 export const reqeuestMoviesWithFilters = (
   filter: IFilter = {
-    _limit: 20,
-    _start: 0,
+    limit: 20,
+    offset: 0,
   }
 ) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const filterState = getState().filter;
