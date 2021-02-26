@@ -10,13 +10,12 @@ import { RootState } from '../../store/rootReducer';
 import { useTranslation } from 'react-i18next';
 
 const LIMIT = 5;
-
 export interface CommentsProps {
-  commentIds?: string[];
   movieId: string;
+  maxComments?: number;
 }
 
-const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
+const Comments: React.FC<CommentsProps> = ({ movieId, maxComments }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -28,18 +27,13 @@ const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
   // load first batch of comments initially
   // if there's something left to load
   useEffect(() => {
-    if (!commentIds) return;
+    if (!maxComments) return;
     if (
       !movie?.info.comments ||
-      (movie?.info.comments && movie.info.comments.length < commentIds.length)
+      (movie?.info.comments && movie.info.comments.length < maxComments)
     ) {
-      const firstCommments = [...commentIds].slice(0, LIMIT);
       dispatch(
-        loadComments(
-          firstCommments,
-          movieId,
-          (length) => (offsetRef.current += length)
-        )
+        loadComments({ id: movieId }, (length) => (offsetRef.current += length))
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,22 +41,22 @@ const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
 
   // load more comments on scroll
   useEffect(() => {
-    if (!commentIds) return;
+    if (!maxComments) return;
 
     const endOfMoviesCallback = () => {
       if (
-        offsetRef.current < commentIds.length &&
+        offsetRef.current < maxComments &&
         movie?.info.comments?.length &&
-        movie.info.comments.length < commentIds.length
+        movie.info.comments.length < maxComments
       ) {
-        const commmentsToLoad = [...commentIds].slice(
-          offsetRef.current,
-          offsetRef.current + LIMIT
-        );
+        const commmentsToLoad = {
+          id: movieId,
+          limit: LIMIT,
+          offset: offsetRef.current,
+        };
         dispatch(
           loadComments(
             commmentsToLoad,
-            movieId,
             (length) => (offsetRef.current += length)
           )
         );
@@ -74,7 +68,7 @@ const Comments: React.FC<CommentsProps> = ({ commentIds, movieId }) => {
     );
     window.addEventListener('scroll', trackScrolling);
     return () => window.removeEventListener('scroll', trackScrolling);
-  }, [commentIds, dispatch, movie?.info.comments?.length, movieId]);
+  }, [maxComments, dispatch, movie?.info.comments?.length, movieId]);
 
   const content = movie?.info.comments?.length ? (
     movie.info.comments.map((comment) => (
