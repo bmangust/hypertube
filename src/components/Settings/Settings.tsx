@@ -361,7 +361,7 @@ const Settings = () => {
         },
       ] as IButtonProps[],
     };
-  }, [inputs, formValid, t, dispatch, i18n.language, toast, user]);
+  }, [inputs, formValid, t, dispatch, i18n.language, toast, user, history]);
 
   return (
     <Grid

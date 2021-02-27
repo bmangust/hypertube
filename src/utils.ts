@@ -86,8 +86,9 @@ export const setCookie = (
   document.cookie = updatedCookie;
 };
 
-export const getSearchParam = (search: string) => {
-  const params = search && search.length ? decodeURI(search) : null;
+export const getSearchParam = (search?: string) => {
+  const searchString = search || window.location.search;
+  const params = searchString ? decodeURI(searchString) : null;
   return params
     ? params
         .replaceAll('%3A', ':')
@@ -97,7 +98,8 @@ export const getSearchParam = (search: string) => {
         .split('&')
         .reduce((acc, cur) => {
           const keyValue = cur.split('=');
-          acc[keyValue[0]] = JSON.parse(keyValue[1]);
+          acc[keyValue[0]] =
+            keyValue[0] === 'error' ? JSON.parse(keyValue[1]) : keyValue[1];
           return acc;
         }, {} as { [key: string]: any })
     : null;

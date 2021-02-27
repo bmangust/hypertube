@@ -1,29 +1,32 @@
 import React, { useEffect } from 'react';
 import { Container, makeStyles } from '@material-ui/core';
-import Header from './components/Header/Header';
-import Nav from './components/Nav/Nav';
 import { SnackbarProvider } from 'notistack';
 import { theme } from './theme';
-import { Switch, Route, useLocation } from 'react-router-dom';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import MainPage from './pages/MainPage/MainPage';
+import { useSelector } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+import { getSearchParam } from './utils';
+import { useAppDispatch } from './store/store';
+import { RootState } from './store/rootReducer';
+import { getSelfInfo, getToken } from './store/features/UserSlice';
+import { useToast } from './hooks/useToast';
+
 import LoginPage from './pages/LoginPage/LoginPage';
-import MovieFullInfo from './components/MovieFullInfo/MovieFullInfo';
+import MainPage from './pages/MainPage/MainPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+
+import Auth from './components/Auth/Auth';
 import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import Nav from './components/Nav/Nav';
+import MovieFullInfo from './components/MovieFullInfo/MovieFullInfo';
 import SnackMessage from './components/Notifier/SnackMessage/SnackMessage';
 import Notifier from './components/Notifier/Notifier';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
-import { useAppDispatch } from './store/store';
-import { getSelfInfo, getToken } from './store/features/UserSlice';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import ChangeEmail from './components/ChangeEmail/ChangeEmail';
-import Auth from './components/Auth/Auth';
 import Settings from './components/Settings/Settings';
-import { useSelector } from 'react-redux';
-import { RootState } from './store/rootReducer';
-import { useToast } from './hooks/useToast';
-import { useTranslation } from 'react-i18next';
-import { getSearchParam } from './utils';
 
 const useStyles = makeStyles({
   root: {
@@ -51,12 +54,11 @@ function App() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const { isAuth } = useSelector((state: RootState) => state.user);
-  const location = useLocation();
   const { toast } = useToast();
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const urlParams = getSearchParam(location.search);
+    const urlParams = getSearchParam();
     if (urlParams?.error) {
       const lang = i18n.language as 'en' | 'ru';
       toast({ text: urlParams.error[lang] as string });
@@ -76,7 +78,6 @@ function App() {
       <Route path="/settings" component={Settings} />
       <Route path="/forgot_password" component={ForgotPassword} />
       <Route path="/change_email" component={ChangeEmail} />
-      <Route path="/reset_password" component={ResetPassword} />
       <Route path="/movies/:id" component={MovieFullInfo} />
       <Route path="/" component={MainPage} />
     </Switch>
@@ -85,6 +86,7 @@ function App() {
       <Route path="/auth" component={Auth} />
       <Route path="/register" component={RegisterPage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/reset_password" component={ResetPassword} />
       <Route path="/forgot_password" component={ForgotPassword} />
       <Route path="/movies/:id" component={MovieFullInfo} />
       <Route path="/" component={MainPage} />

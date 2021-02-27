@@ -40,15 +40,13 @@ const ForgotPassword = () => {
       console.log('[ForgotPassword] handleSubmit', inputs);
 
       try {
-        const res = await passwd.post('forgot', {
-          body: { email: inputs.email },
-        });
+        const res = await passwd.post('repair', { email: inputs.email });
         console.log(res);
         if (res.status < 400) {
-          toast(t`Check your email`);
+          toast({ text: t`Check your email` });
         } else {
           console.log(res.data[i18n.language]);
-          toast(res.data[i18n.language] || t`Server error`, 'error');
+          toast({ text: res.data[i18n.language] || t`Server error` }, 'error');
         }
       } catch (e) {
         toast(t`Server error`, 'error');

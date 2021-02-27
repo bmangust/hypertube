@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +7,8 @@ import { useToast } from '../../hooks/useToast';
 
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
+import { getSearchParam } from '../../utils';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
@@ -22,54 +24,52 @@ const ResetPassword = () => {
   const { t, i18n } = useTranslation();
   const formValid = valid.password && valid.confirm;
   const { toast } = useToast();
+  const history = useHistory();
 
-  const handleInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const formData = useMemo(() => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       e.stopPropagation();
       setInputs({
         ...inputs,
         [e.target.name]: e.target.value,
       });
-    },
-    [inputs]
-  );
+    };
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       console.log('[ForgotPassword] handleSubmit', inputs);
 
-      // use cookie or repairToken to get new password
+      const searchParams = getSearchParam();
+      if (!searchParams?.repairToken) {
+        toast({ text: t`ServerErrorTry` }, 'error');
+        history.push('/forgot_password');
+        return;
+      }
       try {
-        const res = await passwd.patch('repair/patch', {
-          body: { password: inputs.password },
-        });
+        const res = await passwd.patch(
+          'repair/patch',
+          { passwd: inputs.password },
+          { headers: { repairToken: searchParams.repairToken } }
+        );
         console.log(res);
         if (res.status < 400) {
-          toast(t`Password changed`);
+          toast({ text: t`Password changed` });
+          history.push('/login');
         } else {
-          console.log(res.data[i18n.language]);
-          const message = {
-            text: res.data[i18n.language] ?? t`Server error`,
-          };
-
-          toast(message, 'error');
+          toast({ text: res.data[i18n.language] ?? t`Server error` }, 'error');
         }
       } catch (e) {
         toast(t`Server error`, 'error');
       }
-    },
-    [inputs, t, i18n.language, toast]
-  );
+    };
 
-  const formData = useMemo(
-    () => ({
+    return {
       inputs: [
         {
           name: 'password',
           type: 'password',
-          label: t('Password'),
-          placeholder: t('Enter password'),
+          label: t`New password`,
+          placeholder: t`Enter password`,
           value: inputs.password,
           onChange: handleInput,
           size: 'small',
@@ -78,7 +78,7 @@ const ResetPassword = () => {
           onValidate: (isValid) =>
             setValid((prev) => ({ ...prev, password: isValid })),
           rules: {
-            helperText: t('passwordError'),
+            helperText: t`passwordError`,
             rule: {
               minLength: 6,
               maxLength: 25,
@@ -89,8 +89,8 @@ const ResetPassword = () => {
         {
           name: 'confirm',
           type: 'password',
-          label: t('Confirm'),
-          placeholder: t('Confirm password'),
+          label: t`Confirm`,
+          placeholder: t`Confirm password`,
           value: inputs.confirm,
           onChange: handleInput,
           size: 'small',
@@ -99,10 +99,10 @@ const ResetPassword = () => {
           onValidate: (isValid) =>
             setValid((prev) => ({ ...prev, confirm: isValid })),
           rules: {
-            helperText: t('confirmError'),
+            helperText: t`confirmError`,
             rule: {
-              minLength: 3,
-              maxLength: 20,
+              minLength: 6,
+              maxLength: 25,
               regex: new RegExp(`^${inputs.password}$`),
             },
           },
@@ -117,9 +117,8 @@ const ResetPassword = () => {
           disabled: !formValid,
         },
       ] as IButtonProps[],
-    }),
-    [inputs, formValid, handleInput, handleSubmit, t]
-  );
+    };
+  }, [inputs, formValid, t, i18n.language, toast, history]);
 
   return (
     <Grid
