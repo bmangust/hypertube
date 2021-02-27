@@ -19,7 +19,10 @@ export const useToast = () => {
           text: message.text,
           header: message.header,
           variant: variant || 'default',
-          options: { ...options, autoHideDuration: 3000 },
+          options: {
+            ...options,
+            autoHideDuration: 3000,
+          },
         })
       );
     },

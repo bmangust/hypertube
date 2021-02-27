@@ -151,7 +151,7 @@ const Register = () => {
             helperText: t('confirmError'),
             rule: {
               minLength: 3,
-              maxLength: 20,
+              maxLength: 25,
               regex: new RegExp(`^${inputs.password}$`),
             },
           },

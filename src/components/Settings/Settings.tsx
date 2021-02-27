@@ -1,7 +1,7 @@
 import { Avatar, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useCallback, useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { profile } from '../../axios';
+import { email, passwd, profile } from '../../axios';
 import Form, { IButtonProps } from '../Form/Form';
 import { IInputProps } from '../Input/Input';
 import defaultAvatar from '../../images/defaultAvatar.png';
@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { useToast } from '../../hooks/useToast';
 import { getToken, saveUserState } from '../../store/features/UserSlice';
 import { useAppDispatch } from '../../store/store';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
@@ -58,13 +59,14 @@ const Settings = () => {
     username: user.username,
     newPassword: '',
     currentPassword: '',
+    confirm: '',
     avatarImage: user.imageBody,
   });
   const [valid, setValid] = useState({
     email: true,
     newPassword: true,
     currentPassword: true,
-    avatar: true,
+    confirm: true,
     username: true,
   });
   const classes = useStyles();
@@ -72,12 +74,13 @@ const Settings = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const validateForm = () => {
-    const { email, avatar, username, newPassword, currentPassword } = valid;
+    const { email, username, newPassword, currentPassword, confirm } = valid;
     return newPassword
-      ? currentPassword && (email || avatar || username)
-      : email || avatar || username;
+      ? currentPassword && confirm && (email || username)
+      : email || username;
   };
   const formValid = validateForm();
 
@@ -88,6 +91,7 @@ const Settings = () => {
       file.type === 'image/jpeg'
     );
   };
+
   const uploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     let file = e.target.files[0];
@@ -102,190 +106,262 @@ const Settings = () => {
     let reader = new FileReader();
     reader.onload = async function (e) {
       if (!e.target || !e.target.result) return;
+      const image = e.target.result.toString();
       setInputs({
         ...inputs,
-        avatarImage: e.target.result.toString(),
+        avatarImage: image,
       });
+      const body = {
+        imageBody: image,
+      };
+      const res = await profile.patch('patch', body, {
+        headers: {
+          accessToken: getToken(),
+        },
+      });
+      // console.log(res.data);
+      if (res.status >= 400) toast({ text: t`Avatar upload error` }, 'error');
+      else {
+        dispatch(
+          saveUserState({
+            user: {
+              ...user,
+              imageBody: image,
+            },
+          })
+        );
+        toast({ text: t`Avatar uploaded` });
+      }
     };
     reader.readAsDataURL(file);
-    setValid({
-      ...valid,
-      avatar: true,
-    });
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setInputs({
-      ...inputs,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('[Settings] handleSubmit', inputs);
-
-    const body = {
-      email: inputs.email,
-      username: inputs.username,
-      imageBody: inputs.avatarImage,
-    } as {
-      email?: string;
-      username?: string;
-      imageBody?: string;
-      newPassword?: string;
-      currentPassword?: string;
+  const formData = useMemo(() => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        [e.target.name]: e.target.value,
+      }));
     };
-    if (inputs.newPassword && inputs.currentPassword) {
-      body.newPassword = inputs.newPassword;
-      body.currentPassword = inputs.currentPassword;
-    }
-    const res = await profile.patch('patch', body, {
-      headers: {
-        accessToken: getToken(),
-      },
-    });
-    console.log(res.data);
-    if (res.status >= 400) toast({ text: res.data[i18n.language] }, 'error');
-    else {
-      dispatch(
-        saveUserState({
-          user: {
-            ...user,
-            username: inputs.username,
-            imageBody: inputs.avatarImage,
-          },
-        })
-      );
-      toast({ text: t`User info updated` });
-    }
-  };
 
-  const formData = {
-    inputs: [
-      {
-        name: 'email',
-        type: 'email',
-        label: t('Email'),
-        placeholder: t('Enter email'),
-        value: inputs.email,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback(
-          (isValid) => {
-            setValid((prev) => ({ ...prev, email: isValid }));
-          },
-          [setValid]
-        ),
-        rules: {
-          helperText: t('emailError'),
-          rule: useMemo(
-            () => ({
-              minLength: 6,
+    const updateEmail = async () => {
+      const body = {
+        email: inputs.email,
+      };
+      const res = await email.patch('patch', body, {
+        headers: {
+          accessToken: getToken(),
+        },
+      });
+      console.log(res.data);
+      if (res.status >= 400)
+        toast({ text: res.data[i18n.language] || t`Update error` }, 'error');
+      else {
+        dispatch(
+          saveUserState({
+            user: {
+              ...user,
+              email: inputs.email,
+            },
+          })
+        );
+        toast({ text: t`Check your email` });
+      }
+    };
+
+    const updateUsername = async () => {
+      const body = {
+        username: inputs.username,
+      };
+      const res = await profile.patch('patch', body, {
+        headers: {
+          accessToken: getToken(),
+        },
+      });
+      console.log(res.data);
+      if (res.status >= 400)
+        toast({ text: res.data[i18n.language] || t`Update error` }, 'error');
+      else {
+        dispatch(
+          saveUserState({
+            user: {
+              ...user,
+              username: inputs.username,
+            },
+          })
+        );
+        toast({ text: t`User info updated` });
+      }
+    };
+
+    const updatePassword = async () => {
+      const body = {
+        passwd: inputs.currentPassword,
+        newPasswd: inputs.newPassword,
+      };
+      const res = await passwd.patch('patch', body, {
+        headers: {
+          accessToken: getToken(),
+        },
+      });
+      console.log(res.data);
+      if (res.status >= 400)
+        toast({ text: res.data[i18n.language] || t`Update error` }, 'error');
+      else {
+        toast({ text: t`User info updated` });
+        setInputs({
+          ...inputs,
+          currentPassword: '',
+          confirm: '',
+          newPassword: '',
+        });
+      }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (inputs.email !== user.email) updateEmail();
+      if (inputs.username !== user.username) updateUsername();
+      if (inputs.newPassword) updatePassword();
+      console.log('[Settings] handleSubmit', inputs);
+    };
+
+    return {
+      inputs: [
+        {
+          name: 'email',
+          type: 'email',
+          label: t('Email'),
+          placeholder: t('Enter email'),
+          value: inputs.email,
+          onChange: handleInput,
+          size: 'small',
+          fullWidth: true,
+          required: true,
+          onValidate: (isValid) =>
+            setValid((prev) => ({
+              ...prev,
+              currentPassword: isValid,
+            })),
+          rules: {
+            helperText: t('emailError'),
+            rule: {
+              minLength: 0,
               maxLength: 40,
-              regex: /^([\w%+-.]+)@([\w-]+\.)+([\w]{2,})$/i,
-            }),
-            []
-          ),
-        },
-      },
-      {
-        name: 'username',
-        type: 'text',
-        label: t('Username'),
-        placeholder: t('Enter username'),
-        value: inputs.username,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback(
-          (isValid) => {
-            setValid((prev) => ({ ...prev, username: isValid }));
+              regex: /^(([\w%+-.]+)@([\w-]+\.)+([\w]{2,}))?$/i,
+            },
           },
-          [setValid]
-        ),
-        rules: {
-          helperText: t('usernameError'),
-          rule: useMemo(
-            () => ({
-              minLength: 3,
+        },
+        {
+          name: 'username',
+          type: 'text',
+          label: t('Username'),
+          placeholder: t('Enter username'),
+          value: inputs.username,
+          onChange: handleInput,
+          size: 'small',
+          fullWidth: true,
+          required: true,
+          onValidate: (isValid) =>
+            setValid((prev) => ({
+              ...prev,
+              currentPassword: isValid,
+            })),
+          rules: {
+            helperText: t('usernameError'),
+            rule: {
+              minLength: 0,
               maxLength: 20,
-              regex: /^[\w-+.]+$/,
-            }),
-            []
-          ),
+              regex: /^([\w-+.]+)?$/,
+            },
+          },
         },
-      },
-      {
-        name: 'newPassword',
-        type: 'password',
-        label: t('New password'),
-        placeholder: t('Enter new password'),
-        value: inputs.newPassword,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback((isValid) => {
-          setValid((prev) => ({ ...prev, newPassword: isValid }));
-        }, []),
-        rules: {
-          helperText: t('passwordError'),
-          rule: useMemo(
-            () => ({
-              minLength: 6,
+        {
+          name: 'newPassword',
+          type: 'password',
+          label: t('New password'),
+          placeholder: t('Enter new password'),
+          value: inputs.newPassword,
+          onChange: handleInput,
+          size: 'small',
+          fullWidth: true,
+          required: true,
+          onValidate: (isValid) =>
+            setValid((prev) => ({
+              ...prev,
+              currentPassword: isValid,
+            })),
+          rules: {
+            helperText: t('passwordError'),
+            rule: {
+              minLength: 0,
               maxLength: 25,
-              regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
-            }),
-            []
-          ),
+              regex: /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,})?$/,
+            },
+          },
         },
-      },
-      {
-        name: 'currentPassword',
-        type: 'password',
-        label: t('Current password'),
-        placeholder: t('Enter current password'),
-        value: inputs.currentPassword,
-        onChange: handleInput,
-        size: 'small',
-        fullWidth: true,
-        required: true,
-        onValidate: useCallback((isValid) => {
-          setValid((prev) => ({ ...prev, currentPassword: isValid }));
-        }, []),
-        rules: {
-          helperText: t('passwordError'),
-          rule: useMemo(
-            () => ({
-              minLength: 6,
+        {
+          name: 'confirm',
+          type: 'password',
+          label: t('Confirm'),
+          placeholder: t('Confirm password'),
+          value: inputs.confirm,
+          onChange: handleInput,
+          size: 'small',
+          fullWidth: true,
+          required: true,
+          onValidate: (isValid) =>
+            setValid((prev) => ({ ...prev, confirm: isValid })),
+          rules: {
+            helperText: t('confirmError'),
+            rule: {
+              minLength: 0,
               maxLength: 25,
-              regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{6,}$/,
-            }),
-            []
-          ),
+              regex: new RegExp(`^${inputs.newPassword}$`),
+            },
+          },
         },
-      },
-    ] as IInputProps[],
-    buttons: [
-      {
-        type: 'submit',
-        variant: 'contained',
-        onClick: handleSubmit,
-        text: t('Save'),
-        disabled: !formValid,
-      },
-      {
-        to: '/',
-        variant: 'outlined',
-        text: t('Exit'),
-      },
-    ] as IButtonProps[],
-  };
+        {
+          name: 'currentPassword',
+          type: 'password',
+          label: t('Current password'),
+          placeholder: t('Enter current password'),
+          value: inputs.currentPassword,
+          onChange: handleInput,
+          size: 'small',
+          fullWidth: true,
+          required: true,
+          onValidate: (isValid) =>
+            setValid((prev) => ({
+              ...prev,
+              currentPassword: isValid,
+            })),
+          rules: {
+            helperText: t('currentPasswordError'),
+            rule: {
+              minLength: inputs.newPassword.length ? 1 : 0,
+              maxLength: 25,
+            },
+          },
+        },
+      ] as IInputProps[],
+      buttons: [
+        {
+          type: 'submit',
+          variant: 'contained',
+          onClick: handleSubmit,
+          text: t('Save'),
+          disabled: !formValid,
+        },
+        {
+          variant: 'outlined',
+          onClick: () => history.goBack(),
+          text: t`Back`,
+        },
+      ] as IButtonProps[],
+    };
+  }, [inputs, formValid, t, dispatch, i18n.language, toast, user]);
 
   return (
     <Grid

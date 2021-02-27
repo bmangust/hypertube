@@ -23,7 +23,10 @@ const snackSlice = createSlice({
   initialState,
   reducers: {
     addSnack(state, { payload }: PayloadAction<INotification>) {
-      state.notifications.push(payload);
+      const hasSameMessageAndVariant = state.notifications.find(
+        (msg) => msg.text === payload.text && msg.variant === payload.variant
+      );
+      if (!hasSameMessageAndVariant) state.notifications.push(payload);
     },
     dismissSnack(state, { payload }) {
       state.notifications = state.notifications.map((notificaton) =>

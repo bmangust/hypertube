@@ -65,6 +65,7 @@
   "Confirm": "Confirm",
   "Confirm password": "Confirm password",
   "confirmError": "Password and confirmation do not match",
+  "currentPasswordError": "Enter your current password",
   "Login": "Login",
   "Register": "Register",
   "Settings": "Settings",
@@ -76,8 +77,12 @@
   "Logout": "Logout",
   "Save": "Save",
   "Exit": "Exit",
+  "Back": "Back",
   "Update info": "Update info",
   "User info updated": "User info updated",
+  "Update error": "Update error",
+  "Avatar uploaded": "Avatar uploaded",
+  "Avatar upload error": "Avatar upload error",
 
   "Sort": "Sort",
   "By name": "By name",
@@ -98,6 +103,8 @@
   "Comments": "Comments",
   "photos": "Photos",
   "videos": "Videos",
+
+  "Cannot load movie": "Cannot load movie",
 
   "Leave a comment!": "Leave a comment!",
   "Send": "Send",

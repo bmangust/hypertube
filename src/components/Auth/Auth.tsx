@@ -11,7 +11,7 @@ const Auth = () => {
   React.useEffect(() => {
     console.log('cookie', document.cookie);
     console.log(window.location.href);
-    const queryParams = window.location.search;
+    const queryParams = decodeURI(window.location.search);
     console.log('queryParams', queryParams);
     const accessToken = queryParams
       .slice(1)

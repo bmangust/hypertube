@@ -43,7 +43,8 @@ const useStyles = makeStyles({
 export interface IRule {
   minLength: number;
   maxLength: number;
-  regex: RegExp;
+  regex?: RegExp;
+  checkFn?: () => boolean;
 }
 
 export interface IInputProps {
@@ -90,10 +91,13 @@ export interface IInputProps {
  * @param {boolean} touched flag to check if input was already focused
  */
 const validate = (value: string, rule: IRule, touched: boolean): boolean => {
+  const isRegexValid = rule.regex ? !!value.match(rule.regex) : true;
+  const isFnValid = rule.checkFn ? rule.checkFn() : true;
   return touched
     ? value.length >= rule.minLength &&
         value.length <= rule.maxLength &&
-        !!value.match(rule.regex)
+        isRegexValid &&
+        isFnValid
     : true;
 };
 
