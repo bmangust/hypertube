@@ -85,3 +85,20 @@ export const setCookie = (
   });
   document.cookie = updatedCookie;
 };
+
+export const getSearchParam = (search: string) => {
+  const params = search && search.length ? decodeURI(search) : null;
+  return params
+    ? params
+        .replaceAll('%3A', ':')
+        .replaceAll('%2C', ',')
+        .replaceAll('+', ' ')
+        .slice(1)
+        .split('&')
+        .reduce((acc, cur) => {
+          const keyValue = cur.split('=');
+          acc[keyValue[0]] = JSON.parse(keyValue[1]);
+          return acc;
+        }, {} as { [key: string]: any })
+    : null;
+};

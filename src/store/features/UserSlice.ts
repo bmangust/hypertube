@@ -79,7 +79,10 @@ export const getSelfInfo = () => async (dispatch: AppDispatch) => {
       },
     });
     console.log(res.data);
-    if (res.data) {
+    if (res.data.en) {
+      dispatch(authFail());
+      removeToken();
+    } else {
       dispatch(
         saveUserState({
           user: res.data as IUser,

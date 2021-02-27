@@ -4,7 +4,7 @@ import Header from './components/Header/Header';
 import Nav from './components/Nav/Nav';
 import { SnackbarProvider } from 'notistack';
 import { theme } from './theme';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -21,6 +21,9 @@ import Auth from './components/Auth/Auth';
 import Settings from './components/Settings/Settings';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/rootReducer';
+import { useToast } from './hooks/useToast';
+import { useTranslation } from 'react-i18next';
+import { getSearchParam } from './utils';
 
 const useStyles = makeStyles({
   root: {
@@ -48,6 +51,18 @@ function App() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const { isAuth } = useSelector((state: RootState) => state.user);
+  const location = useLocation();
+  const { toast } = useToast();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const urlParams = getSearchParam(location.search);
+    if (urlParams?.error) {
+      const lang = i18n.language as 'en' | 'ru';
+      toast({ text: urlParams.error[lang] as string });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const token = getToken();
