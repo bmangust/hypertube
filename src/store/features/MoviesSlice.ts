@@ -11,8 +11,12 @@ export interface CommentsItems {
   comments: IComment[];
   id?: string;
 }
+export interface ErrorItem {
+  error: string;
+}
 
 export interface MoviesState {
+  error: string | null;
   movies: IMovie[];
   popular: IMovie[];
 }
@@ -32,6 +36,7 @@ export interface IFilter {
 }
 
 const initialState = {
+  error: null,
   movies: [],
   popular: [],
 } as MoviesState;
@@ -56,15 +61,29 @@ const MoviesSlice = createSlice({
       state.movies = payload.movies;
     },
     updateComments(state, { payload }: PayloadAction<CommentsItems>) {
+      console.log('[updateComments] payload', payload);
       if (!payload.id)
         throw new Error('[movies:updateComments] no id in payload');
       if (!payload.comments)
         throw new Error('[movies:updateComments] no comments in payload');
       const movie = state.movies.find((movie) => movie.id === payload.id);
       if (!movie) throw new Error('[movies:updateComments] no movie found');
+      const newComments = payload.comments.filter((comment) =>
+        movie.info.comments
+          ? !movie.info.comments.find(
+              (el) => el.commentid === comment.commentid
+            )
+          : !!comment
+      );
       movie.info.comments = movie.info.comments
-        ? [...movie.info.comments, ...payload.comments]
-        : [...payload.comments];
+        ? [...movie.info.comments, ...newComments]
+        : [...newComments];
+    },
+    setError(state, { payload }: PayloadAction<ErrorItem>) {
+      state.error = payload.error;
+    },
+    resetError(state) {
+      state.error = null;
     },
   },
 });
@@ -105,43 +124,50 @@ export const loadMovies = ({
     callback(movies && movies.data ? movies.data.length === 0 : true);
 };
 
-export const loadMovie = (id: number) => async (dispatch: AppDispatch) => {
-  const movies = await loadMoviesAsync({ id });
-  if (movies?.status && movies.data)
-    dispatch(addMovies({ movies: movies.data }));
+export const loadMovie = (id: string) => async (dispatch: AppDispatch) => {
+  const movie = await loadMoviesAsync({ id });
+  console.log(movie);
+  if (movie?.status && movie.data) dispatch(addMovies({ movies: movie.data }));
+  else dispatch(setError({ error: 'Cannot load movie' }));
 };
 
 /**
  * loads comments
  * @param params object with values:
- *    @param id movieId to find it in redux
+ *    @param movieId movieId to find it in redux
  *    @param limit number of comments to fetch, default 5
  *    @param offset comments offset, default 0
  * @param callback fires when end of comments is reached
  */
 export const loadComments = (
   {
-    id,
+    movieId,
     limit = 5,
     offset = 0,
-  }: { id: string; limit?: number; offset?: number },
+  }: { movieId: string; limit?: number; offset?: number },
   callback?: (length: number) => void
 ) => async (dispatch: AppDispatch) => {
   const res = await movies('comments', {
     params: {
-      id,
+      movieId,
       limit,
       offset,
     },
   });
-  // console.log(res.data);
-  if (res.data) {
-    const comments = res.data as IComment[];
-    comments.length && dispatch(updateComments({ comments, id }));
+  console.log(res.data);
+  if (res.data.status) {
+    const comments = res.data.data as IComment[];
+    comments.length && dispatch(updateComments({ comments, id: movieId }));
     if (callback) callback(comments.length);
   }
 };
 
-export const { addMovies, setMovies, updateComments } = MoviesSlice.actions;
+export const {
+  addMovies,
+  setMovies,
+  updateComments,
+  setError,
+  resetError,
+} = MoviesSlice.actions;
 
 export default MoviesSlice.reducer;

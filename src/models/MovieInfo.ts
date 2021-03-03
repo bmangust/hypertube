@@ -18,7 +18,7 @@ export interface IMovieInfo {
   pgRating: string;
   countries?: string[];
   comments?: IComment[];
-  maxComments?: number;
+  maxComments: number;
   description?: string;
   photos?: string[];
   videos?: string[];
@@ -31,7 +31,7 @@ export interface IMovieInfo {
   keywords?: string[];
 }
 export interface IComment {
-  id: string;
+  commentid: number;
   username: string;
   avatar?: string;
   movieid: string;

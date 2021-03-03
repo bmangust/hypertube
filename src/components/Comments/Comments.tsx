@@ -3,76 +3,76 @@ import { Grid, Typography } from '@material-ui/core';
 import Comment from './Comment/Comment';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
 import SendComment from './SendComment/SendComment';
-import { useDispatch, useSelector } from 'react-redux';
 import { loadComments } from '../../store/features/MoviesSlice';
 import { debouncedDetectBottomLine } from '../../utils';
-import { RootState } from '../../store/rootReducer';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from '../../store/store';
+import { IMovie } from '../../models/MovieInfo';
 
 const LIMIT = 5;
 export interface CommentsProps {
-  movieId: string;
-  maxComments?: number;
+  movie: IMovie;
 }
 
-const Comments: React.FC<CommentsProps> = ({ movieId, maxComments }) => {
+const Comments: React.FC<CommentsProps> = ({ movie }) => {
   const gridRef = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const movie = useSelector((state: RootState) =>
-    state.movies.movies.find((movie) => movie.id === movieId)
-  );
   const offsetRef = useRef(0);
-
+  console.log(movie);
   // load first batch of comments initially
   // if there's something left to load
   useEffect(() => {
-    if (!maxComments) return;
+    if (!movie?.info.maxComments) return;
     if (
-      !movie?.info.comments ||
-      (movie?.info.comments && movie.info.comments.length < maxComments)
+      !movie.info.comments ||
+      (movie.info.comments &&
+        movie.info.comments.length < movie.info.maxComments)
     ) {
       dispatch(
-        loadComments({ id: movieId }, (length) => (offsetRef.current += length))
+        loadComments(
+          { movieId: movie.id, offset: movie.info.comments?.length },
+          (length) => (offsetRef.current += length)
+        )
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // load more comments on scroll
   useEffect(() => {
-    if (!maxComments) return;
-
-    const endOfMoviesCallback = () => {
+    if (!movie || !movie.info.maxComments) return;
+    const endOfCommentsCallback = () => {
       if (
-        offsetRef.current < maxComments &&
-        movie?.info.comments?.length &&
-        movie.info.comments.length < maxComments
+        movie.info.comments?.length &&
+        movie.info.comments?.length < movie.info.maxComments
       ) {
-        const commmentsToLoad = {
-          id: movieId,
-          limit: LIMIT,
-          offset: offsetRef.current,
-        };
         dispatch(
-          loadComments(
-            commmentsToLoad,
-            (length) => (offsetRef.current += length)
-          )
+          loadComments({
+            movieId: movie.id,
+            limit: LIMIT,
+            offset: movie.info.comments?.length || 0,
+          })
         );
       }
     };
     const trackScrolling = debouncedDetectBottomLine(
       gridRef.current,
-      endOfMoviesCallback
+      endOfCommentsCallback
     );
     window.addEventListener('scroll', trackScrolling);
     return () => window.removeEventListener('scroll', trackScrolling);
-  }, [maxComments, dispatch, movie?.info.comments?.length, movieId]);
+  }, [
+    movie,
+    movie.info.comments?.length,
+    movie.info.maxComments,
+    movie.id,
+    dispatch,
+  ]);
 
-  const content = movie?.info.comments?.length ? (
+  if (!movie) return null;
+  const content = movie.info.comments?.length ? (
     movie.info.comments.map((comment) => (
-      <Comment {...comment} key={comment.id} />
+      <Comment {...comment} key={comment.commentid} />
     ))
   ) : (
     <Typography variant="body1" style={{ fontSize: '1.3rem' }}>
