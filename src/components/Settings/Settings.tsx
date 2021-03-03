@@ -238,7 +238,6 @@ const Settings = () => {
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
-          required: true,
           onValidate: (isValid) =>
             setValid((prev) => ({
               ...prev,
@@ -262,7 +261,6 @@ const Settings = () => {
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
-          required: true,
           onValidate: (isValid) =>
             setValid((prev) => ({
               ...prev,
@@ -286,7 +284,6 @@ const Settings = () => {
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
-          required: true,
           onValidate: (isValid) =>
             setValid((prev) => ({
               ...prev,
@@ -310,7 +307,6 @@ const Settings = () => {
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
-          required: true,
           onValidate: (isValid) =>
             setValid((prev) => ({ ...prev, confirm: isValid })),
           rules: {
@@ -331,7 +327,6 @@ const Settings = () => {
           onChange: handleInput,
           size: 'small',
           fullWidth: true,
-          required: true,
           onValidate: (isValid) =>
             setValid((prev) => ({
               ...prev,

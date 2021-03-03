@@ -61,7 +61,6 @@ const MoviesSlice = createSlice({
       state.movies = payload.movies;
     },
     updateComments(state, { payload }: PayloadAction<CommentsItems>) {
-      console.log('[updateComments] payload', payload);
       if (!payload.id)
         throw new Error('[movies:updateComments] no id in payload');
       if (!payload.comments)

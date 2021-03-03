@@ -1,6 +1,6 @@
 import { Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import { IUser } from '../../models/MovieInfo';
 import HorizontalGrid from '../HorizontalGrid/HorizontalGrid';
 import CategoryHeader from '../CategoryHeader/CategoryHeader';
@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 import Comments from '../Comments/Comments';
 import { useAppDispatch } from '../../store/store';
-import { loadMovie } from '../../store/features/MoviesSlice';
+import { loadMovie, resetError } from '../../store/features/MoviesSlice';
 import { useTranslation } from 'react-i18next';
 import { primaryColor } from '../../theme';
 import Player from '../Player/Player';
+import { useToast } from '../../hooks/useToast';
 
 interface TParams {
   id: string;
@@ -67,16 +68,26 @@ const useStyles = makeStyles({
 const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const { movies } = useSelector((state: RootState) => state.movies);
-  const movie = movies.find((movie) => movie.id === match.params.id);
   const { t } = useTranslation();
+  const history = useHistory();
+  const { toast } = useToast();
+  const { movies, error } = useSelector((state: RootState) => state.movies);
+  const movie = movies.find((movie) => movie.id === match.params.id);
   const headerRef = React.useRef<HTMLHeadingElement | null>(null);
 
-  // if no movies in redux - load some
+  // if no movies in redux - load some, we've landed on movie's page
   useEffect(() => {
-    if (!movie) dispatch(loadMovie(+match.params.id));
+    if (!movie) dispatch(loadMovie(match.params.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      history.push('/');
+      toast({ text: t(error) }, 'error');
+      dispatch(resetError());
+    }
+  }, [error, dispatch, history, t, toast]);
 
   useEffect(() => {
     if (!headerRef || !headerRef.current) return;
@@ -161,7 +172,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
             type={'video'}
           />
         )}
-        <Comments maxComments={movie.info.maxComments} movieId={movie.id} />
+        <Comments movie={movie} />
       </Grid>
     </Grid>
   );
