@@ -13,6 +13,7 @@ export interface IMovieInfo {
   year: number;
   genres: GenresKeys[];
   rating: number;
+  imdbRating: number;
   views: number;
   length: number;
   pgRating: string;

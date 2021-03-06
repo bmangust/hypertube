@@ -8,6 +8,8 @@ import { debouncedDetectBottomLine } from '../../utils';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../store/store';
 import { IMovie } from '../../models/MovieInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 const LIMIT = 5;
 export interface CommentsProps {
@@ -19,7 +21,8 @@ const Comments: React.FC<CommentsProps> = ({ movie }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const offsetRef = useRef(0);
-  console.log(movie);
+  const { isAuth } = useSelector((state: RootState) => state.user);
+
   // load first batch of comments initially
   // if there's something left to load
   useEffect(() => {
@@ -83,7 +86,7 @@ const Comments: React.FC<CommentsProps> = ({ movie }) => {
   return (
     <Grid ref={gridRef} style={{ marginTop: 10 }} container direction="column">
       <CategoryHeader text={t`Comments`} />
-      <SendComment />
+      {isAuth && <SendComment />}
       {content}
     </Grid>
   );

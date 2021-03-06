@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Divider,
   Grid,
@@ -6,21 +6,17 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { PlayArrow, StarBorder } from '@material-ui/icons';
-import Rating from '@material-ui/lab/Rating';
+import PlayArrow from '@material-ui/icons/PlayArrow';
 import { Link, NavLink } from 'react-router-dom';
-import { IMovie, IUser } from '../../models/MovieInfo';
 import { useTranslation } from 'react-i18next';
+
+import { IMovie, IUser } from '../../models/MovieInfo';
 import { primaryColor } from '../../theme';
-import { movies } from '../../axios';
-import { getToken } from '../../store/features/UserSlice';
+import Rating from '../Rating/Rating';
 
 interface MovieCardMediumProps {
   card: IMovie;
 }
-
-// const svg =
-//   '<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#ffffff"></path></svg>';
 
 const useStyles = makeStyles({
   Paper: {
@@ -38,23 +34,6 @@ const useStyles = makeStyles({
       marginRight: 20,
       borderRadius: 5,
     },
-    // '&::after': {
-    //   //   content: "''",
-    //   content: `url('data:image/svg+xml; utf8, ${svg}')`,
-    //   position: 'absolute',
-    //   width: '100px',
-    //   height: '100px',
-    //   left: 0,
-    //   top: 0,
-    //   opacity: 1,
-    //   padding: '1rem',
-    //   borderRadius: '50%',
-    //   color: '#fff',
-    //   zIndex: 1,
-    // },
-    // '&:hover::after': {
-    //   opacity: 1,
-    // },
     '&:hover $PlayIconWrapper': {
       opacity: 1,
     },
@@ -121,27 +100,6 @@ const MovieCardMedium = ({
 }: MovieCardMediumProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [rating, setRating] = useState(info.rating);
-
-  const handleRatingChange = async (
-    e: React.ChangeEvent<{}>,
-    newRating: number | null
-  ) => {
-    e.stopPropagation();
-    if (newRating !== null) {
-      console.log(newRating);
-      const res = await movies.patch(
-        '/rating',
-        { id, rating: newRating },
-        {
-          headers: {
-            accessToken: getToken(),
-          },
-        }
-      );
-      if (res.data.status) setRating(res.data.data);
-    }
-  };
 
   const mapItemsToLinks = (
     items: (string | IUser)[] | undefined
@@ -173,10 +131,9 @@ const MovieCardMedium = ({
             </Typography>
           </NavLink>
           <Rating
-            value={rating}
-            name={`${id}-${title.replace(' ', '-')}-rating`}
-            emptyIcon={<StarBorder fontSize="inherit" />}
-            onChange={handleRatingChange}
+            movieId={id}
+            imdbRating={info.imdbRating}
+            ourRating={info.rating}
           />
         </Grid>
         {/* <Divider /> */}
