@@ -7,6 +7,7 @@ import {
   makeStyles,
   Paper,
   Popper,
+  TextField,
 } from '@material-ui/core';
 import { SearchRounded } from '@material-ui/icons';
 import React, { useState } from 'react';
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
     },
   },
   Input: {
-    padding: '10px 1rem',
+    padding: '5px 1rem',
     flex: 1,
   },
   BaseInput: {
@@ -126,11 +127,12 @@ const Search = () => {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={250}>
             <Paper>
-              <InputBase
+              <TextField
+                size="small"
                 className={classes.Input}
                 inputProps={{ 'aria-label': 'search for a movie' }}
                 value={search}
-                classes={{ input: classes.BaseInput }}
+                classes={{ root: classes.BaseInput }}
                 onChange={handleInput}
                 onKeyPress={handleSearch}
                 placeholder={t('search')}

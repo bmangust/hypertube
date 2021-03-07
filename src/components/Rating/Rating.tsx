@@ -3,7 +3,7 @@ import { movies } from '../../axios';
 import { getToken } from '../../store/features/UserSlice';
 import MUIRating from '@material-ui/lab/Rating';
 import StarBorderRounded from '@material-ui/icons/StarBorderRounded';
-import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 
 interface Props {
   movieId: string;
