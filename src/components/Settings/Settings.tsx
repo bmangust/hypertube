@@ -78,7 +78,7 @@ const Settings = () => {
 
   const validateForm = () => {
     const { email, username, newPassword, currentPassword, confirm } = valid;
-    return newPassword
+    return inputs.newPassword
       ? currentPassword && confirm && (email || username)
       : email || username;
   };

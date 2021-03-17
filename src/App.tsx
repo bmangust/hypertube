@@ -59,9 +59,10 @@ function App() {
 
   useEffect(() => {
     const urlParams = getSearchParam();
+    console.log(urlParams);
     if (urlParams?.error) {
       const lang = i18n.language as 'en' | 'ru';
-      toast({ text: urlParams.error[lang] as string });
+      toast({ text: urlParams.error[lang] as string }, 'error');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
