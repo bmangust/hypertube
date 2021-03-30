@@ -4,35 +4,38 @@ import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
-import { IMovie } from '../../models/MovieInfo';
+import { ITranslatedMovie } from '../../models/MovieInfo';
 import { loadMovies } from '../../store/features/MoviesSlice';
 import MovieCard from '../MovieCard/MovieCard';
 import { throttledDetectBottomLine } from '../../utils';
+import CardLoader from '../MovieCard/CardLoader/CardLoader';
 
 const LIMIT = +(process.env.REACT_APP_LOAD_LIMIT || 5);
 
-const sortByName = (movies: IMovie[]) => {
+const sortByName = (movies: ITranslatedMovie[]) => {
   return [...movies].sort((cardA, cardB) =>
-    cardA.title.localeCompare(cardB.title)
+    cardA.en.title.localeCompare(cardB.en.title)
   );
 };
-const sortByYear = (movies: IMovie[]) => {
-  return [...movies].sort((cardA, cardB) => cardB.info.year - cardA.info.year);
-};
-const sortByRating = (movies: IMovie[]) => {
+const sortByYear = (movies: ITranslatedMovie[]) => {
   return [...movies].sort(
-    (cardA, cardB) => cardB.info.rating - cardA.info.rating
+    (cardA, cardB) => cardB.en.info.year - cardA.en.info.year
   );
 };
-const sortByAvalibility = (movies: IMovie[]) => {
+const sortByRating = (movies: ITranslatedMovie[]) => {
   return [...movies].sort(
-    (cardA, cardB) => cardB.info.avalibility - cardA.info.avalibility
+    (cardA, cardB) => cardB.en.info.rating - cardA.en.info.rating
+  );
+};
+const sortByAvalibility = (movies: ITranslatedMovie[]) => {
+  return [...movies].sort(
+    (cardA, cardB) => cardB.en.info.avalibility - cardA.en.info.avalibility
   );
 };
 
 const Cards = () => {
   const { sortBy, view } = useSelector((state: RootState) => state.UI);
-  const { movies } = useSelector((state: RootState) => state.movies);
+  const { loading, movies } = useSelector((state: RootState) => state.movies);
   const [sortedCards, setSortedCards] = useState(movies);
   const dispatch = useAppDispatch();
   const isEndOfMoviesRef = useRef(false);
@@ -80,7 +83,7 @@ const Cards = () => {
   return (
     <Grid ref={gridRef} container justify="space-evenly">
       {sortedCards.map((card) => (
-        <MovieCard key={card.id} card={card} display={view} />
+        <MovieCard key={card.en.id} card={card} display={view} />
       ))}
     </Grid>
   );

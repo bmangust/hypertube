@@ -3,6 +3,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 import MovieCard from '../MovieCard/MovieCard';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
+import { useTranslation } from 'react-i18next';
 
 export interface CardsSliderProps {
   display?: 'grid' | 'image';
@@ -33,6 +34,7 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
   display = 'image',
 }: CardsSliderProps) => {
   const classes = useStyles();
+  const { i18n } = useTranslation();
   const { movies } = useSelector((state: RootState) => state.movies);
 
   return (
@@ -42,7 +44,7 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
           display={display}
           className={classes.Movie}
           card={card}
-          key={card.id || card.name + index}
+          key={card.en.id || card[i18n.language as 'en' | 'ru'].title + index}
         />
       ))}
     </Grid>

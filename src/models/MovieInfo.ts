@@ -1,5 +1,9 @@
 import { CountriesKeys, GenresKeys } from '../store/features/FilterSlice';
 
+export interface ITranslatedMovie {
+  ru: IMovie;
+  en: IMovie;
+}
 export interface IMovie {
   id: string;
   title: string;
