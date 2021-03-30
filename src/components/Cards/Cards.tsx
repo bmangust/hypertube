@@ -85,6 +85,7 @@ const Cards = () => {
       {sortedCards.map((card) => (
         <MovieCard key={card.en.id} card={card} display={view} />
       ))}
+      {loading && <CardLoader />}
     </Grid>
   );
 };
