@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { ITranslatedMovie, IUser } from '../../models/MovieInfo';
 import { primaryColor } from '../../theme';
 import Rating from '../Rating/Rating';
-import React, { useState } from 'react';
 
 interface MovieCardMediumProps {
   card: ITranslatedMovie;
@@ -30,6 +29,7 @@ const useStyles = makeStyles({
     '& img': {
       height: '15rem',
       width: '10rem',
+      maxWidth: '15rem',
       objectFit: 'cover',
       marginRight: 20,
       borderRadius: 5,
@@ -98,7 +98,6 @@ const useStyles = makeStyles({
 const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
-  const [imgError, setImgError] = useState(false);
 
   const { id, img, info } = card.en;
   const title = card[i18n.language as 'en' | 'ru'].title;

@@ -5,12 +5,15 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import { ITranslatedMovie } from '../../models/MovieInfo';
-import { loadMovies } from '../../store/features/MoviesSlice';
+import { loadMovies, setEndOfMovies } from '../../store/features/MoviesSlice';
 import MovieCard from '../MovieCard/MovieCard';
 import { throttledDetectBottomLine } from '../../utils';
 import CardLoader from '../MovieCard/CardLoader/CardLoader';
+import { LIMIT } from '../..';
 
-const LIMIT = +(process.env.REACT_APP_LOAD_LIMIT || 5);
+interface ICardsProps {
+  movies: ITranslatedMovie[];
+}
 
 const sortByName = (movies: ITranslatedMovie[]) => {
   return [...movies].sort((cardA, cardB) =>
@@ -24,7 +27,9 @@ const sortByYear = (movies: ITranslatedMovie[]) => {
 };
 const sortByRating = (movies: ITranslatedMovie[]) => {
   return [...movies].sort(
-    (cardA, cardB) => cardB.en.info.rating - cardA.en.info.rating
+    (cardA, cardB) =>
+      cardB.en.info.rating - cardA.en.info.rating ||
+      cardB.en.info.imdbRating - cardA.en.info.imdbRating
   );
 };
 const sortByAvalibility = (movies: ITranslatedMovie[]) => {
@@ -33,42 +38,54 @@ const sortByAvalibility = (movies: ITranslatedMovie[]) => {
   );
 };
 
-const Cards = () => {
+const Cards = ({ movies }: ICardsProps) => {
   const { sortBy, view } = useSelector((state: RootState) => state.UI);
-  const { loading, movies } = useSelector((state: RootState) => state.movies);
-  const [sortedCards, setSortedCards] = useState(movies);
+  const { loading, isEndOfMovies } = useSelector(
+    (state: RootState) => state.movies
+  );
+  const [sortedCards, setSortedCards] = useState<ITranslatedMovie[]>(movies);
   const dispatch = useAppDispatch();
-  const isEndOfMoviesRef = useRef(false);
   const gridRef = useRef<HTMLDivElement>(null);
+  const location = window.location.href;
 
-  // load movies on component mount
-  useEffect(() => {
-    dispatch(loadMovies({ filter: { limit: LIMIT } }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // selected letter if we're at /byname page
+  const letter = location.search(/byname/)
+    ? location.split('/').pop()
+    : undefined;
+
+  // current search string, if we're at /search page
+  const search = location.match(/search/)
+    ? location.split('/').pop()
+    : undefined;
 
   // track scroll position and load movies if at the bottom
   useEffect(() => {
     const endOfMoviesCallback = () => {
-      if (!isEndOfMoviesRef.current) {
+      if (!isEndOfMovies && !loading) {
+        console.log('endOfMoviesCallback');
         dispatch(
           loadMovies({
             filter: {
+              search,
+              letter,
               limit: LIMIT,
               offset: movies.length,
             },
-            callback: (result: boolean) => (isEndOfMoviesRef.current = result),
           })
-        );
+        ).then((res) => {
+          console.log('[Cards] loadMovies response', res);
+          if (res && res.length < LIMIT) dispatch(setEndOfMovies());
+        });
       }
     };
+    console.log('useEffect track scroll');
     const trackScrolling = throttledDetectBottomLine(
       gridRef.current,
       endOfMoviesCallback
     );
     window.addEventListener('scroll', trackScrolling);
     return () => window.removeEventListener('scroll', trackScrolling);
-  }, [movies.length, dispatch]);
+  }, [movies.length, dispatch, letter, search, isEndOfMovies, loading]);
 
   // sort movies on <sortBy> change
   useEffect(() => {
@@ -83,9 +100,9 @@ const Cards = () => {
   return (
     <Grid ref={gridRef} container justify="space-evenly">
       {sortedCards.map((card) => (
-        <MovieCard key={card.en.id} card={card} display={view} />
+        <MovieCard key={card.en.id} id={card.en.id} display={view} />
       ))}
-      {loading && <CardLoader />}
+      {loading && <CardLoader display={view} />}
     </Grid>
   );
 };

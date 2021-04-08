@@ -1,15 +1,16 @@
 import React from 'react';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import cn from 'classnames';
-import { ITranslatedMovie } from '../../models/MovieInfo';
 import MovieCardMedium from '../MovieCardMedium/MovieCardMedium';
-import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 export interface MovieCardProps {
   display?: 'image' | 'lines' | 'grid';
   className?: string;
-  card: ITranslatedMovie;
+  id: string;
 }
 
 export const useStyles = makeStyles({
@@ -34,22 +35,20 @@ export const useStyles = makeStyles({
 const MovieCard: React.FC<MovieCardProps> = ({
   display = 'image',
   className,
-  card,
+  id: card,
 }: MovieCardProps) => {
   const classes = useStyles();
-  const history = useHistory();
   const { i18n } = useTranslation();
-
-  const handleCardClick = (): void => {
-    history.push(`/movies/${card.en.id}`);
-  };
+  const { movies } = useSelector((state: RootState) => state.movies);
+  const movie = movies.find((el) => el.en.id === card);
 
   const getCard = () => {
-    if (display === 'lines') return <MovieCardMedium card={card} />;
-    const bg = card.en.img || card.ru.img;
+    if (!movie) return null;
+    if (display === 'lines') return <MovieCardMedium card={movie} />;
+    const bg = movie.en.img || movie.ru.img;
     return (
-      <>
-        <Card onClick={handleCardClick} style={{ height: 'fit-content' }}>
+      <NavLink to={`/movies/${movie.en.id}`} className={classes.root}>
+        <Card style={{ height: 'fit-content' }}>
           <div
             className={classes.Media}
             style={{
@@ -62,12 +61,12 @@ const MovieCard: React.FC<MovieCardProps> = ({
           <Grid container direction="column" alignItems="center">
             {display === 'grid' && (
               <Typography className={classes.Name}>
-                {card[i18n.language as 'en' | 'ru'].title}
+                {movie[i18n.language as 'en' | 'ru'].title}
               </Typography>
             )}
           </Grid>
         )}
-      </>
+      </NavLink>
     );
   };
 

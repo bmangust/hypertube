@@ -19,7 +19,6 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import Auth from './components/Auth/Auth';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
-import Nav from './components/Nav/Nav';
 import MovieFullInfo from './components/MovieFullInfo/MovieFullInfo';
 import SnackMessage from './components/Notifier/SnackMessage/SnackMessage';
 import Notifier from './components/Notifier/Notifier';
@@ -80,6 +79,14 @@ function App() {
       <Route path="/forgot_password" component={ForgotPassword} />
       <Route path="/change_email" component={ChangeEmail} />
       <Route path="/movies/:id" component={MovieFullInfo} />
+      <Route
+        path="/search/:id"
+        render={(props) => <MainPage {...props} route={'search'} />}
+      />
+      <Route
+        path="/byname/:id"
+        render={(props) => <MainPage {...props} route={'byname'} />}
+      />
       <Route path="/" component={MainPage} />
     </Switch>
   ) : (
@@ -90,6 +97,14 @@ function App() {
       <Route path="/reset_password" component={ResetPassword} />
       <Route path="/forgot_password" component={ForgotPassword} />
       <Route path="/movies/:id" component={MovieFullInfo} />
+      <Route
+        path="/search/:id"
+        render={(props) => <MainPage {...props} route={'search'} />}
+      />
+      <Route
+        path="/byname/:id"
+        render={(props) => <MainPage {...props} route={'byname'} />}
+      />
       <Route path="/" component={MainPage} />
     </Switch>
   );
@@ -103,7 +118,6 @@ function App() {
           content={(key: string) => <SnackMessage id={key} />}
         >
           <Header />
-          <Nav />
           {routes}
           <Footer />
           <Notifier />

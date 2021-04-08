@@ -1,8 +1,8 @@
-import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Grid, makeStyles, Paper, Card } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 interface Props {
-  orientation?: 'vertical';
+  display?: 'lines' | 'grid';
 }
 
 const useStyles = makeStyles({
@@ -34,10 +34,10 @@ const useStyles = makeStyles({
   },
 });
 
-const CardLoader = (props: Props) => {
+const CardLoader = ({ display }: Props) => {
   const classes = useStyles();
 
-  return (
+  return display === 'lines' ? (
     <Paper className={classes.Paper}>
       <Skeleton animation="wave" variant="rect" className={classes.Img} />
       <Grid container direction="column" className={classes.Info}>
@@ -51,6 +51,17 @@ const CardLoader = (props: Props) => {
         <Skeleton animation="wave" width="47%" className={classes.Text} />
       </Grid>
     </Paper>
+  ) : (
+    <Card style={{ height: 'fit-content' }}>
+      <div
+        className={classes.Img}
+        style={{
+          backgroundSize: 'cover',
+        }}
+      >
+        <Skeleton animation="wave" variant="rect" className={classes.Img} />
+      </div>
+    </Card>
   );
 };
 

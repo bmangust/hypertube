@@ -4,6 +4,8 @@ import { getToken } from '../../store/features/UserSlice';
 import MUIRating from '@material-ui/lab/Rating';
 import StarBorderRounded from '@material-ui/icons/StarBorderRounded';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 interface Props {
   movieId: string;
@@ -23,6 +25,7 @@ const useStyles = makeStyles({
 const Rating = ({ movieId, imdbRating, ourRating }: Props) => {
   const classes = useStyles();
   const [rating, setRating] = useState(ourRating);
+  const { isAuth } = useSelector((state: RootState) => state.user);
 
   const handleRatingChange = async (
     e: React.ChangeEvent<{}>,
@@ -49,9 +52,10 @@ const Rating = ({ movieId, imdbRating, ourRating }: Props) => {
       <Typography className={classes.Typography}>IMDB</Typography>
       <Typography>{imdbRating}</Typography>
       <MUIRating
-        value={rating}
+        disabled={!isAuth}
+        value={rating || imdbRating / 2}
         name={`${movieId}-rating`}
-        emptyIcon={<StarBorderRounded fontSize="inherit" />}
+        emptyIcon={<StarBorderRounded color="disabled" fontSize="inherit" />}
         onChange={handleRatingChange}
       />
     </Grid>

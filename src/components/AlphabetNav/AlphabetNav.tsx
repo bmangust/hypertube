@@ -4,6 +4,13 @@ import { throttle } from 'lodash';
 import { NavLink, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { secondaryColor, theme } from '../../theme';
+import { useAppDispatch } from '../../store/store';
+import {
+  loadMovies,
+  resetEndOfMovies,
+  setMovies,
+} from '../../store/features/MoviesSlice';
+import { LIMIT } from '../..';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,9 +73,23 @@ const AlphabetNav = () => {
     shadowRight: true,
   });
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const dispatch = useAppDispatch();
 
-  const handleLinkClick = () => {
-    //   send server request here
+  const handleLinkClick = async (
+    e: React.SyntheticEvent<HTMLAnchorElement>
+  ) => {
+    const letter = e.currentTarget.innerText;
+    const isByNamePage = window.location.href.match(/byname/);
+    // check if we were on one of 'byname' pages
+    if (isByNamePage) {
+      // check if user clicks the same letter, we're in
+      const currentLetter = window.location.href.split('/').pop();
+      // no need to load same movies twice
+      if (currentLetter && letter === currentLetter) return;
+    }
+    dispatch(resetEndOfMovies());
+    dispatch(setMovies({ byName: [] }));
+    dispatch(loadMovies({ filter: { letter, limit: LIMIT } }));
   };
 
   const scrollHandler = throttle((e: React.SyntheticEvent<HTMLDivElement>) => {
@@ -105,7 +126,11 @@ const AlphabetNav = () => {
     <Container className={classes.root}>
       {shadow.shadowLeft && <div className={classes.ShadowLeft} />}
       {shadow.shadowRight && <div className={classes.ShadowRight} />}
-      <Container onScroll={scrollHandler} onWheel={horizontalScrollHandler} className={classes.Scroller}>
+      <Container
+        onScroll={scrollHandler}
+        onWheel={horizontalScrollHandler}
+        className={classes.Scroller}
+      >
         {letters.split('').map((letter) => (
           <NavLink
             to={`/byname/${letter}`}

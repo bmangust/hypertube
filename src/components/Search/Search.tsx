@@ -10,12 +10,15 @@ import {
   TextField,
 } from '@material-ui/core';
 import { SearchRounded } from '@material-ui/icons';
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../../theme';
-import { search as axiosSearch } from '../../axios';
+import { useHistory } from 'react-router';
+
+import { loadMovies } from '../../store/features/MoviesSlice';
+import { useToast } from '../../hooks/useToast';
 import { useAppDispatch } from '../../store/store';
-import { setMovies } from '../../store/features/MoviesSlice';
+import { theme } from '../../theme';
 
 const useStyles = makeStyles({
   root: {
@@ -61,24 +64,32 @@ const Search = () => {
   const dispatch = useAppDispatch();
   const [search, setSearch] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const history = useHistory();
+  const { toast } = useToast();
   const { t } = useTranslation();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+  /**
+   * TODO:
+   * move this to thunk (think about redux router)
+   * add loader with random text (opening crates, searchng in dark web, ...)
+   */
+
   const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       console.log(`Searching for: ${search}`);
-      const res = await axiosSearch('find', {
-        params: {
-          category: 'Movies',
-          search,
-        },
+      const filter = { search };
+      dispatch(loadMovies({ filter })).then((res) => {
+        // check responce here
+        console.log(res);
+        if (res) {
+          history.push(encodeURI(`/search/${search}`));
+        } else {
+          toast(t`Loading error`, 'error');
+        }
       });
-      console.log(res);
-      if (res.data.status) {
-        dispatch(setMovies({ movies: res.data.data }));
-      }
       setSearch('');
     }
   };
