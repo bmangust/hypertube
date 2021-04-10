@@ -77,7 +77,7 @@ const MainPage = ({
     });
     console.log(displayedMovies);
     setDisplayedMovies(displayedMovies);
-  }, [byName, search]);
+  }, [byName, search, popular, match.path, movies]);
 
   return (
     <Container>
