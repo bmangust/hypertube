@@ -10,6 +10,14 @@ import MovieCard from '../MovieCard/MovieCard';
 import { throttledDetectBottomLine } from '../../utils';
 import CardLoader from '../MovieCard/CardLoader/CardLoader';
 import { LIMIT } from '../..';
+import {
+  countryInCountries,
+  yearInRange,
+  genreInGenres,
+  isCountiesStateEmpty,
+  isGenresStateEmpty,
+  isYearsStateEmpty,
+} from '../../store/features/FilterSlice';
 
 interface ICardsProps {
   movies: ITranslatedMovie[];
@@ -40,6 +48,9 @@ const sortByAvalibility = (movies: ITranslatedMovie[]) => {
 
 const Cards = ({ movies }: ICardsProps) => {
   const { sortBy, view } = useSelector((state: RootState) => state.UI);
+  const { genres, years, countries } = useSelector(
+    (state: RootState) => state.filter
+  );
   const { loading, isEndOfMovies } = useSelector(
     (state: RootState) => state.movies
   );
@@ -87,15 +98,35 @@ const Cards = ({ movies }: ICardsProps) => {
     return () => window.removeEventListener('scroll', trackScrolling);
   }, [movies.length, dispatch, letter, search, isEndOfMovies, loading]);
 
+  useEffect(() => {
+    let cards = !isYearsStateEmpty(years)
+      ? movies.filter((movie) => yearInRange(movie.en.info.year, years))
+      : movies;
+    cards = !isGenresStateEmpty(genres)
+      ? cards.filter((movie) => genreInGenres(movie.en.info.genres, genres))
+      : cards;
+    cards = !isCountiesStateEmpty(countries)
+      ? cards.filter(
+          (movie) =>
+            movie.en.info.countries
+              ? countryInCountries(movie.en.info.countries, countries)
+              : true // if no countries were given - show movie anyway
+        )
+      : cards;
+    console.log('[Cards] filter useEffect', cards);
+    setSortedCards(cards);
+  }, [genres, countries, years, movies]);
+
   // sort movies on <sortBy> change
   useEffect(() => {
-    if (sortBy === 'name') setSortedCards(sortByName(movies));
-    else if (sortBy === 'year') setSortedCards(sortByYear(movies));
-    else if (sortBy === 'rating') setSortedCards(sortByRating(movies));
+    console.log('[Cards] sort useEffect', movies, sortedCards);
+    if (movies.length > sortedCards.length) return;
+    if (sortBy === 'name') setSortedCards(sortByName(sortedCards));
+    else if (sortBy === 'year') setSortedCards(sortByYear(sortedCards));
+    else if (sortBy === 'rating') setSortedCards(sortByRating(sortedCards));
     else if (sortBy === 'avalibility')
-      setSortedCards(sortByAvalibility(movies));
-    else setSortedCards(movies);
-  }, [sortBy, movies]);
+      setSortedCards(sortByAvalibility(sortedCards));
+  }, [sortBy, movies, sortedCards]);
 
   return (
     <Grid ref={gridRef} container justify="space-evenly">

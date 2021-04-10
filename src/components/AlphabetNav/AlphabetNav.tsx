@@ -11,6 +11,7 @@ import {
   setMovies,
 } from '../../store/features/MoviesSlice';
 import { LIMIT } from '../..';
+import { resetFilterState } from '../../store/features/FilterSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -89,6 +90,7 @@ const AlphabetNav = () => {
     }
     dispatch(resetEndOfMovies());
     dispatch(setMovies({ byName: [] }));
+    dispatch(resetFilterState());
     dispatch(loadMovies({ filter: { letter, limit: LIMIT } }));
   };
 

@@ -88,8 +88,8 @@ const MoviesSlice = createSlice({
           state[type] = Array.from(set);
         } else {
           const arr = payload[type] || [];
-          state.movies = state.movies.concat(arr);
-          state[type] = state[type].concat(arr.map((el) => el.en.id));
+          state.movies = arr;
+          state[type] = arr.map((el) => el.en.id);
         }
       };
 

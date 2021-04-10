@@ -70,6 +70,7 @@ const Filter = () => {
   const handleShow = async () => {
     console.log('[Filter] handleShow', filterState);
     dispatch(reqeuestMoviesWithFilters());
+    setOpen(false);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
