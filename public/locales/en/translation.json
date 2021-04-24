@@ -104,6 +104,8 @@
   "Comments": "Comments",
   "photos": "Photos",
   "videos": "Videos",
+  "unknown": "unknown",
+  "AuthOnly": "Sorry. We believe, that you're a human, but please login or create an account",
 
   "Cannot load movie": "Cannot load movie",
 

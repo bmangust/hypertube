@@ -145,7 +145,7 @@ const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
           {t('Genres')}: {mapItemsToLinks(info.genres)}
         </Grid>
         <Grid container className={classes.Text}>
-          {t('Length')}: {info.length} {t('min')}
+          {t('Length')}: {info.length ? `${info.length}${t('min')}` : 'unknown'}
         </Grid>
         <Divider />
         <Grid container className={classes.Description}>

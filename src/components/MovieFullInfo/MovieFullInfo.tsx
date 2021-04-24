@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { primaryColor } from '../../theme';
 import Player from '../Player/Player';
 import { useToast } from '../../hooks/useToast';
+import NativePlayer from '../Player/NativePlayer';
 
 interface TParams {
   id: string;
@@ -71,6 +72,7 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const { toast } = useToast();
+  const { isAuth } = useSelector((state: RootState) => state.user);
   const { movies, error } = useSelector((state: RootState) => state.movies);
   const movie = movies.find((movie) => movie.en.id === match.params.id);
   const headerRef = React.useRef<HTMLHeadingElement | null>(null);
@@ -108,6 +110,17 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
       );
     });
   };
+  if (!isAuth)
+    return (
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        className={classes.root}
+      >
+        <Typography className={classes.Description}>{t`AuthOnly`}</Typography>
+      </Grid>
+    );
 
   if (!movie) return null;
   return (
@@ -130,7 +143,10 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
             {t`Genres`}: {mapItemsToLinks(movie.en.info.genres)}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Length`}: {movie.en.info.length} {t`min`}
+            {t`Length`}:{' '}
+            {movie.en.info.length > 0
+              ? `${movie.en.info.length}${t('min')}`
+              : t`unknown`}
           </Grid>
           <Grid container className={classes.MainInfoText}>
             {t`Views`}: {movie.en.info.views}
@@ -151,11 +167,13 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
           </Grid>
         </Grid>
       </Grid>
-      {movie.en.src && (
-        <Grid container className={classes.Video}>
-          <Player id={0} />
-        </Grid>
-      )}
+      <Grid container className={classes.Video}>
+        <NativePlayer id={movie.en.id} />
+        <Player
+          id={movie.en.id}
+          title={movie[i18n.language as 'en' | 'ru'].title}
+        />
+      </Grid>
       <Grid container direction="column" className={classes.AdditionalInfo}>
         <CategoryHeader text={t`About movie`} />
         <Typography variant="body1" className={classes.Description}>

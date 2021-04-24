@@ -178,7 +178,7 @@ const loadMoviesAsync = async (
     if (params?.search)
       res = await axiosSearch('find', {
         params: {
-          category: 'Movies',
+          category: 'All',
           search: params?.search,
         },
       });

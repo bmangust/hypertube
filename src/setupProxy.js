@@ -31,16 +31,25 @@ module.exports = function (app) {
   app.use(
     '/api/search/',
     createProxyMiddleware({
-      target: 'http://192.168.99.100:8080',
-      // pathRewrite: { '^/api/search': '' },
+      target: 'http://localhost:2222',
+      pathRewrite: { '^/api/search': '' },
       changeOrigin: true,
     })
   );
   app.use(
     '/api/movies/',
     createProxyMiddleware({
-      target: 'http://192.168.99.100:2223',
+      target: 'http://localhost:2223',
       pathRewrite: { '^/api/movies': '' },
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/api/loader',
+    createProxyMiddleware({
+      // target: 'http://localhost:8000',
+      target: 'http://192.168.43.222:8080',
+      pathRewrite: { '^/api/loader': '/api/storage/load' },
       changeOrigin: true,
     })
   );
