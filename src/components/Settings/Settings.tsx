@@ -77,8 +77,8 @@ const Settings = () => {
   const history = useHistory();
 
   const validateForm = () => {
-    const { email, username, newPassword, currentPassword, confirm } = valid;
-    return newPassword
+    const { email, username, currentPassword, confirm } = valid;
+    return inputs.newPassword
       ? currentPassword && confirm && (email || username)
       : email || username;
   };
@@ -368,16 +368,9 @@ const Settings = () => {
       <Typography>{t('Settings').toUpperCase()}</Typography>
       <div
         className={classes.avatarWrapper}
-        // onMouseOver={() => {
-        //   setUploadIconVisibility(true);
-        // }}
-        // onMouseOut={() => {
-        //   setUploadIconVisibility(false);
-        // }}
         onClick={() => {
           if (inputRef && inputRef.current) {
             inputRef.current.click();
-            // setUploadIconVisibility(false);
           }
         }}
       >
@@ -385,15 +378,8 @@ const Settings = () => {
           className={classes.avatarImage}
           alt="profile image"
           src={inputs.avatarImage || defaultAvatar}
-          // style={uploadIconVisible ? { opacity: 0.5 } : { opacity: 1 }}
         />
         <BackupRounded className={classes.uploadIcon} />
-        {/* <img
-          className={classes.uploadIcon}
-          src={uploadIcon}
-          alt="uploadIcon"
-          style={uploadIconVisible ? { display: 'block' } : { display: 'none' }}
-        /> */}
         <input
           className={classes.inputNone}
           type="file"

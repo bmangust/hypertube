@@ -2,7 +2,7 @@ import { Button, CircularProgress, makeStyles } from '@material-ui/core';
 import React, { useMemo, useState } from 'react';
 
 interface Props {
-  variant: '42' | 'google';
+  variant: '42' | 'facebook' | 'vk' | 'google';
 }
 
 const useStyles = makeStyles({
@@ -27,6 +27,53 @@ const oauth = {
       {
         name: 'scope',
         value: 'public',
+      },
+      {
+        name: 'state',
+        value:
+          'bdcbe28874ab05962b50430b1466a8ebcbda45ba8c3c1beee600699478ad2a4d',
+      },
+      {
+        name: 'response_type',
+        value: 'code',
+      },
+    ],
+  },
+  facebook: {
+    url: 'https://www.facebook.com/v10.0/dialog/oauth',
+    queryParams: [
+      {
+        name: 'client_id',
+        value: '737140593612593',
+      },
+      {
+        name: 'redirect_uri',
+        value: 'http://localhost:4000/api/auth/oauthFb',
+      },
+      {
+        name: 'scope',
+        value: 'email+public_profile',
+      },
+      {
+        name: 'response_type',
+        value: 'code',
+      },
+    ],
+  },
+  vk: {
+    url: 'https://oauth.vk.com/authorize',
+    queryParams: [
+      {
+        name: 'client_id',
+        value: '7781054',
+      },
+      {
+        name: 'redirect_uri',
+        value: 'http://localhost:4000/api/auth/oauthVk',
+      },
+      {
+        name: 'scope',
+        value: 'offline+photos',
       },
       {
         name: 'state',
@@ -78,6 +125,60 @@ const Icon42: React.FC = () => (
   />
 );
 
+const IconFacebook: React.FC = () => (
+  <svg
+    height="30"
+    width="30"
+    viewBox="0 0 409 409"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill="#475993"
+      d="M353.701,0H55.087C24.665,0,0.002,24.662,0.002,55.085v298.616c0,30.423,24.662,55.085,55.085,55.085
+	h147.275l0.251-146.078h-37.951c-4.932,0-8.935-3.988-8.954-8.92l-0.182-47.087c-0.019-4.959,3.996-8.989,8.955-8.989h37.882
+	v-45.498c0-52.8,32.247-81.55,79.348-81.55h38.65c4.945,0,8.955,4.009,8.955,8.955v39.704c0,4.944-4.007,8.952-8.95,8.955
+	l-23.719,0.011c-25.615,0-30.575,12.172-30.575,30.035v39.389h56.285c5.363,0,9.524,4.683,8.892,10.009l-5.581,47.087
+	c-0.534,4.506-4.355,7.901-8.892,7.901h-50.453l-0.251,146.078h87.631c30.422,0,55.084-24.662,55.084-55.084V55.085
+	C408.786,24.662,384.124,0,353.701,0z"
+    />
+  </svg>
+);
+
+const IconVk: React.FC = () => (
+  <svg
+    height="30"
+    width="30"
+    viewBox="0 0 112 112"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g>
+      <circle
+        id="XMLID_11_"
+        fill="#4D76A1"
+        cx="56.098"
+        cy="56.098"
+        r="56.098"
+      />
+      <path
+        fill="#FFFFFF"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M53.979,80.702h4.403c0,0,1.33-0.146,2.009-0.878
+		c0.625-0.672,0.605-1.934,0.605-1.934s-0.086-5.908,2.656-6.778c2.703-0.857,6.174,5.71,9.853,8.235
+		c2.782,1.911,4.896,1.492,4.896,1.492l9.837-0.137c0,0,5.146-0.317,2.706-4.363c-0.2-0.331-1.421-2.993-7.314-8.463
+		c-6.168-5.725-5.342-4.799,2.088-14.702c4.525-6.031,6.334-9.713,5.769-11.29c-0.539-1.502-3.867-1.105-3.867-1.105l-11.076,0.069
+		c0,0-0.821-0.112-1.43,0.252c-0.595,0.357-0.978,1.189-0.978,1.189s-1.753,4.667-4.091,8.636c-4.932,8.375-6.904,8.817-7.71,8.297
+		c-1.875-1.212-1.407-4.869-1.407-7.467c0-8.116,1.231-11.5-2.397-12.376c-1.204-0.291-2.09-0.483-5.169-0.514
+		c-3.952-0.041-7.297,0.012-9.191,0.94c-1.26,0.617-2.232,1.992-1.64,2.071c0.732,0.098,2.39,0.447,3.269,1.644
+		c1.135,1.544,1.095,5.012,1.095,5.012s0.652,9.554-1.523,10.741c-1.493,0.814-3.541-0.848-7.938-8.446
+		c-2.253-3.892-3.954-8.194-3.954-8.194s-0.328-0.804-0.913-1.234c-0.71-0.521-1.702-0.687-1.702-0.687l-10.525,0.069
+		c0,0-1.58,0.044-2.16,0.731c-0.516,0.611-0.041,1.875-0.041,1.875s8.24,19.278,17.57,28.993
+		C44.264,81.287,53.979,80.702,53.979,80.702L53.979,80.702z"
+      />
+    </g>
+  </svg>
+);
+
 const IconGoogle: React.FC = () => (
   <svg
     height="30"
@@ -122,9 +223,18 @@ const OAuthButton: React.FC<Props> = ({ variant }) => {
     window.location.href = url;
   };
 
-  const icon = useMemo(() => (variant === '42' ? <Icon42 /> : <IconGoogle />), [
-    variant,
-  ]);
+  const icon = useMemo(() => {
+    switch (variant) {
+      case '42':
+        return <Icon42 />;
+      case 'facebook':
+        return <IconFacebook />;
+      case 'vk':
+        return <IconVk />;
+      case 'google':
+        return <IconGoogle />;
+    }
+  }, [variant]);
 
   return (
     <Button

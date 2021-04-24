@@ -33,16 +33,16 @@ const CardsSlider: React.FC<CardsSliderProps> = ({
   display = 'image',
 }: CardsSliderProps) => {
   const classes = useStyles();
-  const { movies } = useSelector((state: RootState) => state.movies);
+  const { popular } = useSelector((state: RootState) => state.movies);
 
   return (
     <Grid container alignItems="center" className={classes.root}>
-      {movies.map((card, index) => (
+      {popular.map((card: string) => (
         <MovieCard
           display={display}
           className={classes.Movie}
-          card={card}
-          key={card.id || card.name + index}
+          id={card}
+          key={card}
         />
       ))}
     </Grid>

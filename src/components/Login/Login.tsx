@@ -170,6 +170,8 @@ const Login = () => {
       <Form {...formData}>
         <Grid container alignItems="center" justify="space-evenly">
           <OAuthButton variant="42" />
+          <OAuthButton variant="facebook" />
+          <OAuthButton variant="vk" />
           <OAuthButton variant="google" />
         </Grid>
       </Form>

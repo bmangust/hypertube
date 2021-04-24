@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { primaryColor } from '../../theme';
 import Player from '../Player/Player';
 import { useToast } from '../../hooks/useToast';
+import NativePlayer from '../Player/NativePlayer';
 
 interface TParams {
   id: string;
@@ -68,11 +69,12 @@ const useStyles = makeStyles({
 const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const { toast } = useToast();
+  const { isAuth } = useSelector((state: RootState) => state.user);
   const { movies, error } = useSelector((state: RootState) => state.movies);
-  const movie = movies.find((movie) => movie.id === match.params.id);
+  const movie = movies.find((movie) => movie.en.id === match.params.id);
   const headerRef = React.useRef<HTMLHeadingElement | null>(null);
 
   // if no movies in redux - load some, we've landed on movie's page
@@ -84,10 +86,10 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
   useEffect(() => {
     if (error) {
       history.push('/');
-      toast({ text: t(error) }, 'error');
+      toast({ text: error[i18n.language as 'en' | 'ru'] }, 'error');
       dispatch(resetError());
     }
-  }, [error, dispatch, history, t, toast]);
+  }, [error, dispatch, history, t, toast, i18n.language]);
 
   useEffect(() => {
     if (!headerRef || !headerRef.current) return;
@@ -108,71 +110,91 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
       );
     });
   };
+  if (!isAuth)
+    return (
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        className={classes.root}
+      >
+        <Typography className={classes.Description}>{t`AuthOnly`}</Typography>
+      </Grid>
+    );
 
   if (!movie) return null;
   return (
     <Grid container direction="column" className={classes.root}>
       <Typography variant="h2" className={classes.Header} ref={headerRef}>
-        {movie.title}
+        {movie[i18n.language as 'en' | 'ru'].title}
       </Typography>
       <Divider className={classes.Divider} />
       <Grid container wrap="nowrap">
         <img
           className={classes.Poster}
-          src={movie.img}
-          alt={`${movie.title} poster`}
+          src={movie.en.img}
+          alt={`${movie.en.title} poster`}
         />
         <Grid item container direction="column">
           <Grid container className={classes.MainInfoText}>
-            {t`Year`}: {movie.info.year}
+            {t`Year`}: {movie.en.info.year}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Genres`}: {mapItemsToLinks(movie.info.genres)}
+            {t`Genres`}: {mapItemsToLinks(movie.en.info.genres)}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Length`}: {movie.info.length} {t`min`}
+            {t`Length`}:{' '}
+            {movie.en.info.length > 0
+              ? `${movie.en.info.length}${t('min')}`
+              : t`unknown`}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Views`}: {movie.info.views}
+            {t`Views`}: {movie.en.info.views}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`PG rating`}: {movie.info.pgRating}
+            {t`PG rating`}: {movie.en.info.pgRating}
           </Grid>
           <Grid container className={classes.MainInfoText}>
             {t`Directed`}:{' '}
-            {mapItemsToLinks(movie.info.directorList, movie.info.directors)}
+            {mapItemsToLinks(
+              movie.en.info.directorList,
+              movie.en.info.directors
+            )}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Actors`}: {mapItemsToLinks(movie.info.cast, movie.info.stars)}
+            {t`Actors`}:{' '}
+            {mapItemsToLinks(movie.en.info.cast, movie.en.info.stars)}
           </Grid>
         </Grid>
       </Grid>
-      {movie.src && (
-        <Grid container className={classes.Video}>
-          <Player id={0} />
-        </Grid>
-      )}
+      <Grid container className={classes.Video}>
+        <NativePlayer id={movie.en.id} />
+        <Player
+          id={movie.en.id}
+          title={movie[i18n.language as 'en' | 'ru'].title}
+        />
+      </Grid>
       <Grid container direction="column" className={classes.AdditionalInfo}>
         <CategoryHeader text={t`About movie`} />
         <Typography variant="body1" className={classes.Description}>
-          {movie.info.description || t`No info`}
+          {movie[i18n.language as 'en' | 'ru'].info.description || t`No info`}
         </Typography>
         <Divider className={classes.Divider} />
-        {movie.info.photos && (
+        {movie.en.info.photos && (
           <HorizontalGrid
-            sources={movie.info.photos}
-            name={movie.title}
+            sources={movie.en.info.photos}
+            name={movie.en.title}
             type={'photo'}
           />
         )}
-        {movie.info.videos && (
+        {movie.en.info.videos && (
           <HorizontalGrid
-            sources={movie.info.videos}
-            name={movie.title}
+            sources={movie.en.info.videos}
+            name={movie.en.title}
             type={'video'}
           />
         )}
-        <Comments movie={movie} />
+        <Comments movie={movie.en} />
       </Grid>
     </Grid>
   );

@@ -201,6 +201,39 @@ const filterSlice = createSlice({
     },
   },
 });
+// category: 'genres' | 'years' | 'countries',
+
+const isCountriesKey = (value: string): value is CountriesKeys => {
+  const allowedKeys: string[] = items.countries.filter((el) => el !== 'other');
+  return allowedKeys.indexOf(value) !== -1;
+};
+const isGenresKey = (value: string): value is GenresKeys => {
+  const allowedKeys: string[] = items.genres;
+  return allowedKeys.indexOf(value) !== -1;
+};
+const isYearsKey = (value: string): value is YearsKeys => {
+  const allowedKeys: string[] = items.years;
+  return allowedKeys.indexOf(value) !== -1;
+};
+
+export const isCountiesStateEmpty = (state: ICountries) => {
+  for (let country in state) {
+    if (isCountriesKey(country) && state[country]) return false;
+  }
+  return true;
+};
+export const isYearsStateEmpty = (state: IYears) => {
+  for (let year in state) {
+    if (isYearsKey(year) && state[year]) return false;
+  }
+  return true;
+};
+export const isGenresStateEmpty = (state: IGenres) => {
+  for (let genre in state) {
+    if (isGenresKey(genre) && state[genre]) return false;
+  }
+  return true;
+};
 
 const getYearsFilter = (years: IYears): number[][] | [] => {
   const yearsArray = items.years.filter(
@@ -253,6 +286,37 @@ export const reqeuestMoviesWithFilters = (
 
   console.log(filterParams);
   dispatch(loadMovies({ filter: filterParams }));
+};
+
+export const yearInRange = (year: number, years: IYears) => {
+  for (let entry of Object.entries(years)) {
+    if (!entry[1]) continue;
+    const rangeNumbers = entry[0].startsWith('before')
+      ? [0, +entry[0].split(' ')[1]]
+      : entry[0].split('-').map((x) => +x);
+    if (year >= rangeNumbers[0] && year < rangeNumbers[1]) return true;
+  }
+  return false;
+};
+export const genreInGenres = (
+  movieGenres: GenresKeys[],
+  filterGenres: IGenres
+) => {
+  for (let genre of movieGenres) {
+    if (filterGenres[genre]) return true;
+  }
+  return false;
+};
+export const countryInCountries = (
+  movieCountries: string[],
+  filterCountries: ICountries
+) => {
+  for (let country of movieCountries) {
+    return isCountriesKey(country)
+      ? filterCountries[country]
+      : filterCountries.other;
+  }
+  return false;
 };
 
 export const { setFilterState, resetFilterState } = filterSlice.actions;

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Divider,
   Grid,
@@ -10,12 +9,12 @@ import PlayArrow from '@material-ui/icons/PlayArrow';
 import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { IMovie, IUser } from '../../models/MovieInfo';
+import { ITranslatedMovie, IUser } from '../../models/MovieInfo';
 import { primaryColor } from '../../theme';
 import Rating from '../Rating/Rating';
 
 interface MovieCardMediumProps {
-  card: IMovie;
+  card: ITranslatedMovie;
 }
 
 const useStyles = makeStyles({
@@ -30,6 +29,7 @@ const useStyles = makeStyles({
     '& img': {
       height: '15rem',
       width: '10rem',
+      maxWidth: '15rem',
       objectFit: 'cover',
       marginRight: 20,
       borderRadius: 5,
@@ -95,11 +95,13 @@ const useStyles = makeStyles({
   },
 });
 
-const MovieCardMedium = ({
-  card: { id, title, img, info },
-}: MovieCardMediumProps) => {
+const MovieCardMedium = ({ card }: MovieCardMediumProps) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const { id, img, info } = card.en;
+  const title = card[i18n.language as 'en' | 'ru'].title;
+  const description = card[i18n.language as 'en' | 'ru'].info.description;
 
   const mapItemsToLinks = (
     items: (string | IUser)[] | undefined
@@ -136,7 +138,6 @@ const MovieCardMedium = ({
             ourRating={info.rating}
           />
         </Grid>
-        {/* <Divider /> */}
         <Grid container className={classes.Text}>
           {t('Year')}: {info.year}
         </Grid>
@@ -144,11 +145,11 @@ const MovieCardMedium = ({
           {t('Genres')}: {mapItemsToLinks(info.genres)}
         </Grid>
         <Grid container className={classes.Text}>
-          {t('Length')}: {info.length} {t('min')}
+          {t('Length')}: {info.length ? `${info.length}${t('min')}` : 'unknown'}
         </Grid>
         <Divider />
         <Grid container className={classes.Description}>
-          {info.description}
+          {description}
           <div className={classes.Shadow} />
         </Grid>
       </Grid>

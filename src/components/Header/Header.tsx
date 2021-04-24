@@ -10,12 +10,15 @@ import { RootState } from '../../store/rootReducer';
 import UserInfo from '../UserInfo/UserInfo';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
+import { resetEndOfMovies } from '../../store/features/MoviesSlice';
+import { useAppDispatch } from '../../store/store';
 const useStyles = makeStyles({
   root: {},
 });
 
 const Header: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const { isAuth } = useSelector((state: RootState) => state.user);
 
   const buttonProps: ButtonProps = {
@@ -25,7 +28,7 @@ const Header: React.FC = () => {
   return (
     <Grid container alignItems="center" className={classes.root}>
       <Grid item xs={2}>
-        <NavLink to="/">
+        <NavLink onClick={() => dispatch(resetEndOfMovies())} to="/">
           <Logo />
         </NavLink>
       </Grid>

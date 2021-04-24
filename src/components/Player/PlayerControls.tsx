@@ -77,7 +77,7 @@ const ValueLabelComponent: React.FC<ValueProps> = (props2) => {
     //   //   paper: { padding: 5 },
     //   // }}
     //   open={open}
-    //   anchorEl={anchorEl}
+    //   // anchorEl={anchorEl}
     //   anchorOrigin={{
     //     vertical: 'bottom',
     //     horizontal: 'left',
@@ -132,7 +132,7 @@ interface Props {
   onVolumeSeekUp: (e: React.ChangeEvent<{}>, n: number | number[]) => void;
   onPlaybackRateChange: (n: number) => void;
   onToggleFullScreen: () => void;
-  onSeek: (e: React.MouseEvent, n: number) => void;
+  onSeek: (n: number | number[]) => void;
   onSeekMouseDown: () => void;
   onSeekMouseUp: () => void;
   onChangeDisplayFormat: () => void;
@@ -144,6 +144,7 @@ interface Props {
   played: number;
   playbackRate: number;
   totalDuration: string;
+  title: string;
 }
 
 const PlayerControls = forwardRef<HTMLDivElement, Props>((props, ref) => {
@@ -172,7 +173,7 @@ const PlayerControls = forwardRef<HTMLDivElement, Props>((props, ref) => {
       >
         <Grid item>
           <Typography variant="h5" style={{ color: 'white' }}>
-            Video Title
+            {props.title}
           </Typography>
         </Grid>
         {/* <Grid item>
@@ -216,14 +217,14 @@ const PlayerControls = forwardRef<HTMLDivElement, Props>((props, ref) => {
         style={{ padding: 16 }}
       >
         <Grid item xs={12}>
-          <PrettoSlider
+          <Slider
             min={0}
             max={100}
-            ValueLabelComponent={(props2) => (
-              <ValueLabelComponent {...props2} value={props.elapsedTime} />
-            )}
+            // ValueLabelComponent={(props2) => (
+            //   <ValueLabelComponent {...props2} value={props.elapsedTime} />
+            // )}
             value={props.played * 100}
-            onChange={() => props.onSeek}
+            onChange={(e, value) => props.onSeek(value)}
             onMouseDown={props.onSeekMouseDown}
             onChangeCommitted={props.onSeekMouseUp}
           />
@@ -296,6 +297,7 @@ const PlayerControls = forwardRef<HTMLDivElement, Props>((props, ref) => {
             <Grid container direction="column-reverse">
               {[0.5, 1, 1.5, 2].map((rate) => (
                 <Button
+                  key={rate}
                   onClick={() => props.onPlaybackRateChange(rate)}
                   variant="text"
                 >
