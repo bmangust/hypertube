@@ -1,3 +1,4 @@
+import { makeStyles } from '@material-ui/core';
 import React, { useRef } from 'react';
 
 interface IdProps {
@@ -10,26 +11,35 @@ interface SrcProps {
   src: string;
 }
 
+const useSyles = makeStyles({
+  root: {
+    width: '100%',
+    height: '100%',
+  },
+});
+
 type Props = IdProps | SrcProps;
 
 const NativePlayer = ({ src, id }: Props) => {
+  const styles = useSyles();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const url = id
-    ? `/api/loader/${id}`
-    : src ||
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
+  const url = id ? `/api/loader/${id}` : src;
 
   return (
     <div>
       <video
+        // poster="poster.png"
+        controls
         ref={videoRef}
-        width="100%"
-        height="100%"
-        src={url}
-        preload="auto"
-        controls={true}
-      />
+        className={styles.root}
+      >
+        <source src={url}></source>
+        {/* <source src="video.mp4"></source>
+        <source src="video.webm"></source>
+        <source src="video.ogv"></source> */}
+        <p>This is fallback content</p>
+      </video>
     </div>
   );
 };

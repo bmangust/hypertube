@@ -110,17 +110,26 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
       );
     });
   };
-  if (!isAuth)
-    return (
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        className={classes.root}
-      >
-        <Typography className={classes.Description}>{t`AuthOnly`}</Typography>
-      </Grid>
-    );
+  const mapItems = (items?: (string | IUser)[], backup?: string): string => {
+    if (!items || !items.length) return backup || t('No info');
+    const names = items.map((item: string | IUser) => {
+      const text = typeof item === 'string' ? item : item.name;
+      return text;
+    });
+    return names.join(', ');
+  };
+
+  // if (!isAuth)
+  //   return (
+  //     <Grid
+  //       container
+  //       direction="column"
+  //       alignItems="center"
+  //       className={classes.root}
+  //     >
+  //       <Typography className={classes.Description}>{t`AuthOnly`}</Typography>
+  //     </Grid>
+  //   );
 
   if (!movie) return null;
   return (
@@ -156,21 +165,20 @@ const MovieFullInfo = ({ match }: RouteComponentProps<TParams>) => {
           </Grid>
           <Grid container className={classes.MainInfoText}>
             {t`Directed`}:{' '}
-            {mapItemsToLinks(
-              movie.en.info.directorList,
-              movie.en.info.directors
-            )}
+            {mapItems(movie.en.info.directorList, movie.en.info.directors)}
           </Grid>
           <Grid container className={classes.MainInfoText}>
-            {t`Actors`}:{' '}
-            {mapItemsToLinks(movie.en.info.cast, movie.en.info.stars)}
+            {t`Actors`}: {mapItems(movie.en.info.cast, movie.en.info.stars)}
           </Grid>
         </Grid>
       </Grid>
       <Grid container className={classes.Video}>
         <NativePlayer id={movie.en.id} />
+        <NativePlayer src={`/api/test/${movie.en.id}`} />
+
         <Player
-          id={movie.en.id}
+          src={`/api/test/${movie.en.id}`}
+          // id={movie.en.id}
           title={movie[i18n.language as 'en' | 'ru'].title}
         />
       </Grid>

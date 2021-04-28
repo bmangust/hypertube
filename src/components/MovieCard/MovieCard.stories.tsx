@@ -13,8 +13,8 @@ export default {
 const Template: Story<MovieCardProps> = (args) => <MovieCard {...args} />;
 
 export const Image = Template.bind({});
-Image.args = { card: cards[0], display: 'image' };
+Image.args = { id: cards[0].id, display: 'image' };
 export const WithName = Template.bind({});
-WithName.args = { card: cards[0], display: 'grid' };
+WithName.args = { id: cards[0].id, display: 'grid' };
 export const WithInfo = Template.bind({});
-WithInfo.args = { card: cards[0], display: 'lines' };
+WithInfo.args = { id: cards[0].id, display: 'lines' };

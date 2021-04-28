@@ -26,7 +26,8 @@ const useStyles = makeStyles({
 
 interface Props {
   title: string;
-  id: string | number;
+  id?: string | number;
+  src?: string;
 }
 
 const format = (seconds: number) => {
@@ -43,7 +44,7 @@ const format = (seconds: number) => {
   return `${mm}:${ss}`;
 };
 
-function Player({ title, id }: Props) {
+function Player({ title, id, src }: Props) {
   const classes = useStyles();
   const [state, setState] = useState({
     playing: true,
@@ -70,7 +71,7 @@ function Player({ title, id }: Props) {
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
   const timeoutId = useRef<NodeJS.Timeout>();
-  const url = id ? `/api/loader/${id}` : '';
+  const url = id ? `/api/loader/${id}` : src;
   const { t } = useTranslation();
 
   const handlePlayPause = () => {
